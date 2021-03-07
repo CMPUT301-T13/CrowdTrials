@@ -62,6 +62,14 @@ public abstract class Experiment {
         this.date = date;
     }
 
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
     public ArrayList<Result> getResults() {
         return results;
     }
