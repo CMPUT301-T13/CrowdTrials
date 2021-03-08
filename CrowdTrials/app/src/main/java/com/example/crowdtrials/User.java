@@ -1,8 +1,9 @@
 package com.example.crowdtrials;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class User {
+public abstract class User implements Serializable {
     public String username;
     public ContactInfo contactInfo;
     ArrayList<Experiment> subscribedTo = new ArrayList<>();

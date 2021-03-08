@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         writeToDatabase(experimentDataList.get(2));
         experimentAdapter.notifyDataSetChanged();
 
-        writeToDatabase();
+        //writeToDatabase();
 
 
 
