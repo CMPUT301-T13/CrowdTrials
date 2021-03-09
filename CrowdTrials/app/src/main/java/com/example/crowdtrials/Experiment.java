@@ -18,6 +18,12 @@ public abstract class Experiment {
     boolean ended;
     HashSet<User> subscribers = new HashSet<>();
     QnA questionsAnswers;
+    String type;
+
+    public Experiment(){
+        this.date = new Date();
+
+    }
 
     public Experiment(Owner owner, Location region, String description, Date date, int minTrials) {
         this.owner = owner;
