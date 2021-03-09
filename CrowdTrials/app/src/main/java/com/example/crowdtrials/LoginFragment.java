@@ -21,6 +21,7 @@ public class LoginFragment extends DialogFragment {
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(String username);
+
     }
 
     @Override
@@ -58,7 +59,8 @@ public class LoginFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // on ok click we need to query the database back in login activity to see if username is in database
-                        //listener.onOkPressed();
+                        String user=username.getText().toString();
+                        listener.onOkPressed(user);
                     }}).create();
     }
 
