@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity  {
         experimentAdapter.notifyDataSetChanged();
         */
 
-        //database.readExperiments(this::onCallback);
+
 
 
 
