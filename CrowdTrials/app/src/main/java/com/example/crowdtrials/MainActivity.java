@@ -4,23 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyCallback {
 
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
     ArrayList<Experiment> experimentDataList;
     Database database;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseApp.initializeApp(this);
 
         database = new Database();
 
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         experimentAdapter = new ExperimentList(this, experimentDataList);
 
         experimentList.setAdapter(experimentAdapter);
+        /*
         experimentDataList.add(testExperimentCreation("John","58712342123","First Experiment Added to database"));
         writeToDatabase(experimentDataList.get(0));
         experimentDataList.add(testExperimentCreation("Jack","78012342123","Second Experiment Added to database"));
@@ -36,12 +43,23 @@ public class MainActivity extends AppCompatActivity {
         experimentDataList.add(testExperimentCreation("Adam","7801234566","Third Experiment Added to database"));
         writeToDatabase(experimentDataList.get(2));
         experimentAdapter.notifyDataSetChanged();
+        */
 
-        writeToDatabase();
+        database.readExperiments(this::onCallback);
 
 
 
     }
+
+    public void onCallback(ArrayList<Experiment> value) {
+            for (Experiment experiment:value){
+                experimentDataList.add(experiment);
+            }
+
+            //Log.e("In call back", "Call back called" +" " + value);
+            experimentAdapter.notifyDataSetChanged();
+    }
+
     public void writeToDatabase(Experiment experiment){
         database.writeExperiments(experiment);
     }
