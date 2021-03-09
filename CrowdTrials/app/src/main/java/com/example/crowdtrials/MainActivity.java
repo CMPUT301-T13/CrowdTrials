@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<Experiment> experimentAdapter;
     ArrayList<Experiment> experimentDataList;
     Database database;
-
+    FirebaseFirestore db;
+    CollectionReference collectionReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +44,19 @@ public class MainActivity extends AppCompatActivity {
         experimentAdapter.notifyDataSetChanged();
 
         //writeToDatabase();
+        // get user from intent
+        String username = (String) getIntent().getSerializableExtra("user");
+        // query database to see if username exists
+        // query database with the passed in username
+        Task<DocumentSnapshot> usersRef = collectionReference.document(username).get();
+        User u = (User) usersRef.getResult().getData();
+        if(u!=null){
+            // get experiments
+        }
+        else{
+            new CreateUserFragment().show(getSupportFragmentManager(), "CREATE_USER");
+            // I need to finish this part
+        }
 
 
 

@@ -39,7 +39,7 @@ public class Database {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("My Actvitiy", document.getId() + " => " + document.getData());
+                                Log.d("My Activity", document.getId() + " => " + document.getData());
                                 ListFromDataBase.add(new BinomialExp(new Owner(document.getData().get("userName"),document.get("contactInfo")),new Location(""),document.get("description"),new Date(),1));
                             }
                         } else {
