@@ -1,19 +1,24 @@
 package com.example.crowdtrials;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TableLayout;
 
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements MyCallback {
+public class MainActivity extends AppCompatActivity  {
 
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
@@ -28,13 +33,35 @@ public class MainActivity extends AppCompatActivity implements MyCallback {
 
         FirebaseApp.initializeApp(this);
 
-        database = new Database();
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        TabItem tabHome = findViewById(R.id.tab1);
+        TabItem tabSubsriptions = findViewById(R.id.tab2);
 
-        experimentList = findViewById(R.id.experiment_list);
-        experimentDataList = new ArrayList<>();
-        experimentAdapter = new ExperimentList(this, experimentDataList);
+        ViewPager viewPager = findViewById(R.id.ViewPager);
 
-        experimentList.setAdapter(experimentAdapter);
+        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+
+
         /*
         experimentDataList.add(testExperimentCreation("John","58712342123","First Experiment Added to database"));
         writeToDatabase(experimentDataList.get(0));
@@ -45,32 +72,11 @@ public class MainActivity extends AppCompatActivity implements MyCallback {
         experimentAdapter.notifyDataSetChanged();
         */
 
-        database.readExperiments(this::onCallback);
+        //database.readExperiments(this::onCallback);
 
 
 
     }
 
-    public void onCallback(ArrayList<Experiment> value) {
-            for (Experiment experiment:value){
-                experimentDataList.add(experiment);
-            }
 
-            //Log.e("In call back", "Call back called" +" " + value);
-            experimentAdapter.notifyDataSetChanged();
-    }
-
-    public void writeToDatabase(Experiment experiment){
-        database.writeExperiments(experiment);
-    }
-
-
-    Experiment testExperimentCreation(String name, String phoneNumber,String description) {
-        ContactInfo contactInfo = new ContactInfo(name,phoneNumber);
-        Owner owner = new Owner("randomUserName",contactInfo);
-        Date date = new Date();
-        Location newRegion = new Location("");
-        Experiment newExperiment = new BinomialExp(owner,newRegion,description,date,1);
-        return newExperiment;
-    }
 }
