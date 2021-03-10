@@ -25,37 +25,109 @@ public class Database {
 
     FirebaseFirestore db;
     final CollectionReference collectionReference;
-    public Database(){
+
+    public Database() {
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
-        collectionReference= db.collection("Experiments");
+        collectionReference = db.collection("Experiments");
     }
 
-    public ArrayList<Experiment> readExperiments(){
-        ArrayList<Experiment> ListFromDataBase = new ArrayList<Experiment>();
-         collectionReference
+    public void readExperiments(MyCallback myCallback) {
+
+        collectionReference
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            ArrayList<Experiment> ListFromDataBase = new ArrayList<Experiment>();
+                            Experiment experiment;
+                            ContactInfo contactInfo;
+                            Location newRegion;
+                            Owner owner;
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
+<<<<<<< HEAD
                                 Log.d("My Activity", document.getId() + " => " + document.getData());
                                 ListFromDataBase.add(new BinomialExp(new Owner(document.getData().get("userName"),document.get("contactInfo")),new Location(""),document.get("description"),new Date(),1));
+=======
+                                Log.d("My Actvitiy", document.getId() + " => " + document.getData());
+                                switch (document.getString("Experiment Type")) {
+                                    case "Binomial Exp":
+                                        experiment = new BinomialExp();
+                                        contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        experiment.setOwner(owner);
+                                        newRegion = new Location("");
+                                        experiment.setRegion(newRegion);
+                                        experiment.setDescription((String) document.get("description"));
+                                        experiment.published = document.getBoolean("published");
+                                        experiment.ended = document.getBoolean("ended");
+
+                                        ListFromDataBase.add(experiment);
+
+                                        break;
+
+                                    case "MeasurementExp":
+                                        experiment = new MeasurementExp();
+                                        contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        experiment.setOwner(owner);
+                                        newRegion = new Location("");
+                                        experiment.setRegion(newRegion);
+                                        experiment.setDescription((String) document.get("description"));
+                                        experiment.published = document.getBoolean("published");
+                                        experiment.ended = document.getBoolean("ended");
+                                        ListFromDataBase.add(experiment);
+                                        break;
+                                    case "NonNegativeCountExp":
+                                        experiment = new NonNegativeCountExp();
+                                        contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        experiment.setOwner(owner);
+                                        newRegion = new Location("");
+                                        experiment.setRegion(newRegion);
+                                        experiment.setDescription((String) document.get("description"));
+                                        experiment.published = document.getBoolean("published");
+                                        experiment.ended = document.getBoolean("ended");
+                                        ListFromDataBase.add(experiment);
+                                        break;
+                                    case "CountType":
+                                        experiment = new CountExp();
+                                        contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        experiment.setOwner(owner);
+                                        newRegion = new Location("");
+                                        experiment.setRegion(newRegion);
+                                        experiment.setDescription((String) document.get("description"));
+                                        experiment.published = document.getBoolean("published");
+                                        experiment.ended = document.getBoolean("ended");
+                                        ListFromDataBase.add(experiment);
+                                        break;
+                                }
+
+>>>>>>> aed70dadc747bec98153ffeabe61dea7210bcd50
                             }
+                            myCallback.onCallback(ListFromDataBase);
                         } else {
                             Log.w("My Actvitiy", "Error getting documents.", task.getException());
                         }
                     }
                 });
-
     }
+
+
+
     public void writeExperiments(Experiment experiment){
         Map<String, Object> data = new HashMap<>();
         data.put("description", experiment.getDescription());
-        data.put("date", experiment.getDate());
+
         data.put("userName", experiment.getOwner().username);
         data.put("contactInfo",experiment.getOwner().contactInfo.getPhoneNumber());
         data.put("Owner Name",experiment.getOwner().contactInfo.getName());
+        data.put("Experiment Type",experiment.type);
+        data.put("min trials", experiment.minTrials);
+        data.put("published",experiment.isPublished());
+        data.put("ended",experiment.isEnded());
 
 
         // Add a new document with a generated ID
