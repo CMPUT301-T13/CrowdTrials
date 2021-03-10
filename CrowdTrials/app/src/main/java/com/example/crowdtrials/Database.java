@@ -46,6 +46,10 @@ public class Database {
                             Owner owner;
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
+<<<<<<< HEAD
+                                Log.d("My Activity", document.getId() + " => " + document.getData());
+                                ListFromDataBase.add(new BinomialExp(new Owner(document.getData().get("userName"),document.get("contactInfo")),new Location(""),document.get("description"),new Date(),1));
+=======
                                 Log.d("My Actvitiy", document.getId() + " => " + document.getData());
                                 switch (document.getString("Experiment Type")) {
                                     case "Binomial Exp":
@@ -101,6 +105,7 @@ public class Database {
                                         break;
                                 }
 
+>>>>>>> aed70dadc747bec98153ffeabe61dea7210bcd50
                             }
                             myCallback.onCallback(ListFromDataBase);
                         } else {

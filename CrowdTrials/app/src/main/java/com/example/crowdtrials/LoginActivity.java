@@ -40,27 +40,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     @Override
     public void onOkPressed(String username) {
-        // query database with the passed in username
-        Task<DocumentSnapshot> usersRef = collectionReference.document(username).get();
-        User u = (User) usersRef.getResult().getData();
-        // query database if we found a user put that user in the intent push him to main
-        // also push in if we have an existing user because if the user didn't exist a dialog asking basic info needs to pop up
-        if(u!=null){
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            intent.putExtra("user",user);
-            intent.putExtra("exists",true);
-            startActivityForResult(intent,1);
-        }
-        else{
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            intent.putExtra("user", new User(username,new ContactInfo("nameless","no-number")) {
-            });
-            intent.putExtra("exists",false);
-            startActivityForResult(intent,1);
-        }
-
-
-
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        intent.putExtra("user",username);
+        startActivityForResult(intent,1);
 
     }
 }

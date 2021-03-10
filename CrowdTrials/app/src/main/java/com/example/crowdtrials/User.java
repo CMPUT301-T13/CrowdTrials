@@ -19,4 +19,5 @@ public abstract class User implements Serializable {
         this.username = username;
         this.contactInfo = contactInfo;
     }
+    
 }

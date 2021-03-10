@@ -7,60 +7,65 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class LoginFragment extends DialogFragment {
-    // Based on AddCityFragment made by CMPUT 301 TAs in lab 3
-    // this is to get the username from the user
-    private EditText username;
-    private LoginFragment.OnFragmentInteractionListener listener;
+public class CreateUserFragment extends DialogFragment {
+    EditText name;
+    EditText phoneNum;
+    Button typeUser;
+    private CreateUserFragment.OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(String username);
+        void onOkPressed(String username, String phoneNum);
 
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof LoginFragment.OnFragmentInteractionListener){
-            listener = (LoginFragment.OnFragmentInteractionListener) context;
+        if (context instanceof CreateUserFragment.OnFragmentInteractionListener){
+            listener = (CreateUserFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
-    public static LoginFragment UserInstance(String username){
+    public static CreateUserFragment getNameNumType(String name, String num){
         Bundle args= new Bundle();
-        args.putSerializable("username",username);
-        LoginFragment fragment = new LoginFragment();
+        args.putSerializable("name",name);
+        args.putSerializable("phoneNum",num);
+        CreateUserFragment fragment = new CreateUserFragment();
         fragment.setArguments(args);
         return fragment;
     }
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.login_fragment_layout, null);
-        username = view.findViewById(R.id.username_editText);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_user_fragment_layout, null);
+        name = view.findViewById(R.id.name_editText);
+        // provide instructions
+        name.setError("Please enter your real name");
+        phoneNum = view.findViewById(R.id.phoneNum_editText);
+        phoneNum.setError("Under 10 digits please and no dashes");
 
-        // tell user what happens if username does not exist
-       username.setError("If username does not exist within database, new account will be created for you.");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Login")
+                .setTitle("Create a Profile")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // on ok click we need to query the database back in login activity to see if username is in database
-                        String user=username.getText().toString();
-                        listener.onOkPressed(user);
+                        String n=name.getText().toString();
+                        String num = phoneNum.getText().toString();
+
+                        listener.onOkPressed(n,num);
                     }}).create();
     }
 
