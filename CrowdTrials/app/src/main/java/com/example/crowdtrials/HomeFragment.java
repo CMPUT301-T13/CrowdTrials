@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment implements MyCallback{
 
         Experiment testExperimentCreation(String name, String phoneNumber,String description) {
         ContactInfo contactInfo = new ContactInfo(name,phoneNumber);
-        Owner owner = new Owner("randomUserName",contactInfo);
+        User owner = new User("randomUserName",contactInfo);
         Date date = new Date();
         Location newRegion = new Location("");
         Experiment newExperiment = new BinomialExp(owner,newRegion,description,date,1);
