@@ -10,4 +10,8 @@ public class NonNegativeCountExp extends Experiment{
         super(owner, region, description, date, minTrials);
         this.type = "NonNegativeCountExp";
     }
+
+    public NonNegativeCountExp() {
+
+    }
 }

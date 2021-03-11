@@ -48,7 +48,7 @@ public class Database {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Log.d("My Activity", document.getId() + " => " + document.getData());
-                                ListFromDataBase.add(new BinomialExp(new User(document.getData().get("userName"),document.get("contactInfo")),new Location(""),document.get("description"),new Date(),1));
+                                ListFromDataBase.add(new BinomialExp(new User((String)document.getData().get("userName"),(ContactInfo)document.get("contactInfo")),new Location(""),(String)document.get("description"),new Date(),1));
 
                                 Log.d("My Actvitiy", document.getId() + " => " + document.getData());
                                 switch (document.getString("Experiment Type")) {
@@ -82,7 +82,7 @@ public class Database {
                                     case "NonNegativeCountExp":
                                         experiment = new NonNegativeCountExp();
                                         contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        owner = new User((String) document.get("userName"), contactInfo);
                                         experiment.setOwner(owner);
                                         newRegion = new Location("");
                                         experiment.setRegion(newRegion);
