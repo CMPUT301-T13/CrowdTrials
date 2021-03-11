@@ -43,19 +43,19 @@ public class Database {
                             Experiment experiment;
                             ContactInfo contactInfo;
                             Location newRegion;
-                            Owner owner;
+                            User owner;
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
-<<<<<<< HEAD
+
                                 Log.d("My Activity", document.getId() + " => " + document.getData());
-                                ListFromDataBase.add(new BinomialExp(new Owner(document.getData().get("userName"),document.get("contactInfo")),new Location(""),document.get("description"),new Date(),1));
-=======
+                                ListFromDataBase.add(new BinomialExp(new User(document.getData().get("userName"),document.get("contactInfo")),new Location(""),document.get("description"),new Date(),1));
+
                                 Log.d("My Actvitiy", document.getId() + " => " + document.getData());
                                 switch (document.getString("Experiment Type")) {
                                     case "Binomial Exp":
                                         experiment = new BinomialExp();
                                         contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        owner = new User((String) document.get("userName"), contactInfo);
                                         experiment.setOwner(owner);
                                         newRegion = new Location("");
                                         experiment.setRegion(newRegion);
@@ -70,7 +70,7 @@ public class Database {
                                     case "MeasurementExp":
                                         experiment = new MeasurementExp();
                                         contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        owner = new User((String) document.get("userName"), contactInfo);
                                         experiment.setOwner(owner);
                                         newRegion = new Location("");
                                         experiment.setRegion(newRegion);
@@ -94,7 +94,7 @@ public class Database {
                                     case "CountType":
                                         experiment = new CountExp();
                                         contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        owner = new User((String) document.get("userName"), contactInfo);
                                         experiment.setOwner(owner);
                                         newRegion = new Location("");
                                         experiment.setRegion(newRegion);
@@ -105,7 +105,7 @@ public class Database {
                                         break;
                                 }
 
->>>>>>> aed70dadc747bec98153ffeabe61dea7210bcd50
+
                             }
                             myCallback.onCallback(ListFromDataBase);
                         } else {
