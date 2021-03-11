@@ -21,7 +21,7 @@ public class CreateUserFragment extends DialogFragment {
     private CreateUserFragment.OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(String username, String phoneNum);
+        void onOkPressed(String phoneNum, String name);
 
     }
 
@@ -35,10 +35,10 @@ public class CreateUserFragment extends DialogFragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-    public static CreateUserFragment getNameNumType(String name, String num){
+    public static CreateUserFragment getNameNumType(String phoneNum, String name){
         Bundle args= new Bundle();
         args.putSerializable("name",name);
-        args.putSerializable("phoneNum",num);
+        args.putSerializable("phoneNum",phoneNum);
         CreateUserFragment fragment = new CreateUserFragment();
         fragment.setArguments(args);
         return fragment;

@@ -12,4 +12,7 @@ public class BinomialExp extends Experiment {
     }
 
 
+    public BinomialExp() {
+
+    }
 }
