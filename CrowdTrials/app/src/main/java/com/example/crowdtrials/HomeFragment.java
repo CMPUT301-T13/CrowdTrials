@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment implements MyCallback{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        
+
 
         database = new Database();
 
