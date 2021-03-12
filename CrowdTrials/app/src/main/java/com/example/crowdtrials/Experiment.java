@@ -7,15 +7,15 @@ import java.util.Date;
 import java.util.HashSet;
 
 public abstract class Experiment {
-    Owner owner;
-    ArrayList<Experimenter> experimenters = new ArrayList<>();
+    User owner;
+    ArrayList<User> experimenters = new ArrayList<>();
     Location region;
     String description;
     Date date;
-    ArrayList<Result> results;
+    ArrayList<ResultArr> results=new ArrayList<>();
     int minTrials;
-    boolean published;
-    boolean ended;
+    boolean published=false;
+    boolean ended=false;
     HashSet<User> subscribers = new HashSet<>();
     QnA questionsAnswers;
     String type;
@@ -25,24 +25,20 @@ public abstract class Experiment {
 
     }
 
-    public Experiment(Owner owner, Location region, String description, Date date, int minTrials) {
+    public Experiment(User owner, Location region, String description, Date date, int minTrials) {
         this.owner = owner;
         this.region = region;
         this.description = description;
         this.date = date;
         this.minTrials = minTrials;
     }
-    public void setPublished(boolean status){
-        this.published=status;
-    }
 
-    public ArrayList<Experimenter> getExperimenters() {
+
+    public ArrayList<User> getExperimenters() {
         return experimenters;
     }
 
-    public void setExperimenters(ArrayList<Experimenter> experimenters) {
-        this.experimenters = experimenters;
-    }
+
 
     public Location getRegion() {
         return region;
@@ -68,44 +64,72 @@ public abstract class Experiment {
         this.date = date;
     }
 
-    public Owner getOwner() {
-        return owner;
+    public User getOwner() {
+        return this.owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
-    public ArrayList<Result> getResults() {
-        return results;
+    public ArrayList<ResultArr> getResults() {
+        return this.results;
     }
 
-    public void setResults(ArrayList<Result> results) {
-        this.results = results;
+    public void addResult(ResultArr results,User user) {
+        if(owner.username.equals(user.username) || experimenters.contains(user)){
+            this.results.add(results);
+        }
+
     }
 
     public boolean isPublished() {
-        return published;
+        return this.published;
     }
 
     public boolean isEnded() {
-        return ended;
+        return this.ended;
     }
 
-    public void setEnded(boolean status) {
-        this.ended = status;
-    }
+
 
     public HashSet<User> getSubscribers() {
         return subscribers;
     }
 
-    public void setSubscribers(HashSet<User> subscribers) {
-        this.subscribers = subscribers;
-    }
 
     public QnA getQuestionsAnswers() {
         return questionsAnswers;
+    }
+
+    public void ignoreResultsFrom(User user, User experimenter){
+        if(owner.username.equals(user.username)) {
+
+
+            if (experimenters.contains(experimenter)) {
+                for (int i = 0; i < results.size(); i++) {
+                    if (results.get(i).experimenter == experimenter) {
+                        results.remove(i);
+                    }
+                }
+            }
+        }
+
+    }
+    public void publishExperiment(User user){
+        if(owner.username.equals(user.username)){
+            this.published=true;
+        }
+    }
+    public void depublishExperiment(User user){
+        if(owner.username.equals(user.username)){
+            this.published=false;
+        }
+    }
+    public void endExperiment(User user){
+        if(owner.username.equals(user.username)){
+            this.ended=true;
+        }
     }
 
 }

@@ -1,8 +1,8 @@
 package com.example.crowdtrials;
 
-public class IntResult extends Result {
+public class IntResult extends ResultArr {
 
-    public IntResult(Experimenter experimenter) {
+    public IntResult(User experimenter) {
         super(experimenter);
     }
 

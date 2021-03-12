@@ -1,21 +1,39 @@
 package com.example.crowdtrials;
 
-import java.util.ArrayList;
+import android.location.Location;
 
-public abstract class User {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+
+public  class User implements Serializable {
     public String username;
     public ContactInfo contactInfo;
+    ArrayList<Experiment> owned = new ArrayList<>();
     ArrayList<Experiment> subscribedTo = new ArrayList<>();
     public void subscribe(Experiment e){
         e.subscribers.add(this);
         this.subscribedTo.add(e);
     }
-    public void reply(String s, Experiment e){
-        // fill in later
-    }
+
 
     public User(String username, ContactInfo contactInfo) {
         this.username = username;
         this.contactInfo = contactInfo;
+    }
+    public void createExperiment(String type, Location region, String description, Date date, int minTrials){
+        if (type.equalsIgnoreCase("CountExp")){
+            owned.add(new CountExp(this,region,description,date,minTrials));
+        }
+        if(type.equalsIgnoreCase("BinomialExp")){
+            owned.add(new BinomialExp(this,region,description,date,minTrials));
+        }
+        if(type.equalsIgnoreCase("NonNegativeCountExp")){
+            owned.add(new NonNegativeCountExp(this,region,description,date,minTrials));
+        }
+        if(type.equalsIgnoreCase("MeasurementExp")){
+            owned.add(new MeasurementExp(this,region,description,date,minTrials));
+        }
+
     }
 }

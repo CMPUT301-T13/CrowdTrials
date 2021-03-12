@@ -43,15 +43,19 @@ public class Database {
                             Experiment experiment;
                             ContactInfo contactInfo;
                             Location newRegion;
-                            Owner owner;
+                            User owner;
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Log.d("My Activity", document.getId() + " => " + document.getData());
+                                ListFromDataBase.add(new BinomialExp(new User((String)document.getData().get("userName"),(ContactInfo)document.get("contactInfo")),new Location(""),(String)document.get("description"),new Date(),1));
+
                                 Log.d("My Actvitiy", document.getId() + " => " + document.getData());
                                 switch (document.getString("Experiment Type")) {
                                     case "Binomial Exp":
                                         experiment = new BinomialExp();
                                         contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        owner = new User((String) document.get("userName"), contactInfo);
                                         experiment.setOwner(owner);
                                         newRegion = new Location("");
                                         experiment.setRegion(newRegion);
@@ -66,7 +70,7 @@ public class Database {
                                     case "MeasurementExp":
                                         experiment = new MeasurementExp();
                                         contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        owner = new User((String) document.get("userName"), contactInfo);
                                         experiment.setOwner(owner);
                                         newRegion = new Location("");
                                         experiment.setRegion(newRegion);
@@ -78,7 +82,7 @@ public class Database {
                                     case "NonNegativeCountExp":
                                         experiment = new NonNegativeCountExp();
                                         contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        owner = new User((String) document.get("userName"), contactInfo);
                                         experiment.setOwner(owner);
                                         newRegion = new Location("");
                                         experiment.setRegion(newRegion);
@@ -90,7 +94,7 @@ public class Database {
                                     case "CountType":
                                         experiment = new CountExp();
                                         contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new Owner((String) document.get("userName"), contactInfo);
+                                        owner = new User((String) document.get("userName"), contactInfo);
                                         experiment.setOwner(owner);
                                         newRegion = new Location("");
                                         experiment.setRegion(newRegion);
@@ -100,6 +104,7 @@ public class Database {
                                         ListFromDataBase.add(experiment);
                                         break;
                                 }
+
 
                             }
                             myCallback.onCallback(ListFromDataBase);

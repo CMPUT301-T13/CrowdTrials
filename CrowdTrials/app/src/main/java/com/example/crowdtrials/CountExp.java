@@ -9,7 +9,7 @@ public class CountExp extends Experiment {
     public CountExp(){
 
     }
-    public CountExp(Owner owner, Location region, String description, Date date, int minTrials) {
+    public CountExp(User owner, Location region, String description, Date date, int minTrials) {
         super(owner, region, description, date, minTrials);
         this.type = "CountExp";
     }

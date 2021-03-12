@@ -2,34 +2,61 @@ package com.example.crowdtrials;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TableLayout;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener {
 
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
     ArrayList<Experiment> experimentDataList;
     Database database;
-
-
+    FirebaseFirestore db;
+    CollectionReference collectionReference;
+    User user;
+    String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        database = new Database();
+
+        experimentList = findViewById(R.id.experiment_list);
+        experimentDataList = new ArrayList<>();
+        experimentAdapter = new ExperimentList(this, experimentDataList);
+        experimentList.setAdapter(experimentAdapter);
+
+        //writeToDatabase();
+        // get user from intent
+        username = (String) getIntent().getSerializableExtra("user");
+        // query database to see if username exists
+        // query database with the passed in username
+        Task<DocumentSnapshot> usersRef = collectionReference.document(username).get();
+        user = (User) usersRef.getResult().getData();
+        if(user!=null){
+            // get experiments
+        }
+        else{
+            new CreateUserFragment().show(getSupportFragmentManager(), "CREATE_USER");
+            // I need to finish this part
+        }
+
+        experimentAdapter.notifyDataSetChanged();
 
         FirebaseApp.initializeApp(this);
 
@@ -62,21 +89,23 @@ public class MainActivity extends AppCompatActivity  {
 
 
 
-        /*
-        experimentDataList.add(testExperimentCreation("John","58712342123","First Experiment Added to database"));
-        writeToDatabase(experimentDataList.get(0));
-        experimentDataList.add(testExperimentCreation("Jack","78012342123","Second Experiment Added to database"));
-        writeToDatabase(experimentDataList.get(1));
-        experimentDataList.add(testExperimentCreation("Adam","7801234566","Third Experiment Added to database"));
-        writeToDatabase(experimentDataList.get(2));
-        experimentAdapter.notifyDataSetChanged();
-        */
 
-        //database.readExperiments(this::onCallback);
-
-
-
+    }
+    public void writeToDatabase(Experiment experiment){
+        database.writeExperiments(experiment);
     }
 
 
+    Experiment testExperimentCreation(String name, String phoneNumber,String description) {
+        ContactInfo contactInfo = new ContactInfo(name,phoneNumber);
+        User owner = new User("randomUserName",contactInfo);
+        Date date = new Date();
+        Location newRegion = new Location("");
+        Experiment newExperiment = new BinomialExp(owner,newRegion,description,date,1);
+        return newExperiment;
+    }
+    @Override
+    public void onOkPressed(String phoneNum,String name) {
+        user = new User(username,new ContactInfo(name,phoneNum));
+    }
 }
