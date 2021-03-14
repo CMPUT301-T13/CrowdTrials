@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.login);
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         collectionReference= db.collection("Users");
         Button login = findViewById(R.id.loginbutton);

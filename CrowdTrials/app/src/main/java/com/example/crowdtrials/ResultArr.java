@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class ResultArr {
     public User experimenter;
-    ArrayList<Double> values = new ArrayList<>();
+    //ArrayList<Double> values = new ArrayList<>();
     public User getExperimenter() {
         return experimenter;
     }
