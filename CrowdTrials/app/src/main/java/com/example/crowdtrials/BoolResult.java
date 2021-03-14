@@ -1,10 +1,12 @@
 package com.example.crowdtrials;
 
-public class BoolResult extends ResultArr{
-    public boolean outcome;
+import java.util.ArrayList;
 
-    public BoolResult(User experimenter,boolean outcome) {
+public class BoolResult extends ResultArr{
+    public ArrayList<Boolean> outcomes = new ArrayList<>();
+
+    public BoolResult(User experimenter) {
         super(experimenter);
-        this.outcome=outcome;
+
     }
 }
