@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <Button
         android:id="@+id/gen_button"
         android:layout_width="wrap_content"
@@ -65,17 +64,6 @@
         app:layout_constraintVertical_bias="0.313" />
 
     <TextView
-        android:id="@+id/probabilityViewer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="208dp"
-        android:text="Probability"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.65"
-        app:layout_constraintStart_toEndOf="@+id/lastresultbin"
-        app:layout_constraintTop_toBottomOf="@+id/detail_bin_button" />
-
-    <TextView
         android:id="@+id/plaintext_lastres_bin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,14 +76,4 @@
         app:layout_constraintTop_toBottomOf="@+id/backbutton_bin"
         app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/plaintext_prob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginRight="44dp"
-        android:text="Probability of Success"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_bin_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
