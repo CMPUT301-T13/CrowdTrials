@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class BinomialActivity extends AppCompatActivity {
+public class MeasurementActivity extends AppCompatActivity {
     // this will be the page that displays when adding results to an experiment/creating results
-    BinomialExp exp;
+    MeasurementExp exp;
     User user;
     Button back;
     Button viewDetails;
@@ -24,24 +24,20 @@ public class BinomialActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.binactivity);
+        setContentView(R.layout.login);
         user=(User) getIntent().getSerializableExtra("user");
-        exp = (BinomialExp) getIntent().getSerializableExtra("exp");
-        back=findViewById(R.id.backbutton_bin);
-        viewDetails=findViewById(R.id.detail_bin_button);
-        genResult=findViewById(R.id.gen_button);
-        plaintextLastRes=findViewById(R.id.plaintext_lastres_bin);
-        plaintextProb= findViewById(R.id.plaintext_prob);
-        title=findViewById(R.id.title_bin);
-        prob=findViewById(R.id.probabilityViewer);
-        lastRes=findViewById(R.id.lastresultbin);
+        exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
+        back=findViewById(R.id.backbutton_meas);
+        viewDetails=findViewById(R.id.detail_meas_button);
+        genResult=findViewById(R.id.meas_gen_button);
+        plaintextLastRes=findViewById(R.id.plaintext_lastres_meas);
+        title=findViewById(R.id.title_meas);
+        lastRes=findViewById(R.id.lastresultmeas);
 
         title.setText(exp.name);
-        prob.setText(Float.toString(exp.probability));
-        plaintextProb.setText("Probability");
         plaintextLastRes.setText("Last result");
         lastRes.setText("");
-        result=new BoolResult(user);
+        result=new FloatResult(user);
 
         genResult.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,4 +79,4 @@ public class BinomialActivity extends AppCompatActivity {
 
             }
         });
-}}
+    }}

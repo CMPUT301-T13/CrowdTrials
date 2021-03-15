@@ -1,10 +1,12 @@
 package com.example.crowdtrials;
 
-public class FloatResult extends ResultArr{
-    public float measurement;
+import java.util.ArrayList;
 
-    public FloatResult(User experimenter, float measurement) {
+public class FloatResult extends ResultArr{
+    public ArrayList<Float> measurements = new ArrayList<>();
+
+    public FloatResult(User experimenter) {
         super(experimenter);
-        this.measurement=measurement;
+
     }
 }
