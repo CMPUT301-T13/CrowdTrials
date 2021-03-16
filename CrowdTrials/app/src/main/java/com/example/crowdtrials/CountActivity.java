@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class NonNegativeCountActivity extends AppCompatActivity {
+public class CountActivity extends AppCompatActivity {
     // this will be the page that displays when adding results to an experiment/creating results
     MeasurementExp exp;
     User user;
@@ -18,7 +18,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
     TextView plaintextLastRes;
     TextView lastRes;
     TextView title;
-    EditText non_result;
+    EditText count_result;
     IntResult result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         plaintextLastRes=findViewById(R.id.plaintext_lastres_non);
         title=findViewById(R.id.title_non);
         lastRes=findViewById(R.id.lastresultnon);
-        non_result=findViewById(R.id.editText_result_non);
+        count_result=findViewById(R.id.editText_result_non);
 
         title.setText(exp.name);
         plaintextLastRes.setText("Last result");
@@ -41,8 +41,8 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         final Button confirmButton = findViewById(R.id.button_confirm);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Integer res = Integer.parseInt(non_result.getText().toString());
-                non_result.getText().clear();
+                Integer res = Integer.parseInt(count_result.getText().toString());
+                count_result.getText().clear();
                 lastRes.setText(res.toString());
                 result.values.add(res);
             }
@@ -52,7 +52,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                Intent intent = new Intent(NonNegativeCountActivity.this, MainActivity.class);
+                Intent intent = new Intent(CountActivity.this, MainActivity.class);
                 exp.addResult(result);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
@@ -67,7 +67,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                Intent intent = new Intent(NonNegativeCountActivity.this, DetailActivity.class);
+                Intent intent = new Intent(CountActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
                 setResult(RESULT_OK,intent);

@@ -6,8 +6,8 @@ import java.util.Date;
 
 public class NonNegativeCountExp extends Experiment{
 
-    public NonNegativeCountExp(User owner, Location region, String description, Date date, int minTrials) {
-        super(owner, region, description, date, minTrials);
+    public NonNegativeCountExp(User owner,String name, Location region, String description, Date date, int minTrials) {
+        super(owner, name, region, description, date, minTrials);
         this.type = "NonNegativeCountExp";
     }
 
