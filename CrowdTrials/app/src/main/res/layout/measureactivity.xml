@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
-        android:id="@+id/gen_button"
+        android:id="@+id/meas_gen_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="generate result"
@@ -16,8 +16,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.941" />
 
+    <EditText
+        android:id="@+id/editText_result"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="112dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="Measurement"
+        android:inputType="textCapWords"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastresultmeas" />
+
+    <Button
+        android:id="@+id/button_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="532dp"
+        android:layout_weight="1"
+        android:text="CONFIRM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintStart_toEndOf="@+id/editText_result"
+        app:layout_constraintTop_toBottomOf="@+id/detail_meas_button" />
+
     <TextView
-        android:id="@+id/title_bin"
+        android:id="@+id/title_meas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
@@ -29,7 +57,7 @@
         app:layout_constraintVertical_bias="0.153" />
 
     <Button
-        android:id="@+id/detail_bin_button"
+        android:id="@+id/detail_meas_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Details"
@@ -41,7 +69,7 @@
         app:layout_constraintVertical_bias="0.005" />
 
     <Button
-        android:id="@+id/backbutton_bin"
+        android:id="@+id/backbutton_meas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -52,11 +80,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lastresultbin"
+        android:id="@+id/lastresultmeas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="260dp"
         android:text="lastresult"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +93,7 @@
         app:layout_constraintVertical_bias="0.313" />
 
     <TextView
-        android:id="@+id/plaintext_lastres_bin"
+        android:id="@+id/plaintext_lastres_meas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
@@ -75,5 +104,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backbutton_bin"
         app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/displayLastRes_meas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lastresult"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.705" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
