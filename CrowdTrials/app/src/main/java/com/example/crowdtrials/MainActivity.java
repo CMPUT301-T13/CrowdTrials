@@ -1,25 +1,29 @@
 package com.example.crowdtrials;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener, MyCallback {
 
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
@@ -29,23 +33,20 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     CollectionReference collectionReference;
     User user;
     String username;
+    PagerAdapter pagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        FirebaseApp.initializeApp(this);
         database = new Database();
 
-        experimentList = findViewById(R.id.experiment_list);
-        experimentDataList = new ArrayList<>();
-        experimentAdapter = new ExperimentList(this, experimentDataList);
-        experimentList.setAdapter(experimentAdapter);
-
-        //writeToDatabase();
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
         // query database to see if username exists
         // query database with the passed in username
+
+        /*
         Task<DocumentSnapshot> usersRef = collectionReference.document(username).get();
         user = (User) usersRef.getResult().getData();
         if(user!=null){
@@ -56,9 +57,13 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
             // I need to finish this part
         }
 
-        experimentAdapter.notifyDataSetChanged();
+         */
+        database.readUser(username,this::onCallback);
 
-        FirebaseApp.initializeApp(this);
+
+
+
+
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         TabItem tabHome = findViewById(R.id.tab1);
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
         ViewPager viewPager = findViewById(R.id.ViewPager);
 
-        PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -85,12 +90,19 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
             }
         });
-
+        database.readExperiments(this::onCallback);
 
 
 
 
     }
+
+    public void onCallback(ArrayList<Experiment> value) {
+
+        pagerAdapter.homeFragment.getList(value);
+
+    }
+
     public void writeToDatabase(Experiment experiment){
         database.writeExperiments(experiment);
     }

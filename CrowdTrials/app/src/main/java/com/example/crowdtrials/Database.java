@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -25,10 +26,12 @@ public class Database {
 
     FirebaseFirestore db;
     final CollectionReference collectionReference;
+    final CollectionReference userCollectionReference;
 
     public Database() {
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         collectionReference = db.collection("Experiments");
+        userCollectionReference = db.collection("Users");
     }
 
     public void readExperiments(MyCallback myCallback) {
@@ -48,7 +51,7 @@ public class Database {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 Log.d("My Activity", document.getId() + " => " + document.getData());
-                                ListFromDataBase.add(new BinomialExp(new User((String)document.getData().get("userName"),(ContactInfo)document.get("contactInfo")),new Location(""),(String)document.get("description"),new Date(),1));
+
 
                                 Log.d("My Actvitiy", document.getId() + " => " + document.getData());
                                 switch (document.getString("Experiment Type")) {
@@ -113,6 +116,31 @@ public class Database {
                         }
                     }
                 });
+    }
+    public void readUser(String username,MyCallback myCallback){
+        Map<String, Object> data = new HashMap<>();
+        data.put("Username",username);
+        DocumentReference docRef = db.collection("Users").document(username);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("My Actvitiy", "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d("My Actvitiy", "No such document");
+
+                        userCollectionReference.document(username).set(data);
+
+                    }
+                } else {
+                    Log.d("My Actvitiy", "get failed with ", task.getException());
+
+                }
+            }
+        });
+
     }
 
 

@@ -41,8 +41,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     @Override
     public void onOkPressed(String username) {
-        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("user",username);
+
+
         startActivityForResult(intent,1);
 
     }
