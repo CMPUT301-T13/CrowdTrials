@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
         database = new Database();
-
+        experimentDataList = new ArrayList<>();
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
         // query database to see if username exists
@@ -59,10 +60,6 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
          */
         database.readUser(username,this::onCallback);
-
-
-
-
 
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -90,16 +87,40 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
             }
         });
-        database.readExperiments(this::onCallback);
+        database.readAllExperiments(this::onCallback);
+        database.readSubscribedExperiments(this::onCallback);
 
+
+        /*
+        experimentDataList.add(testExperimentCreation("John","58712342123","First Experiment Added to database","Experiment 1"));
+        writeToDatabase(experimentDataList.get(0));
+        experimentDataList.add(testExperimentCreation("Jack","78012342123","Second Experiment Added to database","Experiment 2"));
+        writeToDatabase(experimentDataList.get(1));
+        experimentDataList.add(testExperimentCreation("Adam","7801234566","Third Experiment Added to database","Experiment 3"));
+        writeToDatabase(experimentDataList.get(2));
+
+        */
 
 
 
     }
 
-    public void onCallback(ArrayList<Experiment> value) {
 
-        pagerAdapter.homeFragment.getList(value);
+    public void onCallback(ArrayList<Experiment> value,int whichCase) {
+        Log.e("My Actvitiy", "I've been called" + whichCase);
+        switch (whichCase){
+            case 0:
+                Log.d("My Actvitiy", "get failed with 0" + value);
+                pagerAdapter.homeFragment.getList(value);
+                break;
+            case 1:
+                Log.d("My Actvitiy", "get failed with 1" + value);
+                pagerAdapter.subscriptionsFragment.getList(value);
+                break;
+            default:
+                //do nothing
+        }
+
 
     }
 
@@ -108,16 +129,22 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
 
 
-    Experiment testExperimentCreation(String name, String phoneNumber,String description) {
-        ContactInfo contactInfo = new ContactInfo(name,phoneNumber);
+    public Experiment testExperimentCreation(String contactName, String phoneNumber,String description,String experimentName) {
+        ContactInfo contactInfo = new ContactInfo(contactName,phoneNumber);
         User owner = new User("randomUserName",contactInfo);
         Date date = new Date();
         Location newRegion = new Location("");
-        Experiment newExperiment = new BinomialExp(owner,newRegion,description,date,1);
+        Experiment newExperiment = new BinomialExp(owner,newRegion,description,date,1,experimentName);
         return newExperiment;
     }
     @Override
     public void onOkPressed(String phoneNum,String name) {
         user = new User(username,new ContactInfo(name,phoneNum));
+    }
+
+    public void subscribedButtonPressed(Experiment experiment) {
+        Log.d("My Actvitiy", "get failed with " + experiment.getDescription());
+        database.subscribeTo(experiment);
+
     }
 }

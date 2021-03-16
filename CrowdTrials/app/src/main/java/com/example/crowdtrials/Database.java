@@ -27,6 +27,7 @@ public class Database {
     FirebaseFirestore db;
     final CollectionReference collectionReference;
     final CollectionReference userCollectionReference;
+    ArrayList<Experiment> subscribedListFromDataBase = new ArrayList<Experiment>();
 
     public Database() {
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
@@ -34,8 +35,144 @@ public class Database {
         userCollectionReference = db.collection("Users");
     }
 
-    public void readExperiments(MyCallback myCallback) {
+    public void readAllExperiments(MyCallback myCallback) {
+        getAllExperiments(collectionReference,myCallback);
 
+    }
+    public void readSubscribedExperiments(MyCallback myCallback){
+        userCollectionReference.document("Subscriptions").collection("Subscriptions")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                String experimentName;
+
+                if (task.isSuccessful()) {
+
+
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                         experimentName = (String)document.get("name");
+                         getSingleExperiment(myCallback,experimentName);
+
+                         Log.d("this was called", document.getId() + " => " + document.getData());
+
+
+                        Log.d("My Actvitiy", document.getId() + " => " + document.getData());
+
+
+                    }
+
+
+
+
+                } else {
+                    Log.w("My Actvitiy", "Error getting documents.", task.getException());
+                }
+            }
+
+
+        });
+    }
+
+
+    public void getSingleExperiment(MyCallback myCallback,String experimentName) {
+
+        DocumentReference docRef = collectionReference.document(experimentName);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    Experiment experiment;
+                    ContactInfo contactInfo;
+                    Location newRegion;
+                    User owner;
+
+
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("Get single experiment", "DocumentSnapshot data ex: " + document.getData());
+                        switch (document.getString("Experiment Type")) {
+                            case "Binomial Exp":
+                                experiment = new BinomialExp();
+                                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                                owner = new User((String) document.get("userName"), contactInfo);
+                                experiment.setOwner(owner);
+                                newRegion = new Location("");
+                                experiment.setRegion(newRegion);
+                                experiment.setDescription((String) document.get("description"));
+                                experiment.published = document.getBoolean("published");
+                                experiment.ended = document.getBoolean("ended");
+                                experiment.setName((String) document.get("name"));
+                                subscribedListFromDataBase.add(experiment);
+
+
+
+                                break;
+
+                            case "MeasurementExp":
+                                experiment = new MeasurementExp();
+                                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                                owner = new User((String) document.get("userName"), contactInfo);
+                                experiment.setOwner(owner);
+                                newRegion = new Location("");
+                                experiment.setRegion(newRegion);
+                                experiment.setDescription((String) document.get("description"));
+                                experiment.published = document.getBoolean("published");
+                                experiment.ended = document.getBoolean("ended");
+                                experiment.setName((String) document.get("name"));
+                                subscribedListFromDataBase.add(experiment);
+                                //myCallback.onCallback(subscribedListFromDataBase,1);
+
+                                break;
+                            case "NonNegativeCountExp":
+                                experiment = new NonNegativeCountExp();
+                                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                                owner = new User((String) document.get("userName"), contactInfo);
+                                experiment.setOwner(owner);
+                                newRegion = new Location("");
+                                experiment.setRegion(newRegion);
+                                experiment.setDescription((String) document.get("description"));
+                                experiment.published = document.getBoolean("published");
+                                experiment.ended = document.getBoolean("ended");
+                                experiment.setName((String) document.get("name"));
+                                subscribedListFromDataBase.add(experiment);
+                                //myCallback.onCallback(subscribedListFromDataBase,1);
+
+                                break;
+                            case "CountType":
+                                experiment = new CountExp();
+                                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                                owner = new User((String) document.get("userName"), contactInfo);
+                                experiment.setOwner(owner);
+                                newRegion = new Location("");
+                                experiment.setRegion(newRegion);
+                                experiment.setDescription((String) document.get("description"));
+                                experiment.published = document.getBoolean("published");
+                                experiment.ended = document.getBoolean("ended");
+                                experiment.setName((String) document.get("name"));
+                                subscribedListFromDataBase.add(experiment);
+                                //myCallback.onCallback(subscribedListFromDataBase,1);
+
+                                break;
+                        }
+
+
+                    }else {
+                        Log.d("ERROR", "No such document");
+                    }
+
+                } else {
+                    Log.d("My Activity", "No such document");
+                }
+                myCallback.onCallback(subscribedListFromDataBase,1);
+            }
+
+        });
+
+    }
+
+    public void getAllExperiments(CollectionReference collectionReference,MyCallback myCallback){
         collectionReference
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -65,6 +202,7 @@ public class Database {
                                         experiment.setDescription((String) document.get("description"));
                                         experiment.published = document.getBoolean("published");
                                         experiment.ended = document.getBoolean("ended");
+                                        experiment.setName((String) document.get("name"));
 
                                         ListFromDataBase.add(experiment);
 
@@ -80,6 +218,7 @@ public class Database {
                                         experiment.setDescription((String) document.get("description"));
                                         experiment.published = document.getBoolean("published");
                                         experiment.ended = document.getBoolean("ended");
+                                        experiment.setName((String) document.get("name"));
                                         ListFromDataBase.add(experiment);
                                         break;
                                     case "NonNegativeCountExp":
@@ -92,6 +231,7 @@ public class Database {
                                         experiment.setDescription((String) document.get("description"));
                                         experiment.published = document.getBoolean("published");
                                         experiment.ended = document.getBoolean("ended");
+                                        experiment.setName((String) document.get("name"));
                                         ListFromDataBase.add(experiment);
                                         break;
                                     case "CountType":
@@ -104,18 +244,21 @@ public class Database {
                                         experiment.setDescription((String) document.get("description"));
                                         experiment.published = document.getBoolean("published");
                                         experiment.ended = document.getBoolean("ended");
+                                        experiment.setName((String) document.get("name"));
                                         ListFromDataBase.add(experiment);
                                         break;
                                 }
 
 
                             }
-                            myCallback.onCallback(ListFromDataBase);
+                            myCallback.onCallback(ListFromDataBase,0);
                         } else {
                             Log.w("My Actvitiy", "Error getting documents.", task.getException());
                         }
                     }
                 });
+
+
     }
     public void readUser(String username,MyCallback myCallback){
         Map<String, Object> data = new HashMap<>();
@@ -156,11 +299,15 @@ public class Database {
         data.put("min trials", experiment.minTrials);
         data.put("published",experiment.isPublished());
         data.put("ended",experiment.isEnded());
+        data.put("name",experiment.getName());
+
 
 
         // Add a new document with a generated ID
-        collectionReference
-                .add(data)
+        collectionReference.document(experiment.getName())
+                .set(data);
+
+                /*
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -173,6 +320,41 @@ public class Database {
                         Log.w("My Activity", "Error adding document", e);
                     }
                 });
+
+
+                 */
+
+    }
+
+
+
+    public void subscribeTo(Experiment experiment){
+        DocumentReference docRef = collectionReference.document(experiment.getName());
+        Map<String, Object> data = new HashMap<>();
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("My Actvitiy", "DocumentSnapshot data: " + document.getData());
+                        String name = (String)document.get("name");
+                        data.put("name",name);
+                        userCollectionReference.document("Subscriptions").collection("Subscriptions").add(data);
+
+
+                    } else {
+                        Log.d("My Actvitiy", "No such document");
+                    }
+                } else {
+                    Log.d("My Actvitiy", "get failed with ", task.getException());
+
+                }
+            }
+        });
+
+
 
     }
 }

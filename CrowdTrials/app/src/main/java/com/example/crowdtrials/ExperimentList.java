@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,19 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
 
         TextView experimentDescription = view.findViewById(R.id.experimentDescription);
         TextView userNameTextView = view.findViewById(R.id.ownerUserName);
+        Button subscribedButton = view.findViewById(R.id.subscribeButton);
+
+        subscribedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                MainActivity mainActivity = (MainActivity) context;
+                mainActivity.subscribedButtonPressed(experiments.get(position));
+            }
+        });
+
+
 
 
         // Add Descriptions here for the properties to display in the view rather than hardcoding it into
