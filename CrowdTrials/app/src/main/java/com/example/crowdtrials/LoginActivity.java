@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.login);
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         collectionReference= db.collection("Users");
         Button login = findViewById(R.id.loginbutton);
@@ -40,8 +41,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     @Override
     public void onOkPressed(String username) {
-        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("user",username);
+
+
         startActivityForResult(intent,1);
 
     }

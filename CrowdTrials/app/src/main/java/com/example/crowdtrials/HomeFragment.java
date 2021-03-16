@@ -15,7 +15,7 @@ import com.google.firebase.FirebaseApp;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HomeFragment extends Fragment implements MyCallback{
+public class HomeFragment extends Fragment {
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
     ArrayList<Experiment> experimentDataList;
@@ -29,36 +29,30 @@ public class HomeFragment extends Fragment implements MyCallback{
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        database = new Database();
+
 
         experimentList = (ListView)view.findViewById(R.id.experiment_list);
         experimentDataList = new ArrayList<>();
         experimentAdapter = new ExperimentList(getActivity(), experimentDataList);
 
         experimentList.setAdapter(experimentAdapter);
-        database.readExperiments(this::onCallback);
+
         return view;
     }
 
-    public ListView getList(){
-        return experimentList;
-    }
-
-    public void onCallback(ArrayList<Experiment> value) {
+    public void getList(ArrayList<Experiment> value){
         for (Experiment experiment:value){
             experimentDataList.add(experiment);
         }
-
-        //Log.e("In call back", "Call back called" +" " + value);
         experimentAdapter.notifyDataSetChanged();
     }
 
-    public void writeToDatabase(Experiment experiment){
-        database.writeExperiments(experiment);
-    }
 
 
-        Experiment testExperimentCreation(String name, String phoneNumber,String description) {
+
+
+
+    public Experiment testExperimentCreation(String name, String phoneNumber, String description) {
         ContactInfo contactInfo = new ContactInfo(name,phoneNumber);
         User owner = new User("randomUserName",contactInfo);
         Date date = new Date();
