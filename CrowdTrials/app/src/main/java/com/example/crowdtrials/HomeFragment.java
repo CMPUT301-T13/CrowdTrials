@@ -54,14 +54,16 @@ public class HomeFragment extends Fragment {
 
 
 
+
+
     public Experiment testExperimentCreation(String name, String phoneNumber, String description,String experimentName) {
 
         ContactInfo contactInfo = new ContactInfo(name,phoneNumber);
         User owner = new User("randomUserName",contactInfo);
         Date date = new Date();
         Location newRegion = new Location("");
+        Experiment newExperiment = new BinomialExp(owner,newRegion,description,date,1,experimentName);
 
-        Experiment newExperiment = new BinomialExp(owner,expName,newRegion,description,date,1);
 
         return newExperiment;
     }
