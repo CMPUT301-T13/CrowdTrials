@@ -8,11 +8,13 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"/>
 
-    <TextView
+    <item
         android:id="@+id/profileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:text="TextView"
+        android:title="TextView"
+        app:actionViewClass="android.widget.TextView"
+        app:showAsAction="ifRoom|collapseActionView"
         />
 </menu>
