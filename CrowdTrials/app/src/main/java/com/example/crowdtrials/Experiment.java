@@ -22,18 +22,25 @@ public abstract class Experiment implements Serializable {
     QnA questionsAnswers;
     String type;
 
+
     public Experiment(){
         this.date = new Date();
 
     }
 
-    public Experiment(User owner, String name,Location region, String description, Date date, int minTrials) {
+
+
+    public Experiment(User owner, Location region, String description, Date date, int minTrials,String experimentName) {
+
         this.owner = owner;
         this.region = region;
         this.description = description;
         this.date = date;
         this.minTrials = minTrials;
-        this.name=name;
+
+
+        this.name = experimentName;
+
     }
 
 
@@ -135,4 +142,11 @@ public abstract class Experiment implements Serializable {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
