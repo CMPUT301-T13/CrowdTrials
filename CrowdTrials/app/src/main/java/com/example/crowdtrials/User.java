@@ -21,6 +21,7 @@ public  class User implements Serializable {
         this.username = username;
         this.contactInfo = contactInfo;
     }
+
     public void createExperiment(String type,String name, Location region, String description, Date date, int minTrials){
         if (type.equalsIgnoreCase("CountExp")){
             owned.add(new CountExp(this,name,region,description,date,minTrials));
@@ -33,6 +34,7 @@ public  class User implements Serializable {
         }
         if(type.equalsIgnoreCase("MeasurementExp")){
             owned.add(new MeasurementExp(this,name,region,description,date,minTrials));
+
         }
 
     }
