@@ -226,7 +226,7 @@ public class Database {
                             }
                             myCallback.onCallback(ListFromDataBase,0);
                         } else {
-                            Log.w("My Actvitiy", "Error getting documents.", task.getException());
+                            Log.w("My Activity", "Error getting documents.", task.getException());
                         }
                     }
                 });
@@ -284,7 +284,7 @@ public class Database {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d("My Actvitiy", "DocumentSnapshot added with ID: " + documentReference.getId());
+                        Log.d("My Activity", "DocumentSnapshot added with ID: " + documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

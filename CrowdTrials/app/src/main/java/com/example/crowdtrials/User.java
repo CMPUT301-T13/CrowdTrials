@@ -21,18 +21,20 @@ public  class User implements Serializable {
         this.username = username;
         this.contactInfo = contactInfo;
     }
-    public void createExperiment(String type, Location region, String description, Date date, int minTrials,String experimentName){
+
+    public void createExperiment(String type,String name, Location region, String description, Date date, int minTrials){
         if (type.equalsIgnoreCase("CountExp")){
-            owned.add(new CountExp(this,region,description,date,minTrials,experimentName));
+            owned.add(new CountExp(this,name,region,description,date,minTrials));
         }
         if(type.equalsIgnoreCase("BinomialExp")){
-            owned.add(new BinomialExp(this,region,description,date,minTrials,experimentName));
+            owned.add(new BinomialExp(this,name,region,description,date,minTrials));
         }
         if(type.equalsIgnoreCase("NonNegativeCountExp")){
-            owned.add(new NonNegativeCountExp(this,region,description,date,minTrials,experimentName));
+            owned.add(new NonNegativeCountExp(this,name,region,description,date,minTrials));
         }
         if(type.equalsIgnoreCase("MeasurementExp")){
-            owned.add(new MeasurementExp(this,region,description,date,minTrials,experimentName));
+            owned.add(new MeasurementExp(this,name,region,description,date,minTrials));
+
         }
 
     }

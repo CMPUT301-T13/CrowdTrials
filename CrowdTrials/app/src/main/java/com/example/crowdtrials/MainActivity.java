@@ -50,8 +50,11 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
+
+
         database =  Database.getSingleDatabaseInstance();
         experimentDataList = new ArrayList<>();
+
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
 
@@ -175,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
 
 
+
     public Experiment testExperimentCreation(String contactName, String phoneNumber,String description,String experimentName) {
         ContactInfo contactInfo = new ContactInfo(contactName,phoneNumber);
         User owner = new User("randomUserName",contactInfo);
@@ -185,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         return newExperiment;
 
     }
+
     @Override
     public void onOkPressed(String phoneNum,String name) {
         user = new User(username,new ContactInfo(name,phoneNum));
