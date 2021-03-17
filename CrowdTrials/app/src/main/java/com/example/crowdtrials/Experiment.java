@@ -21,7 +21,7 @@ public abstract class Experiment implements Serializable {
     HashSet<User> subscribers = new HashSet<>();
     QnA questionsAnswers;
     String type;
-    String name;
+    
 
     public Experiment(){
         this.date = new Date();
