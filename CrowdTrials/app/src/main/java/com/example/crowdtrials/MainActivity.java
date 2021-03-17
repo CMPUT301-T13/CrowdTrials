@@ -160,8 +160,10 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         User owner = new User("randomUserName",contactInfo);
         Date date = new Date();
         Location newRegion = new Location("");
+
         Experiment newExperiment = new BinomialExp(owner,newRegion,description,date,1,experimentName);
         return newExperiment;
+
     }
     @Override
     public void onOkPressed(String phoneNum,String name) {

@@ -264,7 +264,7 @@ public class Database {
     public void writeExperiments(Experiment experiment){
         Map<String, Object> data = new HashMap<>();
         data.put("description", experiment.getDescription());
-
+        data.put("experimentName",experiment.name);
         data.put("userName", experiment.getOwner().username);
         data.put("contactInfo",experiment.getOwner().contactInfo.getPhoneNumber());
         data.put("Owner Name",experiment.getOwner().contactInfo.getName());

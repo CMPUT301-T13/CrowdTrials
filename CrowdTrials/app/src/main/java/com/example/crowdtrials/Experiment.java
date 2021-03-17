@@ -2,13 +2,15 @@ package com.example.crowdtrials;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 
-public abstract class Experiment {
+public abstract class Experiment implements Serializable {
     User owner;
     ArrayList<User> experimenters = new ArrayList<>();
+    String name;
     Location region;
     String description;
     Date date;
@@ -26,13 +28,19 @@ public abstract class Experiment {
 
     }
 
+
+
     public Experiment(User owner, Location region, String description, Date date, int minTrials,String experimentName) {
+
         this.owner = owner;
         this.region = region;
         this.description = description;
         this.date = date;
         this.minTrials = minTrials;
+
+
         this.name = experimentName;
+
     }
 
 
@@ -78,8 +86,8 @@ public abstract class Experiment {
         return this.results;
     }
 
-    public void addResult(ResultArr results,User user) {
-        if(owner.username.equals(user.username) || experimenters.contains(user)){
+    public void addResult(ResultArr results) {
+        if(owner.username.equals(results.experimenter.username) || experimenters.contains(results.experimenter.username)){
             this.results.add(results);
         }
 
