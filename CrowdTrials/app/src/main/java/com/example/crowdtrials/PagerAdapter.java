@@ -13,7 +13,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 public class PagerAdapter extends FragmentPagerAdapter {
     private int numOfTabs;
     public HomeFragment homeFragment;
-    private subscriptions subscriptionsFragment;
+    public subscriptions subscriptionsFragment;
     public PagerAdapter(FragmentManager fm,int numOfTabs){
         //TODO: Use the new FragmentStatePageAdapter Class
         super(fm);
