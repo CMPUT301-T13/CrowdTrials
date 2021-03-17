@@ -2,13 +2,19 @@ package com.example.crowdtrials;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Switch;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,15 +41,20 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     User user;
     String username;
     PagerAdapter pagerAdapter;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
-        database = new Database();
+        database =  Database.getSingleDatabaseInstance();
         experimentDataList = new ArrayList<>();
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
         // query database to see if username exists
         // query database with the passed in username
 
@@ -103,6 +114,21 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the options menu from XML
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+
+        return true;
     }
 
 

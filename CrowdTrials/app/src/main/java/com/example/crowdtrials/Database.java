@@ -6,7 +6,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -17,24 +16,50 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Database {
-
+    private static Database staticInstanceOfDatabase;
     FirebaseFirestore db;
     final CollectionReference collectionReference;
     final CollectionReference userCollectionReference;
     ArrayList<Experiment> subscribedListFromDataBase = new ArrayList<Experiment>();
+    ArrayList<Experiment> searchedExperiments ;
 
-    public Database() {
+
+    private Database() {
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         collectionReference = db.collection("Experiments");
         userCollectionReference = db.collection("Users");
     }
 
+    public static Database getSingleDatabaseInstance() {
+        if (staticInstanceOfDatabase == null) {
+            staticInstanceOfDatabase = new Database();
+        }
+        return staticInstanceOfDatabase;
+    }
+    public void searchExperiments(MyCallback myCallback,String query) {
+            collectionReference.orderBy("name").startAt(query).endAt(query + "\uf8ff").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    searchedExperiments = new ArrayList<Experiment>();
+                    Log.e("In Search Experiments","Document snapshot" + "I was called");
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                       Log.e("In Search Experiments","Document snapshot" + document);
+                       parseDocument(document,searchedExperiments);
+                        myCallback.onCallback(searchedExperiments,0);
+
+                   }
+
+                    // ...
+                }
+            });
+
+
+    }
     public void readAllExperiments(MyCallback myCallback) {
         getAllExperiments(collectionReference,myCallback);
 
@@ -73,6 +98,77 @@ public class Database {
 
         });
     }
+    private void parseDocument(DocumentSnapshot document,ArrayList<Experiment> value) {
+        Experiment experiment;
+        ContactInfo contactInfo;
+        Location newRegion;
+        User owner;
+
+        switch (document.getString("Experiment Type")) {
+            case "Binomial Exp":
+                experiment = new BinomialExp();
+                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                owner = new User((String) document.get("userName"), contactInfo);
+                experiment.setOwner(owner);
+                newRegion = new Location("");
+                experiment.setRegion(newRegion);
+                experiment.setDescription((String) document.get("description"));
+                experiment.published = document.getBoolean("published");
+                experiment.ended = document.getBoolean("ended");
+                experiment.setName((String) document.get("name"));
+                value.add(experiment);
+
+
+
+                break;
+
+            case "MeasurementExp":
+                experiment = new MeasurementExp();
+                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                owner = new User((String) document.get("userName"), contactInfo);
+                experiment.setOwner(owner);
+                newRegion = new Location("");
+                experiment.setRegion(newRegion);
+                experiment.setDescription((String) document.get("description"));
+                experiment.published = document.getBoolean("published");
+                experiment.ended = document.getBoolean("ended");
+                experiment.setName((String) document.get("name"));
+                value.add(experiment);
+                //myCallback.onCallback(subscribedListFromDataBase,1);
+
+                break;
+            case "NonNegativeCountExp":
+                experiment = new NonNegativeCountExp();
+                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                owner = new User((String) document.get("userName"), contactInfo);
+                experiment.setOwner(owner);
+                newRegion = new Location("");
+                experiment.setRegion(newRegion);
+                experiment.setDescription((String) document.get("description"));
+                experiment.published = document.getBoolean("published");
+                experiment.ended = document.getBoolean("ended");
+                experiment.setName((String) document.get("name"));
+                value.add(experiment);
+                //myCallback.onCallback(subscribedListFromDataBase,1);
+
+                break;
+            case "CountType":
+                experiment = new CountExp();
+                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
+                owner = new User((String) document.get("userName"), contactInfo);
+                experiment.setOwner(owner);
+                newRegion = new Location("");
+                experiment.setRegion(newRegion);
+                experiment.setDescription((String) document.get("description"));
+                experiment.published = document.getBoolean("published");
+                experiment.ended = document.getBoolean("ended");
+                experiment.setName((String) document.get("name"));
+                value.add(experiment);
+                //myCallback.onCallback(subscribedListFromDataBase,1);
+
+                break;
+        }
+    }
 
 
     public void getSingleExperiment(MyCallback myCallback,String experimentName) {
@@ -83,79 +179,12 @@ public class Database {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    Experiment experiment;
-                    ContactInfo contactInfo;
-                    Location newRegion;
-                    User owner;
 
 
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Log.d("Get single experiment", "DocumentSnapshot data ex: " + document.getData());
-                        switch (document.getString("Experiment Type")) {
-                            case "Binomial Exp":
-                                experiment = new BinomialExp();
-                                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                owner = new User((String) document.get("userName"), contactInfo);
-                                experiment.setOwner(owner);
-                                newRegion = new Location("");
-                                experiment.setRegion(newRegion);
-                                experiment.setDescription((String) document.get("description"));
-                                experiment.published = document.getBoolean("published");
-                                experiment.ended = document.getBoolean("ended");
-                                experiment.setName((String) document.get("name"));
-                                subscribedListFromDataBase.add(experiment);
-
-
-
-                                break;
-
-                            case "MeasurementExp":
-                                experiment = new MeasurementExp();
-                                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                owner = new User((String) document.get("userName"), contactInfo);
-                                experiment.setOwner(owner);
-                                newRegion = new Location("");
-                                experiment.setRegion(newRegion);
-                                experiment.setDescription((String) document.get("description"));
-                                experiment.published = document.getBoolean("published");
-                                experiment.ended = document.getBoolean("ended");
-                                experiment.setName((String) document.get("name"));
-                                subscribedListFromDataBase.add(experiment);
-                                //myCallback.onCallback(subscribedListFromDataBase,1);
-
-                                break;
-                            case "NonNegativeCountExp":
-                                experiment = new NonNegativeCountExp();
-                                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                owner = new User((String) document.get("userName"), contactInfo);
-                                experiment.setOwner(owner);
-                                newRegion = new Location("");
-                                experiment.setRegion(newRegion);
-                                experiment.setDescription((String) document.get("description"));
-                                experiment.published = document.getBoolean("published");
-                                experiment.ended = document.getBoolean("ended");
-                                experiment.setName((String) document.get("name"));
-                                subscribedListFromDataBase.add(experiment);
-                                //myCallback.onCallback(subscribedListFromDataBase,1);
-
-                                break;
-                            case "CountType":
-                                experiment = new CountExp();
-                                contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                owner = new User((String) document.get("userName"), contactInfo);
-                                experiment.setOwner(owner);
-                                newRegion = new Location("");
-                                experiment.setRegion(newRegion);
-                                experiment.setDescription((String) document.get("description"));
-                                experiment.published = document.getBoolean("published");
-                                experiment.ended = document.getBoolean("ended");
-                                experiment.setName((String) document.get("name"));
-                                subscribedListFromDataBase.add(experiment);
-                                //myCallback.onCallback(subscribedListFromDataBase,1);
-
-                                break;
-                        }
+                        parseDocument(document,subscribedListFromDataBase);
 
 
                     }else {
@@ -191,63 +220,7 @@ public class Database {
 
 
                                 Log.d("My Actvitiy", document.getId() + " => " + document.getData());
-                                switch (document.getString("Experiment Type")) {
-                                    case "Binomial Exp":
-                                        experiment = new BinomialExp();
-                                        contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new User((String) document.get("userName"), contactInfo);
-                                        experiment.setOwner(owner);
-                                        newRegion = new Location("");
-                                        experiment.setRegion(newRegion);
-                                        experiment.setDescription((String) document.get("description"));
-                                        experiment.published = document.getBoolean("published");
-                                        experiment.ended = document.getBoolean("ended");
-                                        experiment.setName((String) document.get("name"));
-
-                                        ListFromDataBase.add(experiment);
-
-                                        break;
-
-                                    case "MeasurementExp":
-                                        experiment = new MeasurementExp();
-                                        contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new User((String) document.get("userName"), contactInfo);
-                                        experiment.setOwner(owner);
-                                        newRegion = new Location("");
-                                        experiment.setRegion(newRegion);
-                                        experiment.setDescription((String) document.get("description"));
-                                        experiment.published = document.getBoolean("published");
-                                        experiment.ended = document.getBoolean("ended");
-                                        experiment.setName((String) document.get("name"));
-                                        ListFromDataBase.add(experiment);
-                                        break;
-                                    case "NonNegativeCountExp":
-                                        experiment = new NonNegativeCountExp();
-                                        contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new User((String) document.get("userName"), contactInfo);
-                                        experiment.setOwner(owner);
-                                        newRegion = new Location("");
-                                        experiment.setRegion(newRegion);
-                                        experiment.setDescription((String) document.get("description"));
-                                        experiment.published = document.getBoolean("published");
-                                        experiment.ended = document.getBoolean("ended");
-                                        experiment.setName((String) document.get("name"));
-                                        ListFromDataBase.add(experiment);
-                                        break;
-                                    case "CountType":
-                                        experiment = new CountExp();
-                                        contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
-                                        owner = new User((String) document.get("userName"), contactInfo);
-                                        experiment.setOwner(owner);
-                                        newRegion = new Location("");
-                                        experiment.setRegion(newRegion);
-                                        experiment.setDescription((String) document.get("description"));
-                                        experiment.published = document.getBoolean("published");
-                                        experiment.ended = document.getBoolean("ended");
-                                        experiment.setName((String) document.get("name"));
-                                        ListFromDataBase.add(experiment);
-                                        break;
-                                }
+                                parseDocument(document,ListFromDataBase);
 
 
                             }

@@ -83,7 +83,9 @@ public class subscriptions extends Fragment {
     }
 
     public void getList(ArrayList<Experiment> value){
+        subsribedDataList.clear();
         for (Experiment experiment:value){
+
             subsribedDataList.add(experiment);
         }
         subscribedAdapter.notifyDataSetChanged();
