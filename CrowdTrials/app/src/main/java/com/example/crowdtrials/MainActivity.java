@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -129,20 +130,25 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        TextView textView = (TextView)menu.findItem(R.id.profileName);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToProfileActivity();
 
-
-            }
-        });
 
         return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.profileName:
+
+            goToProfileActivity();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void goToProfileActivity() {
         //This is where you start the Profile activity
+        Log.e("Called","In go to profile activity");
     }
 
 
