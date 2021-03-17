@@ -35,6 +35,7 @@ public  class User implements Serializable {
         if(type.equalsIgnoreCase("MeasurementExp")){
             owned.add(new MeasurementExp(this,region,description,date,minTrials,experimentName));
 
+
         }
 
     }

@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
 
+
         database =  Database.getSingleDatabaseInstance();
         experimentDataList = new ArrayList<>();
 
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     public void writeToDatabase(Experiment experiment){
         database.writeExperiments(experiment);
     }
+
 
 
     public Experiment testExperimentCreation(String contactName, String phoneNumber,String description,String experimentName) {
