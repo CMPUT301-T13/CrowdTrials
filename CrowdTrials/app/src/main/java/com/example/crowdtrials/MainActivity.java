@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
         database = new Database();
-
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
         // query database to see if username exists
@@ -108,14 +107,14 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
 
 
-    Experiment testExperimentCreation(String name, String phoneNumber,String description) {
+    /*Experiment testExperimentCreation(String name, String phoneNumber,String description) {
         ContactInfo contactInfo = new ContactInfo(name,phoneNumber);
         User owner = new User("randomUserName",contactInfo);
         Date date = new Date();
         Location newRegion = new Location("");
         //Experiment newExperiment = new BinomialExp(owner,newRegion,description,date,1);
         //return newExperiment;
-    }
+    }*/
     @Override
     public void onOkPressed(String phoneNum,String name) {
         user = new User(username,new ContactInfo(name,phoneNum));

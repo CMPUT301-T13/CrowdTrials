@@ -9,8 +9,8 @@ public class MeasurementExp extends Experiment{
     public MeasurementExp(){
 
     }
-    public MeasurementExp(User owner, Location region, String description, Date date, int minTrials) {
-        super(owner, region, description, date, minTrials);
+    public MeasurementExp(User owner,String name, Location region, String description, Date date, int minTrials) {
+        super(owner,name, region, description, date, minTrials);
         this.type = "MeasurementExp";
 
     }
