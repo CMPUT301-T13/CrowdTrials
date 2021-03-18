@@ -21,12 +21,14 @@ public class BinomialActivity extends AppCompatActivity {
     TextView prob;
     TextView title;
     BoolResult result;
+    int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.binactivity);
         user=(User) getIntent().getSerializableExtra("user");
         exp = (BinomialExp) getIntent().getSerializableExtra("exp");
+        pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_bin);
         viewDetails=findViewById(R.id.detail_bin_button);
         genResult=findViewById(R.id.gen_button);
@@ -63,6 +65,7 @@ public class BinomialActivity extends AppCompatActivity {
                 exp.addResult(result);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
+                intent.putExtra("pos",pos);
                 setResult(RESULT_OK,intent);
                 finish();
 

@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -152,6 +153,9 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     public void goToProfileActivity() {
         //This is where you start the Profile activity
         Log.e("Called","In go to profile activity");
+        Intent intent = new Intent(this,DisplayProfileActivity.class);
+        intent.putExtra("user",user);
+        startActivityForResult(intent,1);
     }
 
 
@@ -199,5 +203,77 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         Log.d("My Actvitiy", "get failed with " + experiment.getDescription());
         database.subscribeTo(experiment);
 
+    }
+    public void addResultPressed(Experiment experiment,int pos){
+        Log.d("My Actvitiy", "get failed with " + experiment.getDescription());
+        if(experiment.type.equals("Binomial Exp")) {
+            Intent intent = new Intent(this, BinomialActivity.class);
+            intent.putExtra("exp", experiment);
+            intent.putExtra("user", user);
+            intent.putExtra("pos", pos);
+            startActivityForResult(intent,2);
+        }
+        else if(experiment.type.equals("MeasurementExp")){
+            Intent intent = new Intent(this, MeasurementActivity.class);
+            intent.putExtra("exp", experiment);
+            intent.putExtra("user", user);
+            intent.putExtra("pos", pos);
+            startActivityForResult(intent,3);
+        }
+        else if(experiment.type.equals("NonNegativeCountExp")){
+            Intent intent = new Intent(this, CountActivity.class);
+            intent.putExtra("exp", experiment);
+            intent.putExtra("user", user);
+            intent.putExtra("pos", pos);
+            startActivityForResult(intent,4);
+        }
+        else if(experiment.type.equals("CountExp")){
+            Intent intent = new Intent(this, CountActivity.class);
+            intent.putExtra("exp", experiment);
+            intent.putExtra("user", user);
+            intent.putExtra("pos", pos);
+            startActivityForResult(intent,5);
+        }
+    }
+    // This method is called when the profile activity finishes
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // get the modified experiment data modify it in the list so change stays
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Check that it is the SecondActivity with an OK result
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                user = (User) data.getSerializableExtra("user");
+            }
+        }
+        if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                Experiment e = (Experiment) data.getSerializableExtra("exp");
+                int ind = (Integer) data.getSerializableExtra("pos");
+                experimentDataList.set(ind,e);
+            }
+        }
+        if (requestCode == 3) {
+            if (resultCode == RESULT_OK) {
+                Experiment e = (Experiment) data.getSerializableExtra("exp");
+                int ind = (Integer) data.getSerializableExtra("pos");
+                experimentDataList.set(ind,e);
+            }
+        }
+        if (requestCode == 4) {
+            if (resultCode == RESULT_OK) {
+                Experiment e = (Experiment) data.getSerializableExtra("exp");
+                int ind = (Integer) data.getSerializableExtra("pos");
+                experimentDataList.set(ind,e);
+            }
+        }
+        if (requestCode == 5) {
+            if (resultCode == RESULT_OK) {
+                Experiment e = (Experiment) data.getSerializableExtra("exp");
+                int ind = (Integer) data.getSerializableExtra("pos");
+                experimentDataList.set(ind,e);
+            }
+        }
     }
 }
