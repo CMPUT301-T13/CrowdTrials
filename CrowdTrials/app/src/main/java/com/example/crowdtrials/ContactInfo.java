@@ -1,6 +1,8 @@
 package com.example.crowdtrials;
 
-public class ContactInfo {
+import java.io.Serializable;
+
+public class ContactInfo implements Serializable {
     private String name;
     private String phoneNumber;
 

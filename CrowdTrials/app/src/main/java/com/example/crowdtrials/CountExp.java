@@ -1,13 +1,14 @@
 package com.example.crowdtrials;
 
-import android.location.Location;
+//import android.location.Location;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class CountExp extends Experiment {
-
+public class CountExp extends Experiment implements Serializable {
+    //String type = "CountExp";
     public CountExp(){
-
+        this.type = "CountExp";
     }
 
 

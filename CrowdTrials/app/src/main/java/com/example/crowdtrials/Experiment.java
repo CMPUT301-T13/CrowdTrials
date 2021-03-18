@@ -1,6 +1,6 @@
 package com.example.crowdtrials;
 
-import android.location.Location;
+//import android.location.Location;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public abstract class Experiment implements Serializable {
         this.description = description;
         this.date = date;
         this.minTrials = minTrials;
-
+        //this.type=type;
 
         this.name = experimentName;
 

@@ -41,7 +41,7 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         TextView experimentDescription = view.findViewById(R.id.experimentDescription);
         TextView userNameTextView = view.findViewById(R.id.ownerUserName);
         Button subscribedButton = view.findViewById(R.id.subscribeButton);
-        Button addResult = view.findViewWithTag(R.id.addResultButton);
+        Button addResult = view.findViewById(R.id.addResultButton);
         subscribedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +57,8 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         addResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                addResult.setText("Add Result");
+                addResult.setTextColor(0xFF00BCD4);
                 MainActivity mainActivity = (MainActivity) context;
                 mainActivity.addResultPressed(experiments.get(position),position);
 

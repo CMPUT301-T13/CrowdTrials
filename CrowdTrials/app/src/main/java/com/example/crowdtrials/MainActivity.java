@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
+//import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -239,28 +239,28 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
     public void addResultPressed(Experiment experiment,int pos){
         Log.d("My Actvitiy", "get failed with " + experiment.getDescription());
-        if(experiment.type.equals("Binomial Exp")) {
+        if(experiment instanceof BinomialExp) {
             Intent intent = new Intent(this, BinomialActivity.class);
             intent.putExtra("exp", experiment);
             intent.putExtra("user", user);
             intent.putExtra("pos", pos);
             startActivityForResult(intent,2);
         }
-        else if(experiment.type.equals("MeasurementExp")){
+        else if(experiment instanceof MeasurementExp){
             Intent intent = new Intent(this, MeasurementActivity.class);
             intent.putExtra("exp", experiment);
             intent.putExtra("user", user);
             intent.putExtra("pos", pos);
             startActivityForResult(intent,3);
         }
-        else if(experiment.type.equals("NonNegativeCountExp")){
+        else if(experiment instanceof CountExp){
             Intent intent = new Intent(this, CountActivity.class);
             intent.putExtra("exp", experiment);
             intent.putExtra("user", user);
             intent.putExtra("pos", pos);
             startActivityForResult(intent,4);
         }
-        else if(experiment.type.equals("CountExp")){
+        else if(experiment instanceof NonNegativeCountExp){
             Intent intent = new Intent(this, CountActivity.class);
             intent.putExtra("exp", experiment);
             intent.putExtra("user", user);
@@ -282,9 +282,10 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         }
         if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
-                Experiment e = (Experiment) data.getSerializableExtra("exp");
-                int ind = (Integer) data.getSerializableExtra("pos");
-                experimentDataList.set(ind,e);
+                //Experiment e = (Experiment) data.getSerializableExtra("exp");
+                //int ind = (Integer) data.getSerializableExtra("pos");
+                //experimentDataList.set(ind,e);
+                //database.updateWithResults(e.results.get(e.results.size()-1),e.name);
             }
         }
         if (requestCode == 3) {

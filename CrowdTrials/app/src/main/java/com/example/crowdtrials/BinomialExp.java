@@ -1,12 +1,13 @@
 package com.example.crowdtrials;
 
-import android.location.Location;
+//import android.location.Location;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BinomialExp extends Experiment {
+public class BinomialExp extends Experiment implements Serializable {
     float probability;
-
+    //String type = "Binomial Exp";
     public BinomialExp(User owner, Location region, String description, Date date, int minTrials,String experimentName) {
         super(owner, region, description, date, minTrials, experimentName);
 
@@ -15,7 +16,7 @@ public class BinomialExp extends Experiment {
 
 
     public BinomialExp() {
-
+        this.type = "Binomial Exp";
     }
     public boolean genResult()
     {

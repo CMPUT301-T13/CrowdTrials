@@ -21,6 +21,7 @@ public class BinomialActivity extends AppCompatActivity {
     TextView prob;
     TextView title;
     BoolResult result;
+    Database database =  Database.getSingleDatabaseInstance();
     int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,9 @@ public class BinomialActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(BinomialActivity.this, MainActivity.class);
+                //result.outcomes.get(0);
+                //String ok=exp.name;
+                database.updateWithResults(result,exp.name);
                 exp.addResult(result);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
