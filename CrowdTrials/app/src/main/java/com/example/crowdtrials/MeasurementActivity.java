@@ -20,6 +20,7 @@ public class MeasurementActivity extends AppCompatActivity {
     TextView title;
     EditText meas_result;
     FloatResult result;
+    Database database =  Database.getSingleDatabaseInstance();
     int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class MeasurementActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(MeasurementActivity.this, MainActivity.class);
                 exp.addResult(result);
+                database.updateWithResults(result,exp.name);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
                 intent.putExtra("pos",pos);

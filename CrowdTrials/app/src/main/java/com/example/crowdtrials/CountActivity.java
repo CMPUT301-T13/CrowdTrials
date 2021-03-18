@@ -21,6 +21,7 @@ public class CountActivity extends AppCompatActivity {
     EditText count_result;
     IntResult result;
     int pos;
+    Database database =  Database.getSingleDatabaseInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,7 @@ public class CountActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(CountActivity.this, MainActivity.class);
                 exp.addResult(result);
+                database.updateWithResults(result,exp.name);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
                 intent.putExtra("pos",pos);

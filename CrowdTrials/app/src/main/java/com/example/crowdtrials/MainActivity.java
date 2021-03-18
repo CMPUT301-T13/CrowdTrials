@@ -282,9 +282,10 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         }
         if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
-                Experiment e = (Experiment) data.getSerializableExtra("exp");
-                int ind = (Integer) data.getSerializableExtra("pos");
-                experimentDataList.set(ind,e);
+                //Experiment e = (Experiment) data.getSerializableExtra("exp");
+                //int ind = (Integer) data.getSerializableExtra("pos");
+                //experimentDataList.set(ind,e);
+                //database.updateWithResults(e.results.get(e.results.size()-1),e.name);
             }
         }
         if (requestCode == 3) {
