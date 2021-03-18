@@ -10,6 +10,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+/**
+ * This class represents the Adapter for Pages of the Application
+ */
 public class PagerAdapter extends FragmentPagerAdapter {
     private int numOfTabs;
     public HomeFragment homeFragment;

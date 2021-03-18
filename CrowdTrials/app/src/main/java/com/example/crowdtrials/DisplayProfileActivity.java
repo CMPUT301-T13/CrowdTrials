@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This class represents the profile of a user.
+ */
 public class DisplayProfileActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener{
     Button back;
     Button edit;

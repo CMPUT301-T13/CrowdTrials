@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * This class represent the fragment for login functionality of the application.
+ */
 public class LoginFragment extends DialogFragment {
     // Based on AddCityFragment made by CMPUT 301 TAs in lab 3
     // this is to get the username from the user

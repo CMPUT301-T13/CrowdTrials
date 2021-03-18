@@ -35,6 +35,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * This class represents the main activity of the application.
+ */
 public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener {
 
     ListView experimentList;
@@ -67,12 +70,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         // query database to see if username exists
         // query database with the passed in username
 
-
-
-
-
         database.readUser(username,this::userCallback);
-
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         TabItem tabHome = findViewById(R.id.tab1);
@@ -135,8 +133,6 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         });
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

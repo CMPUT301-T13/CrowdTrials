@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * This class represents the fragment used to create a new User.
+ */
 public class CreateUserFragment extends DialogFragment {
     EditText name;
     EditText phoneNum;

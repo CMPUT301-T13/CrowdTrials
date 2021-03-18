@@ -20,6 +20,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Date;
 
+/**
+ *  This Class is used to create a DialogFragment in the the middle of the main activity to gather input from the user such as the name, description, and date to add an experiment.
+ */
 public class AddExperimentFragment extends DialogFragment {
     /*
    Citation
@@ -47,10 +50,14 @@ public class AddExperimentFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     private User user;
 
+    /**
+     * This is a interface for the the DialogFragment
+     */
     public interface OnFragmentInteractionListener {
         // simple interface in order to use for The DialogFragment
        public void onAddExperimentOkPressed(Experiment newExperiment);
     }
+
 
     @Override
     public void onAttach(Context context) {

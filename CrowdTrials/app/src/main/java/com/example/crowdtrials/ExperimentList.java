@@ -16,11 +16,21 @@ import com.example.crowdtrials.Experiment;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the list of experiments
+ */
 public class ExperimentList extends ArrayAdapter<Experiment> {
 
     private ArrayList<Experiment> experiments;
     private Context context;
 
+    /**
+     * This is a constructor for the list of experiments
+     * @param context
+     * The activity context
+     * @param experiments
+     * The list of experiments
+     */
     public ExperimentList(Context context, ArrayList<Experiment> experiments) {
         super(context,0,experiments);
         this.experiments = experiments;

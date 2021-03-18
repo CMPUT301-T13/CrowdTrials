@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This class represents the activity for a Non negative counts Experiment.
+ */
 public class NonNegativeCountActivity extends AppCompatActivity {
     // this will be the page that displays when adding results to an experiment/creating results
     MeasurementExp exp;

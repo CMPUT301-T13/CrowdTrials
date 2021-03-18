@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This class represents the activity for a Measurement Experiment.
+ */
 public class MeasurementActivity extends AppCompatActivity {
     // this will be the page that displays when adding results to an experiment/creating results
     MeasurementExp exp;

@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is an interface for the database.
+ */
 public class Database {
     private static Database staticInstanceOfDatabase;
     FirebaseFirestore db;
@@ -28,13 +31,17 @@ public class Database {
     ArrayList<Experiment> subscribedListFromDataBase = new ArrayList<Experiment>();
     ArrayList<Experiment> searchedExperiments ;
 
-
     private Database() {
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         collectionReference = db.collection("Experiments");
         userCollectionReference = db.collection("Users");
     }
 
+    /**
+     * This class returns the static instance of the database.
+     * @return
+     * The static instance of the database
+     */
     public static Database getSingleDatabaseInstance() {
         if (staticInstanceOfDatabase == null) {
             staticInstanceOfDatabase = new Database();
@@ -42,6 +49,13 @@ public class Database {
         return staticInstanceOfDatabase;
     }
 
+    /**
+     * This class updates the database with the results.
+     * @param result
+     * This is the result of the updating the database - success if it successfully updated and failure, if the update failed
+     * @param experimentName
+     * This is the name of the experiment being updated
+     */
     public void updateWithResults(ResultArr result,String experimentName){
         Map<String, Object> data = new HashMap<>();
         data.put("Result",result);
@@ -58,8 +72,15 @@ public class Database {
                         Log.w("My Activity", "Error adding document", e);
                     }
                 });
-
     }
+
+    /**
+     * This method is used to search for an experiment within the using a query.
+     * @param myCallback
+     * This is the interface to handle the experiment list on callback.
+     * @param query
+     * The search term entered by the user.
+     */
     public void searchExperiments(MyCallback myCallback,String query) {
             collectionReference.orderBy("name").startAt(query).endAt(query + "\uf8ff").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
 
@@ -80,10 +101,24 @@ public class Database {
 
 
     }
+
+    /**
+     * This gets the reference to the collection of all experiments in the database
+     * @param myCallback
+     * This is the interface to handle the experiment list on callback
+     */
     public void readAllExperiments(MyCallback myCallback) {
         getAllExperiments(collectionReference,myCallback);
 
     }
+
+    /**
+     * This gets the reference to the collection of all subscribed experiments of an user
+     * @param myCallback
+     * This is the interface to handle the experiment list on callback
+     * @param user
+     * The user who subscribed to experiments
+     */
     public void readSubscribedExperiments(MyCallback myCallback,User user){
 
         userCollectionReference.document(user.username).collection("Subscriptions")
@@ -119,6 +154,14 @@ public class Database {
 
         });
     }
+
+    /**
+     * This method parses through a document to identify the experiment.
+     * @param document
+     * The document being parsed through
+     * @param value
+     * The array list that holds the experiments
+     */
     private void parseDocument(DocumentSnapshot document,ArrayList<Experiment> value) {
         Experiment experiment;
         ContactInfo contactInfo;
@@ -194,6 +237,13 @@ public class Database {
     }
 
 
+    /**
+     * This method handles a single experiment.
+     * @param myCallback
+     * This is the interface to handle the experiment list on callback
+     * @param experimentName
+     * This is the name of the experiment
+     */
     public void getSingleExperiment(MyCallback myCallback,String experimentName) {
 
         DocumentReference docRef = collectionReference.document(experimentName);
@@ -224,6 +274,13 @@ public class Database {
 
     }
 
+    /**
+     * This method gets the collection Reference of all Experiments
+     * @param collectionReference
+     * The reference to the Collection of all experiments in the database
+     * @param myCallback
+     * This is the interface to handle the experiment list on callback
+     */
     public void getAllExperiments(CollectionReference collectionReference,MyCallback myCallback){
         collectionReference
                 .get()
@@ -256,6 +313,14 @@ public class Database {
 
 
     }
+
+    /**
+     * This reads a single user from the database
+     * @param username
+     * This is the username of the user
+     * @param myUserCallback
+     * This is the interface to handle the user on callback
+     */
     public void readUser(String username,UserCallback myUserCallback){
         Map<String, Object> data = new HashMap<>();
         data.put("Username",username);
@@ -284,6 +349,11 @@ public class Database {
     }
 
 
+    /**
+     * This method is used to write an experiment object in the database
+     * @param experiment
+     * The current experiment object that is being inserted in the database
+     */
 
     public void writeExperiments(Experiment experiment){
         Map<String, Object> data = new HashMap<>();
@@ -325,7 +395,13 @@ public class Database {
     }
 
 
-
+    /**
+     * This method allows a user to subscribe to the selected experiment
+     * @param experiment
+     * The experiment that is being subscribed to
+     * @param user
+     * The user that is subscribing to an experiment
+     */
     public void subscribeTo(Experiment experiment,User user){
         DocumentReference docRef = collectionReference.document(experiment.getName());
         Map<String, Object> data = new HashMap<>();

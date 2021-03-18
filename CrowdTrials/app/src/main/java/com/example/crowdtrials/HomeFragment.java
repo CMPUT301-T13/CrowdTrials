@@ -14,6 +14,9 @@ import com.google.firebase.FirebaseApp;
 
 import java.util.ArrayList;
 import java.util.Date;
+/**
+ * This class represents the Home fragment of the application.
+ */
 
 public class HomeFragment extends Fragment {
     ListView experimentList;

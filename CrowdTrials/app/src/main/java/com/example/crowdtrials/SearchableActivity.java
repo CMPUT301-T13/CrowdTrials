@@ -17,6 +17,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the activity for the functionality of searching for an experiment
+ */
 public class SearchableActivity extends AppCompatActivity implements MyCallback{
     Database database;
     ListView experimentList;

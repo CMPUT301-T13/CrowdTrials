@@ -8,7 +8,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * This class represents the activity for a Binomial Experiment.
+ */
 public class BinomialActivity extends AppCompatActivity {
+
     // this will be the page that displays when adding results to an experiment/creating results
     BinomialExp exp;
     User user;
@@ -23,6 +27,7 @@ public class BinomialActivity extends AppCompatActivity {
     BoolResult result;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

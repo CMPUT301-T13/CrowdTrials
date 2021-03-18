@@ -14,7 +14,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
+/**
+ * The class handles the login activity of the application
+ */
 public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener {
 
     User user;
