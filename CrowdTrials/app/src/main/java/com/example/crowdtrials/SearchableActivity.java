@@ -32,14 +32,15 @@ public class SearchableActivity extends AppCompatActivity implements MyCallback{
         experimentAdapter = new ExperimentList(this, experimentDataList);
 
         experimentList.setAdapter(experimentAdapter);
-        handleIntent(getIntent());
-
+        //handleIntent(getIntent());
+        Log.e("SEARCH","This was searched" + "Called in Oncreate");
 
 
     }
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            Log.e("SEARCH","This was searched" + "Called in handleIntent");
             searchByName(query);
         }
     }
@@ -57,9 +58,10 @@ public class SearchableActivity extends AppCompatActivity implements MyCallback{
     }
 
     public void onCallback(ArrayList<Experiment> value, int whichCase) {
-
+        experimentDataList.clear();
         for (Experiment experiment:value){
             experimentDataList.add(experiment);
+
         }
         experimentAdapter.notifyDataSetChanged();
 

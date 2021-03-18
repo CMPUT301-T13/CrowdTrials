@@ -21,6 +21,7 @@ public abstract class Experiment implements Serializable {
     HashSet<User> subscribers = new HashSet<>();
     QnA questionsAnswers;
     String type;
+    boolean isGeoLocationEnabled;
 
 
     public Experiment(){
