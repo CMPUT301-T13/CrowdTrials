@@ -1,6 +1,6 @@
 package com.example.crowdtrials;
 
-import android.location.Location;
+//import android.location.Location;
 
 import com.google.firebase.firestore.CollectionReference;
 

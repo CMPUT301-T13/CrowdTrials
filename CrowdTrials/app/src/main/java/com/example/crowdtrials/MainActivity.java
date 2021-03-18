@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
+//import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -239,6 +239,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
     public void addResultPressed(Experiment experiment,int pos){
         Log.d("My Actvitiy", "get failed with " + experiment.getDescription());
+        //if(experiment instanceof BinomialExp)
         if(experiment.type.equals("Binomial Exp")) {
             Intent intent = new Intent(this, BinomialActivity.class);
             intent.putExtra("exp", experiment);

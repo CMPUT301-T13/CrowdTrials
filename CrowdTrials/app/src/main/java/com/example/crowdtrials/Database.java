@@ -1,6 +1,6 @@
 package com.example.crowdtrials;
 
-import android.location.Location;
+//import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -155,6 +155,7 @@ public class Database {
                 experiment.published = document.getBoolean("published");
                 experiment.ended = document.getBoolean("ended");
                 experiment.setName((String) document.get("name"));
+               // Log.d("My exp", "get failed with " + experiment.type);
                 value.add(experiment);
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 
