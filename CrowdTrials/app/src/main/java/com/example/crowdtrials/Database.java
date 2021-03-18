@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,6 +40,25 @@ public class Database {
             staticInstanceOfDatabase = new Database();
         }
         return staticInstanceOfDatabase;
+    }
+
+    public void updateWithResults(ResultArr result,String experimentName){
+        Map<String, Object> data = new HashMap<>();
+        data.put("Result",result);
+        collectionReference.document(experimentName).collection("Trials").add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("My Activity", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("My Activity", "Error adding document", e);
+                    }
+                });
+
     }
     public void searchExperiments(MyCallback myCallback,String query) {
             collectionReference.orderBy("name").startAt(query).endAt(query + "\uf8ff").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
