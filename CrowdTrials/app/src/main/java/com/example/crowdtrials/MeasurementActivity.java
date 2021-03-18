@@ -20,12 +20,14 @@ public class MeasurementActivity extends AppCompatActivity {
     TextView title;
     EditText meas_result;
     FloatResult result;
+    int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         user=(User) getIntent().getSerializableExtra("user");
         exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
+        pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_meas);
         viewDetails=findViewById(R.id.detail_meas_button);
         plaintextLastRes=findViewById(R.id.plaintext_lastres_meas);
@@ -56,6 +58,7 @@ public class MeasurementActivity extends AppCompatActivity {
                 exp.addResult(result);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
+                intent.putExtra("pos",pos);
                 setResult(RESULT_OK,intent);
                 finish();
 

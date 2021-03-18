@@ -20,12 +20,14 @@ public class CountActivity extends AppCompatActivity {
     TextView title;
     EditText count_result;
     IntResult result;
+    int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         user=(User) getIntent().getSerializableExtra("user");
         exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
+        pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_non);
         viewDetails=findViewById(R.id.detail_non_button);
         plaintextLastRes=findViewById(R.id.plaintext_lastres_non);
@@ -56,6 +58,7 @@ public class CountActivity extends AppCompatActivity {
                 exp.addResult(result);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
+                intent.putExtra("pos",pos);
                 setResult(RESULT_OK,intent);
                 finish();
 
