@@ -64,8 +64,9 @@ public class Database {
         getAllExperiments(collectionReference,myCallback);
 
     }
-    public void readSubscribedExperiments(MyCallback myCallback){
-        userCollectionReference.document("Subscriptions").collection("Subscriptions")
+    public void readSubscribedExperiments(MyCallback myCallback,User user){
+
+        userCollectionReference.document(user.username).collection("Subscriptions")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -116,6 +117,7 @@ public class Database {
                 experiment.published = document.getBoolean("published");
                 experiment.ended = document.getBoolean("ended");
                 experiment.setName((String) document.get("name"));
+                ///experiment.isGeoLocationEnabled = (String document.get())
                 value.add(experiment);
 
 
@@ -233,7 +235,7 @@ public class Database {
 
 
     }
-    public void readUser(String username,MyCallback myCallback){
+    public void readUser(String username,UserCallback myUserCallback){
         Map<String, Object> data = new HashMap<>();
         data.put("Username",username);
         DocumentReference docRef = db.collection("Users").document(username);
@@ -248,6 +250,7 @@ public class Database {
                         Log.d("My Actvitiy", "No such document");
 
                         userCollectionReference.document(username).set(data);
+                        myUserCallback.userCallback(new User(username));
 
                     }
                 } else {
@@ -266,13 +269,14 @@ public class Database {
         data.put("description", experiment.getDescription());
         data.put("experimentName",experiment.name);
         data.put("userName", experiment.getOwner().username);
-        data.put("contactInfo",experiment.getOwner().contactInfo.getPhoneNumber());
-        data.put("Owner Name",experiment.getOwner().contactInfo.getName());
+        //data.put("contactInfo",experiment.getOwner().contactInfo.getPhoneNumber());
+        //data.put("Owner Name",experiment.getOwner().contactInfo.getName());
         data.put("Experiment Type",experiment.type);
         data.put("min trials", experiment.minTrials);
         data.put("published",experiment.isPublished());
         data.put("ended",experiment.isEnded());
         data.put("name",experiment.getName());
+        data.put("isGeoLocationEnabled",experiment.isGeoLocationEnabled);
 
 
 
@@ -301,7 +305,7 @@ public class Database {
 
 
 
-    public void subscribeTo(Experiment experiment){
+    public void subscribeTo(Experiment experiment,User user){
         DocumentReference docRef = collectionReference.document(experiment.getName());
         Map<String, Object> data = new HashMap<>();
 
@@ -314,7 +318,7 @@ public class Database {
                         Log.d("My Actvitiy", "DocumentSnapshot data: " + document.getData());
                         String name = (String)document.get("name");
                         data.put("name",name);
-                        userCollectionReference.document("Subscriptions").collection("Subscriptions").add(data);
+                        userCollectionReference.document(user.username).collection("Subscriptions").document(name).set(data);
 
 
                     } else {

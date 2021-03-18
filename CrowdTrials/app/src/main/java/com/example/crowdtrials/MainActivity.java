@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
@@ -33,7 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener, MyCallback {
+public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener {
 
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
+        user = new User(username);
 
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -64,19 +66,11 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         // query database to see if username exists
         // query database with the passed in username
 
-        /*
-        Task<DocumentSnapshot> usersRef = collectionReference.document(username).get();
-        user = (User) usersRef.getResult().getData();
-        if(user!=null){
-            // get experiments
-        }
-        else{
-            new CreateUserFragment().show(getSupportFragmentManager(), "CREATE_USER");
-            // I need to finish this part
-        }
 
-         */
-        database.readUser(username,this::onCallback);
+
+
+
+        database.readUser(username,this::userCallback);
 
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -104,9 +98,19 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
             }
         });
-        database.readAllExperiments(this::onCallback);
-        database.readSubscribedExperiments(this::onCallback);
+        /*
 
+        Task<DocumentSnapshot> usersRef = database.userCollectionReference.document(username).get();
+        user = (User) usersRef.getResult().getData();
+        if(user!=null){
+            // get experiments
+
+        }
+        else{
+
+        }
+
+        */
 
         /*
         experimentDataList.add(testExperimentCreation("John","58712342123","First Experiment Added to database","Experiment 1"));
@@ -118,9 +122,21 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
         */
 
+        database.readAllExperiments(this::onCallback);
+        database.readSubscribedExperiments(this::onCallback,user);
 
+        final FloatingActionButton addCityButton = findViewById(R.id.add_experiment_button);
+        addCityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AddExperimentFragment().show(getSupportFragmentManager(), "ADD_EXPERIMENT");
+            }
+        });
 
     }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
@@ -133,9 +149,17 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
+        TextView textView = (TextView) menu.findItem(R.id.profileName).getActionView();
+        textView.setText(user.username);
 
 
         return true;
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.profileName);
+        item.setTitle(user.username);
+        return super.onPrepareOptionsMenu(menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -154,7 +178,10 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         Log.e("Called","In go to profile activity");
     }
 
+    public void userCallback(User user) {
 
+        //do something
+    }
     public void onCallback(ArrayList<Experiment> value,int whichCase) {
         Log.e("My Actvitiy", "I've been called" + whichCase);
         switch (whichCase){
@@ -167,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
                 pagerAdapter.subscriptionsFragment.getList(value);
                 break;
             default:
+
                 //do nothing
         }
 
@@ -194,10 +222,15 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     public void onOkPressed(String phoneNum,String name) {
         user = new User(username,new ContactInfo(name,phoneNum));
     }
+    @Override
+    public void onAddExperimentOkPressed(Experiment newExperiment) {
+        database.writeExperiments(newExperiment);
+    }
 
     public void subscribedButtonPressed(Experiment experiment) {
         Log.d("My Actvitiy", "get failed with " + experiment.getDescription());
-        database.subscribeTo(experiment);
+
+        database.subscribeTo(experiment,user);
 
     }
 }

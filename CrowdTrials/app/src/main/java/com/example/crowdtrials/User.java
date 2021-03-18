@@ -2,6 +2,8 @@ package com.example.crowdtrials;
 
 import android.location.Location;
 
+import com.google.firebase.firestore.CollectionReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,10 +19,16 @@ public  class User implements Serializable {
     }
 
 
+    public User(String username) {
+        this.username = username;
+        //this.contactInfo = contactInfo;
+    }
     public User(String username, ContactInfo contactInfo) {
         this.username = username;
         this.contactInfo = contactInfo;
+        //this.contactInfo = contactInfo;
     }
+
 
     public void createExperiment(String type, Location region, String description, Date date, int minTrials,String experimentName){
         if (type.equalsIgnoreCase("CountExp")){
@@ -38,5 +46,13 @@ public  class User implements Serializable {
 
         }
 
+    }
+
+    public ContactInfo getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(ContactInfo contactInfo) {
+        this.contactInfo = contactInfo;
     }
 }

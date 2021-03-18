@@ -26,6 +26,7 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         this.context = context;
     }
 
+
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 
@@ -43,6 +44,8 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         subscribedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                subscribedButton.setText("Subscribed");
+                subscribedButton.setTextColor(0xFF00BCD4);
 
 
                 MainActivity mainActivity = (MainActivity) context;
