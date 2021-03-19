@@ -1,7 +1,7 @@
 # CrowdTrials
 An application that allows a user to test 4 kinds of crowd-sourced tests: counts (how many did you see), binomial trials (pass fail), non-negative integer counts (each trial has 0 or more), measurement trials (like the temperature).
 
-Wiki can be found here.
+Wiki can be found [here.](https://github.com/CMPUT301-T13/CrowdTrials/wiki)
 
 Access to JavaDocs can be done via the wiki. The files are located in CrowdTrials/Javadocs/
 
