@@ -68,7 +68,7 @@ public class CreateUserFragment extends DialogFragment {
                         String n=name.getText().toString();
                         String num = phoneNum.getText().toString();
 
-                        listener.onOkPressed(n,num);
+                        listener.onOkPressed(num,n);
                     }}).create();
     }
 

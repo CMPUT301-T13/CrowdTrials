@@ -178,8 +178,15 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         startActivityForResult(intent,1);
     }
 
-    public void userCallback(User user) {
+    public void userCallback(User userFromDatabase) {
 
+        if (userFromDatabase.contactInfo != null){
+            Log.e("Called","In usercallback" + userFromDatabase.contactInfo.getName());
+            this.user.setContactInfo(userFromDatabase.contactInfo);
+        }else{
+            Log.e("Called","In usercallback" + "error");
+            this.user.username = userFromDatabase.username;
+        }
         //do something
     }
     public void onCallback(ArrayList<Experiment> value,int whichCase) {

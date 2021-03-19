@@ -19,6 +19,7 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
     TextView realname;
     TextView phoneNum;
     User user;
+    Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,7 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
         user=(User) getIntent().getSerializableExtra("user");
         title.setText(user.username);
         pt_contact.setText("Contact information");
+
         if(user.contactInfo==null){
             user.contactInfo=new ContactInfo("","");
         }
@@ -39,6 +41,7 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
         if(user.contactInfo!=null && user.contactInfo.phoneNumber!=null){
             phoneNum.setText(user.contactInfo.getPhoneNumber());
         }
+
         back=findViewById(R.id.back_disp);
         edit=findViewById(R.id.edituser);
 
@@ -72,10 +75,13 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
 
 }
     @Override
-    public void onOkPressed(String phone, String name) {
-        user.contactInfo.setName(name);
-        user.contactInfo.setPhoneNumber(phone);
+
+    public void onOkPressed(String phoneNum, String name) {
+        ContactInfo contactInfo = new ContactInfo(name,phoneNum);
+        user.setContactInfo(contactInfo);
+        database = Database.getSingleDatabaseInstance();
+        database.updateUser(user);
         realname.setText(user.contactInfo.getName());
-        phoneNum.setText(user.contactInfo.getPhoneNumber());
+        this.phoneNum.setText(user.contactInfo.getPhoneNumber());
     }
 }

@@ -169,7 +169,7 @@ public class Database {
         User owner;
 
         switch (document.getString("Experiment Type")) {
-            case "Binomial Exp":
+            case "Binomial Experiment":
                 experiment = new BinomialExp();
                 contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
                 owner = new User((String) document.get("userName"), contactInfo);
@@ -187,7 +187,7 @@ public class Database {
 
                 break;
 
-            case "MeasurementExp":
+            case "Measurement Experiment":
                 experiment = new MeasurementExp();
                 contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
                 owner = new User((String) document.get("userName"), contactInfo);
@@ -203,7 +203,7 @@ public class Database {
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 
                 break;
-            case "NonNegativeCountExp":
+            case "NonNegative Count Experiment":
                 experiment = new NonNegativeCountExp();
                 contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
                 owner = new User((String) document.get("userName"), contactInfo);
@@ -218,7 +218,7 @@ public class Database {
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 
                 break;
-            case "CountType":
+            case "Count Experiment":
                 experiment = new CountExp();
                 contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
                 owner = new User((String) document.get("userName"), contactInfo);
@@ -228,7 +228,7 @@ public class Database {
                 experiment.setDescription((String) document.get("description"));
                 experiment.published = document.getBoolean("published");
                 experiment.ended = document.getBoolean("ended");
-                experiment.setName((String) document.get("name"));
+                experiment.setName((String) document.get("experimentName"));
                 value.add(experiment);
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 
@@ -330,13 +330,27 @@ public class Database {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    User user = new User(username);
+                    ContactInfo contactInfo;
                     if (document.exists()) {
                         Log.d("My Actvitiy", "DocumentSnapshot data: " + document.getData());
+
+                        if(document.contains("Name") && document.contains("Phonenum")){
+                            contactInfo = new ContactInfo((String) document.get("Name"),(String)document.get("Phonenum"));
+                            user.setContactInfo(contactInfo);
+                            myUserCallback.userCallback(user);
+
+                        }else{
+                            myUserCallback.userCallback(user);
+                        }
                     } else {
                         Log.d("My Actvitiy", "No such document");
 
                         userCollectionReference.document(username).set(data);
-                        myUserCallback.userCallback(new User(username));
+                        myUserCallback.userCallback(user);
+
+
+
 
                     }
                 } else {
@@ -429,6 +443,16 @@ public class Database {
         });
 
 
+
+    }
+
+    public void  updateUser(User user){
+        Map<String, Object> data = new HashMap<>();
+        //TODO: Check for when theres no contactinfo object
+        data.put("Name",user.contactInfo.getName());
+        data.put("Phonenum",user.contactInfo.getPhoneNumber());
+        DocumentReference docRef = userCollectionReference.document(user.username);
+        docRef.set(data);
 
     }
 }

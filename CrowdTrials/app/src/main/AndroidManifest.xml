@@ -44,6 +44,10 @@
         <meta-data android:name="android.app.default_searchable"
             android:value=".SearchableActivity" />
         </activity>
+        <activity
+            android:name=".DisplayProfileActivity"
+             />
+
     </application>
 
 </manifest>
