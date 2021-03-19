@@ -200,14 +200,14 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         database.readUser(username,this::userCallback);
     }
     public void onCallback(ArrayList<Experiment> value,int whichCase) {
-        Log.e("My Actvitiy", "I've been called" + whichCase);
+        Log.e("My Activity", "I've been called" + whichCase);
         switch (whichCase){
             case 0:
-                Log.d("My Actvitiy", "get failed with 0" + value);
+                Log.d("My Activity", "get failed with 0" + value);
                 pagerAdapter.homeFragment.getList(value);
                 break;
             case 1:
-                Log.d("My Actvitiy", "get failed with 1" + value);
+                Log.d("My Activity", "get failed with 1" + value);
                 pagerAdapter.subscriptionsFragment.getList(value);
                 break;
             default:
@@ -245,13 +245,14 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
 
     public void subscribedButtonPressed(Experiment experiment) {
-        Log.d("My Actvitiy", "get failed with " + experiment.getDescription());
+        Log.d("My Activity", "get failed with " + experiment.getDescription());
 
         database.subscribeTo(experiment,user);
 
     }
+
     public void addResultPressed(Experiment experiment,int pos){
-        Log.d("My Actvitiy", "get failed with " + experiment.getDescription());
+        Log.d("My Activity", "get failed with " + experiment.getDescription());
         if(experiment instanceof BinomialExp) {
             Intent intent = new Intent(this, BinomialActivity.class);
             intent.putExtra("exp", experiment);

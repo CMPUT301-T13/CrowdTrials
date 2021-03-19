@@ -138,7 +138,7 @@ public class Database {
                          Log.d("this was called", document.getId() + " => " + document.getData());
 
 
-                        Log.d("My Actvitiy", document.getId() + " => " + document.getData());
+                        Log.d("My Activity", document.getId() + " => " + document.getData());
 
 
                     }
@@ -147,7 +147,7 @@ public class Database {
 
 
                 } else {
-                    Log.w("My Actvitiy", "Error getting documents.", task.getException());
+                    Log.w("My Activity", "Error getting documents.", task.getException());
                 }
             }
 
@@ -299,7 +299,7 @@ public class Database {
                                 Log.d("My Activity", document.getId() + " => " + document.getData());
 
 
-                                Log.d("My Actvitiy", document.getId() + " => " + document.getData());
+                                Log.d("My Activity", document.getId() + " => " + document.getData());
                                 parseDocument(document,ListFromDataBase);
 
 
@@ -333,7 +333,7 @@ public class Database {
                     User user = new User(username);
                     ContactInfo contactInfo;
                     if (document.exists()) {
-                        Log.d("My Actvitiy", "DocumentSnapshot data: " + document.getData());
+                        Log.d("My Activity", "DocumentSnapshot data: " + document.getData());
 
                         if(document.contains("Name") && document.contains("Phonenum")){
                             contactInfo = new ContactInfo((String) document.get("Name"),(String)document.get("Phonenum"));
@@ -344,7 +344,7 @@ public class Database {
                             myUserCallback.userCallback(user);
                         }
                     } else {
-                        Log.d("My Actvitiy", "No such document");
+                        Log.d("My Activity", "No such document");
 
                         userCollectionReference.document(username).set(data);
                         myUserCallback.userCallback(user);
@@ -354,7 +354,7 @@ public class Database {
 
                     }
                 } else {
-                    Log.d("My Actvitiy", "get failed with ", task.getException());
+                    Log.d("My Activity", "get failed with ", task.getException());
 
                 }
             }
@@ -426,17 +426,17 @@ public class Database {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d("My Actvitiy", "DocumentSnapshot data: " + document.getData());
+                        Log.d("My Activity", "DocumentSnapshot data: " + document.getData());
                         String name = (String)document.get("name");
                         data.put("name",name);
                         userCollectionReference.document(user.username).collection("Subscriptions").document(name).set(data);
 
 
                     } else {
-                        Log.d("My Actvitiy", "No such document");
+                        Log.d("My Activity", "No such document");
                     }
                 } else {
-                    Log.d("My Actvitiy", "get failed with ", task.getException());
+                    Log.d("My Activity", "get failed with ", task.getException());
 
                 }
             }

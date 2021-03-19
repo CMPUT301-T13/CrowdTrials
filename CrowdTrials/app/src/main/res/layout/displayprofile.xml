@@ -21,6 +21,8 @@
         android:id="@+id/contactInfo_pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="55dp"
@@ -28,10 +30,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back_disp" />
 
+
     <TextView
         android:id="@+id/realname_disp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
@@ -39,16 +43,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contactInfo_pt" />
 
+
     <TextView
         android:id="@+id/phone_disp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
         android:text="Phone Number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/realname_disp" />
+
 
     <Button
         android:id="@+id/back_disp"
