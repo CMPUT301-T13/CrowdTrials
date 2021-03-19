@@ -126,7 +126,7 @@ public class Database {
         User owner;
 
         switch (document.getString("Experiment Type")) {
-            case "Binomial Exp":
+            case "Binomial Experiment":
                 experiment = new BinomialExp();
                 contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
                 owner = new User((String) document.get("userName"), contactInfo);
@@ -144,7 +144,7 @@ public class Database {
 
                 break;
 
-            case "MeasurementExp":
+            case "Measurement Experiment":
                 experiment = new MeasurementExp();
                 contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
                 owner = new User((String) document.get("userName"), contactInfo);
@@ -160,7 +160,7 @@ public class Database {
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 
                 break;
-            case "NonNegativeCountExp":
+            case "NonNegative Count Experiment":
                 experiment = new NonNegativeCountExp();
                 contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
                 owner = new User((String) document.get("userName"), contactInfo);
@@ -175,7 +175,7 @@ public class Database {
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 
                 break;
-            case "CountType":
+            case "Count Experiment":
                 experiment = new CountExp();
                 contactInfo = new ContactInfo((String) document.get("Owner Name"), (String) document.get("contactInfo"));
                 owner = new User((String) document.get("userName"), contactInfo);
@@ -185,7 +185,7 @@ public class Database {
                 experiment.setDescription((String) document.get("description"));
                 experiment.published = document.getBoolean("published");
                 experiment.ended = document.getBoolean("ended");
-                experiment.setName((String) document.get("name"));
+                experiment.setName((String) document.get("experimentName"));
                 value.add(experiment);
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 

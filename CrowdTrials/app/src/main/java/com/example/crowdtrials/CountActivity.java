@@ -2,6 +2,7 @@ package com.example.crowdtrials;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CountActivity extends AppCompatActivity {
     // this will be the page that displays when adding results to an experiment/creating results
-    MeasurementExp exp;
+    CountExp exp;
     User user;
     Button back;
     Button viewDetails;
@@ -25,9 +26,9 @@ public class CountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.nonnegativeactivity);
         user=(User) getIntent().getSerializableExtra("user");
-        exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
+        exp = (CountExp) getIntent().getSerializableExtra("exp");
         pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_non);
         viewDetails=findViewById(R.id.detail_non_button);
@@ -35,13 +36,13 @@ public class CountActivity extends AppCompatActivity {
         title=findViewById(R.id.title_non);
         lastRes=findViewById(R.id.lastresultnon);
         count_result=findViewById(R.id.editText_result_non);
-
+        Log.e("Count Activity", "Experiment: " + exp.name);
         title.setText(exp.name);
         plaintextLastRes.setText("Last result");
         lastRes.setText("");
         result=new IntResult(user);
 
-        final Button confirmButton = findViewById(R.id.button_confirm);
+        final Button confirmButton = findViewById(R.id.button_confirm_non);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Integer res = Integer.parseInt(count_result.getText().toString());
