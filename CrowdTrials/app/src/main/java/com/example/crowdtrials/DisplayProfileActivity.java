@@ -19,6 +19,7 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
     TextView realname;
     TextView phoneNum;
     User user;
+    Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +74,8 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
     public void onOkPressed(String phoneNum, String name) {
         ContactInfo contactInfo = new ContactInfo(name,phoneNum);
         user.setContactInfo(contactInfo);
+        database = Database.getSingleDatabaseInstance();
+        database.updateUser(user);
         realname.setText(user.contactInfo.getName());
         this.phoneNum.setText(user.contactInfo.getPhoneNumber());
 

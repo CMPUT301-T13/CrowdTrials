@@ -330,13 +330,27 @@ public class Database {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    User user = new User(username);
+                    ContactInfo contactInfo;
                     if (document.exists()) {
                         Log.d("My Actvitiy", "DocumentSnapshot data: " + document.getData());
+
+                        if(document.contains("Name") && document.contains("Phonenum")){
+                            contactInfo = new ContactInfo((String) document.get("Name"),(String)document.get("Phonenum"));
+                            user.setContactInfo(contactInfo);
+                            myUserCallback.userCallback(user);
+
+                        }else{
+                            myUserCallback.userCallback(user);
+                        }
                     } else {
                         Log.d("My Actvitiy", "No such document");
 
                         userCollectionReference.document(username).set(data);
-                        myUserCallback.userCallback(new User(username));
+                        myUserCallback.userCallback(user);
+
+
+
 
                     }
                 } else {
@@ -429,6 +443,16 @@ public class Database {
         });
 
 
+
+    }
+
+    public void  updateUser(User user){
+        Map<String, Object> data = new HashMap<>();
+        //TODO: Check for when theres no contactinfo object
+        data.put("Name",user.contactInfo.getName());
+        data.put("Phonenum",user.contactInfo.getPhoneNumber());
+        DocumentReference docRef = userCollectionReference.document(user.username);
+        docRef.set(data);
 
     }
 }
