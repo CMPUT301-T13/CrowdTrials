@@ -228,14 +228,14 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
 
     public void subscribedButtonPressed(Experiment experiment) {
-        Log.d("My My Activity", "get failed with " + experiment.getDescription());
+        Log.d("My Activity", "get failed with " + experiment.getDescription());
 
         database.subscribeTo(experiment,user);
 
     }
 
     public void addResultPressed(Experiment experiment,int pos){
-        Log.d("My My Activity", "get failed with " + experiment.getDescription());
+        Log.d("My Activity", "get failed with " + experiment.getDescription());
         if(experiment instanceof BinomialExp) {
             Intent intent = new Intent(this, BinomialActivity.class);
             intent.putExtra("exp", experiment);
