@@ -21,10 +21,10 @@
         android:id="@+id/contactInfo_pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="304dp"
-        android:layout_marginRight="304dp"
+        android:layout_marginEnd="204dp"
+        android:layout_marginRight="204dp"
         android:layout_marginBottom="16dp"
-        android:text="TextView"
+        android:text="ContactInfo"
         app:layout_constraintBottom_toTopOf="@+id/realname_disp"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -32,10 +32,10 @@
         android:id="@+id/realname_disp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="536dp"
-        android:layout_marginEnd="300dp"
-        android:layout_marginRight="300dp"
-        android:text="TextView"
+        android:layout_marginTop="532dp"
+        android:layout_marginEnd="216dp"
+        android:layout_marginRight="216dp"
+        android:text="nameless"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,13 +43,13 @@
         android:id="@+id/phone_disp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="numberless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.152"
+        app:layout_constraintHorizontal_bias="0.436"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/realname_disp"
-        app:layout_constraintVertical_bias="0.133" />
+        app:layout_constraintVertical_bias="0.149" />
 
     <Button
         android:id="@+id/back_disp"

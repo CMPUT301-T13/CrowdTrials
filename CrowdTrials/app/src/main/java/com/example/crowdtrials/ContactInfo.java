@@ -6,8 +6,8 @@ import java.io.Serializable;
  * This class holds the contact info of an user
  */
 public class ContactInfo implements Serializable {
-    private String name;
-    private String phoneNumber;
+    String name="";
+    String phoneNumber="";
 
     /**
      * This updates contact info of the user and sets the name attribute to the name entered by the user

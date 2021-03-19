@@ -30,8 +30,15 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
         user=(User) getIntent().getSerializableExtra("user");
         title.setText(user.username);
         pt_contact.setText("Contact information");
-        realname.setText(user.contactInfo.getName());
-        phoneNum.setText(user.contactInfo.getPhoneNumber());
+        if(user.contactInfo==null){
+            user.contactInfo=new ContactInfo("","");
+        }
+        if(user.contactInfo!=null && user.contactInfo.name!=null){
+            realname.setText(user.contactInfo.getName());
+        }
+        if(user.contactInfo!=null && user.contactInfo.phoneNumber!=null){
+            phoneNum.setText(user.contactInfo.getPhoneNumber());
+        }
         back=findViewById(R.id.back_disp);
         edit=findViewById(R.id.edituser);
 
@@ -65,8 +72,10 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
 
 }
     @Override
-    public void onOkPressed(String phoneNum, String name) {
+    public void onOkPressed(String phone, String name) {
         user.contactInfo.setName(name);
-        user.contactInfo.setPhoneNumber(phoneNum);
+        user.contactInfo.setPhoneNumber(phone);
+        realname.setText(user.contactInfo.getName());
+        phoneNum.setText(user.contactInfo.getPhoneNumber());
     }
 }
