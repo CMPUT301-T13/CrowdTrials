@@ -36,3 +36,7 @@ Access to JavaDocs can be done via the wiki. The files are located in CrowdTrial
     d. Region in which experiment is to take place.
     e. Enable whether or not they want the geo location for the experiment
  3. Click OK to add experiment
+ ### - Update Contact Information
+  1. Tap on user's name on top right corner 
+  2. Enter user's name and phone number.
+  3. Click OK 
