@@ -1,95 +1,80 @@
 package com.example.crowdtrials;
 
-import androidx.annotation.WorkerThread;
-
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BinomialExpTest {
-
-    private BinomialExp mockBinomialExp = new BinomialExp();
+public class MeasurementExpTest {
+    private MeasurementExp mockMeasurementExp = new MeasurementExp();
     private ContactInfo mockContact() {
         return new ContactInfo("James", "5871234567");
     }
     private User mockUser = new User("James99", mockContact());
 
-
-    @Test
-    void testGenResult() {
-        if (Math.random() > (1 - mockBinomialExp.probability)) {
-            assertEquals(true, mockBinomialExp.genResult());
-        } else {
-            assertEquals(false, mockBinomialExp.genResult());
-        }
-    }
-
     @Test
     void testGetRegion() {
         Location mockRegion = new Location("Antarctica");
-        mockBinomialExp.setRegion(mockRegion);
-        assertEquals(mockRegion, mockBinomialExp.getRegion());
+        mockMeasurementExp.setRegion(mockRegion);
+        assertEquals(mockRegion, mockMeasurementExp.getRegion());
     }
 
     @Test
     void testSetRegion() {
         Location mockRegion = new Location("Antarctica");
-        mockBinomialExp.setRegion(mockRegion);
-        assertEquals(mockRegion, mockBinomialExp.region);
+        mockMeasurementExp.setRegion(mockRegion);
+        assertEquals(mockRegion, mockMeasurementExp.region);
     }
 
     @Test
     void testGetDescription() {
         String mockDescription = "This is a mock experiment description";
-        mockBinomialExp.setDescription(mockDescription);
-        assertEquals(mockDescription, mockBinomialExp.getDescription());
+        mockMeasurementExp.setDescription(mockDescription);
+        assertEquals(mockDescription, mockMeasurementExp.getDescription());
     }
 
     @Test
     void testSetDescription() {
         String mockDescription = "This is a mock experiment description";
-        mockBinomialExp.setDescription(mockDescription);
-        assertEquals(mockDescription, mockBinomialExp.description);
+        mockMeasurementExp.setDescription(mockDescription);
+        assertEquals(mockDescription, mockMeasurementExp.description);
     }
 
     @Test
     void testGetDate() {
         Date mockDate = new Date();
-        mockBinomialExp.setDate(mockDate);
-        assertEquals(mockDate, mockBinomialExp.getDate());
+        mockMeasurementExp.setDate(mockDate);
+        assertEquals(mockDate, mockMeasurementExp.getDate());
     }
 
     @Test
     void testSetDate() {
         Date mockDate = new Date();
-        mockBinomialExp.setDate(mockDate);
-        assertEquals(mockDate, mockBinomialExp.date);
+        mockMeasurementExp.setDate(mockDate);
+        assertEquals(mockDate, mockMeasurementExp.date);
     }
 
     @Test
     void testGetOwner() {
-        mockBinomialExp.setOwner(mockUser);
-        assertEquals(mockUser, mockBinomialExp.getOwner());
+        mockMeasurementExp.setOwner(mockUser);
+        assertEquals(mockUser, mockMeasurementExp.getOwner());
     }
 
     @Test
     void testSetOwner() {
-        mockBinomialExp.setOwner(mockUser);
-        assertEquals(mockUser, mockBinomialExp.owner);
+        mockMeasurementExp.setOwner(mockUser);
+        assertEquals(mockUser, mockMeasurementExp.owner);
     }
 
     // ResultsArr is not yet complete
     //@Test
     //void testGetResults() {
+
     //}
 
     //@Test
     //void testAddResult() {
-
     //}
 
     //@Test
@@ -110,7 +95,7 @@ public class BinomialExpTest {
 
     //@Test
     //void testIgnoreResultsFrom() {
-   // }
+    // }
 
     //@Test
     //void testPublishExperiment() {
@@ -124,19 +109,18 @@ public class BinomialExpTest {
     //void testEndExperiment() {
     //}
 
-
     @Test
     void testGetName() {
         String mockExperimentName = "Test Experiment";
-        mockBinomialExp.setName(mockExperimentName);
-        assertEquals(mockExperimentName, mockBinomialExp.name);
+        mockMeasurementExp.setName(mockExperimentName);
+        assertEquals(mockExperimentName, mockMeasurementExp.name);
     }
 
     @Test
     void testSetName() {
         String mockExperimentName = "Test Experiment";
-        mockBinomialExp.setName(mockExperimentName);
-        assertEquals(mockExperimentName, mockBinomialExp.getName());
+        mockMeasurementExp.setName(mockExperimentName);
+        assertEquals(mockExperimentName, mockMeasurementExp.getName());
     }
 
 }
