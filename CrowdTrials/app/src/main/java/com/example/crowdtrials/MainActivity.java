@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         }
         if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
-                //Experiment e = (Experiment) data.getSerializableExtra("exp");
+                Experiment e = (Experiment) data.getSerializableExtra("exp");
                 //int ind = (Integer) data.getSerializableExtra("pos");
                 //experimentDataList.set(ind,e);
                 //database.updateWithResults(e.results.get(e.results.size()-1),e.name);
@@ -305,22 +305,22 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         if (requestCode == 3) {
             if (resultCode == RESULT_OK) {
                 Experiment e = (Experiment) data.getSerializableExtra("exp");
-                int ind = (Integer) data.getSerializableExtra("pos");
-                experimentDataList.set(ind,e);
+                //int ind = (Integer) data.getSerializableExtra("pos");
+                //experimentDataList.set(ind,e);
             }
         }
         if (requestCode == 4) {
             if (resultCode == RESULT_OK) {
                 Experiment e = (Experiment) data.getSerializableExtra("exp");
-                int ind = (Integer) data.getSerializableExtra("pos");
-                experimentDataList.set(ind,e);
+                //int ind = (Integer) data.getSerializableExtra("pos");
+                //experimentDataList.set(ind,e);
             }
         }
         if (requestCode == 5) {
             if (resultCode == RESULT_OK) {
                 Experiment e = (Experiment) data.getSerializableExtra("exp");
-                int ind = (Integer) data.getSerializableExtra("pos");
-                experimentDataList.set(ind,e);
+                //int ind = (Integer) data.getSerializableExtra("pos");
+                //experimentDataList.set(ind,e);
             }
         }
     }

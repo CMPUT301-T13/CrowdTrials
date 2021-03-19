@@ -9,7 +9,7 @@ import java.util.Date;
  * This class holds a Binomial Experiment.
  */
 public class BinomialExp extends Experiment implements Serializable {
-    float probability;
+    double probability;
     //String type = "Binomial Exp";
 
     /**

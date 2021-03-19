@@ -34,6 +34,7 @@ public class BinomialActivity extends AppCompatActivity {
         setContentView(R.layout.binactivity);
         user=(User) getIntent().getSerializableExtra("user");
         exp = (BinomialExp) getIntent().getSerializableExtra("exp");
+        exp.probability=0.5;
         pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_bin);
         viewDetails=findViewById(R.id.detail_bin_button);
@@ -45,12 +46,12 @@ public class BinomialActivity extends AppCompatActivity {
         lastRes=findViewById(R.id.lastresultbin);
 
         title.setText(exp.name);
-        prob.setText(Float.toString(exp.probability));
+        prob.setText(Double.toString(exp.probability));
         plaintextProb.setText("Probability");
         plaintextLastRes.setText("Last result");
         lastRes.setText("");
         result=new BoolResult(user);
-
+       // exp.probability=0.5;
         genResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
