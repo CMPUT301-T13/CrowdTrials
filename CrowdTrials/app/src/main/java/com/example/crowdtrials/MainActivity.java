@@ -164,30 +164,40 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         switch (item.getItemId()) {
             case R.id.profileName:
 
-            goToProfileActivity();
+            goToProfileActivity(true,this.user);
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void goToProfileActivity() {
+    public void goToProfileActivity(boolean isMyUsername,User user) {
         //This is where you start the Profile activity
         Log.e("Called","In go to profile activity");
         Intent intent = new Intent(this,DisplayProfileActivity.class);
         intent.putExtra("user",user);
+        intent.putExtra("isMyUsername",isMyUsername);
         startActivityForResult(intent,1);
     }
 
     public void userCallback(User userFromDatabase) {
+        if(userFromDatabase.username == this.user.username) {
 
-        if (userFromDatabase.contactInfo != null){
-            Log.e("Called","In usercallback" + userFromDatabase.contactInfo.getName());
-            this.user.setContactInfo(userFromDatabase.contactInfo);
+            if (userFromDatabase.contactInfo != null) {
+                Log.e("Called", "In usercallback" + userFromDatabase.contactInfo.getName());
+                this.user.setContactInfo(userFromDatabase.contactInfo);
+            } else {
+                Log.e("Called", "In usercallback" + "error");
+                this.user.username = userFromDatabase.username;
+            }
+            //do something
         }else{
-            Log.e("Called","In usercallback" + "error");
-            this.user.username = userFromDatabase.username;
+            goToProfileActivity(false,userFromDatabase);
         }
-        //do something
+    }
+
+    public void userNameWasPressed(String username){
+
+        database.readUser(username,this::userCallback);
     }
     public void onCallback(ArrayList<Experiment> value,int whichCase) {
         Log.e("My Actvitiy", "I've been called" + whichCase);

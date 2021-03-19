@@ -76,6 +76,17 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         });
 
 
+        userNameTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MainActivity mainActivity = (MainActivity) context;
+                mainActivity.userNameWasPressed(experiments.get(position).owner.username);
+
+            }
+        });
+
+
 
         // Add Descriptions here for the properties to display in the view rather than hardcoding it into
         // the strings

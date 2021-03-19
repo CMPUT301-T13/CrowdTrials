@@ -38,8 +38,14 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
         }
 
 
+
+
         back=findViewById(R.id.back_disp);
         edit=findViewById(R.id.edituser);
+
+        if(!getIntent().getBooleanExtra("isMyUsername", true)){
+            edit.setVisibility(View.GONE);
+        }
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
