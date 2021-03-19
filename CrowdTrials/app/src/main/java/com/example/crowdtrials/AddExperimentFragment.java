@@ -43,7 +43,7 @@ public class AddExperimentFragment extends DialogFragment {
     private EditText experimentName;
     private EditText experimentDescription;
     private EditText experimentMinTrials;
-    private String[] options  = {"Binomial Experiment", "Measurment Experiment", "NonNegative Count Experiment","Count Experiment"};
+    private String[] options  = {"Binomial Experiment", "Measurement Experiment", "NonNegative Count Experiment","Count Experiment"};
     private Spinner optionsSpinner;
     private EditText regionEditText;
     private CheckBox geolocationCheckBox;
