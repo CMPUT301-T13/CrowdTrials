@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "764520671741",
+    "project_id": "cmputlab5",
+    "storage_bucket": "cmputlab5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764520671741:android:414ac77bd2bf2b437e5194",
+        "android_client_info": {
+          "package_name": "com.example.simpleparadox.listycity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764520671741-eogrldgatrbl6ieedjbmppc3bt35kfam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm8dKCZ_us6UOXUHYHIMnYVxtV3_iSa34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764520671741-eogrldgatrbl6ieedjbmppc3bt35kfam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

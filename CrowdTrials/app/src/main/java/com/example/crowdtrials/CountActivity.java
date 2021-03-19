@@ -35,13 +35,13 @@ public class CountActivity extends AppCompatActivity {
         pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_non);
         viewDetails=findViewById(R.id.detail_non_button);
-        plaintextLastRes=findViewById(R.id.plaintext_lastres_non);
+        //plaintextLastRes=findViewById(R.id.plaintext_lastres_non);
         title=findViewById(R.id.title_non);
         lastRes=findViewById(R.id.lastresultnon);
         count_result=findViewById(R.id.editText_result_non);
         Log.e("Count Activity", "Experiment: " + exp.name);
         title.setText(exp.name);
-        plaintextLastRes.setText("Last result");
+//        plaintextLastRes.setText("Last result");
         lastRes.setText("");
         result=new IntResult(user);
 
