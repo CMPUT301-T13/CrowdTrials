@@ -1,7 +1,9 @@
 package com.example.crowdtrials;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,13 +24,25 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     User user;
     FirebaseFirestore db;
     CollectionReference collectionReference;
+    SharedPreferences  sharedPreferences;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        sharedPreferences = this.getPreferences(MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        String attemptToFindUser=sharedPreferences.getString("user",null);
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         collectionReference= db.collection("Users");
         Button login = findViewById(R.id.loginbutton);
+
+        if (attemptToFindUser!=null && attemptToFindUser.length()!=0){
+            Intent intent = new Intent(this,MainActivity.class);
+            intent.putExtra("user",attemptToFindUser);
+            startActivityForResult(intent,1);
+        }
+        Log.d("Found User",attemptToFindUser);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,8 +59,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     public void onOkPressed(String username) {
         Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("user",username);
-
-
+        editor.putString("user",username);
+        editor.commit();
         startActivityForResult(intent,1);
 
     }
