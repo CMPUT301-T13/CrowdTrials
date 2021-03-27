@@ -42,6 +42,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             intent.putExtra("user",attemptToFindUser);
             startActivityForResult(intent,1);
         }
+        else{
+            Intent intent = new Intent(this,MainActivity.class);
+            intent.putExtra("user","USER_DOES_NOT_HAVE_ACCOUNT");
+            startActivityForResult(intent,1);
+        }
         Log.d("Found User",attemptToFindUser);
         login.setOnClickListener(new View.OnClickListener() {
             @Override

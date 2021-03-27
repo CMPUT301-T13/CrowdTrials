@@ -81,8 +81,9 @@ public class DisplayProfileActivity extends AppCompatActivity implements CreateU
 }
     @Override
 
-    public void onOkPressed(String phoneNum, String name) {
+    public void onOkPressed(String phoneNum, String name,String newuser) {
         ContactInfo contactInfo = new ContactInfo(name,phoneNum);
+        user.username=newuser;
         user.setContactInfo(contactInfo);
         database = Database.getSingleDatabaseInstance();
         database.updateUser(user);
