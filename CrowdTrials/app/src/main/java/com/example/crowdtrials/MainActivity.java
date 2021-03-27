@@ -34,6 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * This class represents the main activity of the application.
@@ -62,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
+        if(username.equals("USER_DOES_NOT_HAVE_ACCOUNT")){
+            Random random = new Random();
+            int num = random.nextInt(4000000 - 1) + 1;
+            username="nameless"+Integer.toString(num);
+        }
         user = new User(username);
 
         toolbar = findViewById(R.id.toolbar);
@@ -236,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
 
     @Override
-    public void onOkPressed(String phoneNum,String name) {
+    public void onOkPressed(String phoneNum,String name,String desuser) {
         user = new User(username,new ContactInfo(name,phoneNum));
     }
     @Override
