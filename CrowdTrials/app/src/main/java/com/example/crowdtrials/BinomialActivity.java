@@ -1,12 +1,17 @@
 package com.example.crowdtrials;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Date;
 
 /**
  * This class represents the activity for a Binomial Experiment.
@@ -24,9 +29,11 @@ public class BinomialActivity extends AppCompatActivity {
     TextView plaintextProb;
     TextView prob;
     TextView title;
+    ProgressBar pb;
     BoolResult result;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
+    boolean res;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,10 @@ public class BinomialActivity extends AppCompatActivity {
         title=findViewById(R.id.title_bin);
         prob=findViewById(R.id.probabilityViewer);
         lastRes=findViewById(R.id.lastresultbin);
+        pb=(ProgressBar)findViewById(R.id.progressBar1);
+        pb.setVisibility(View.GONE);
+       // pb = new ProgressBar(this);
+
 
         title.setText(exp.name);
         prob.setText(Double.toString(exp.probability));
@@ -55,12 +66,32 @@ public class BinomialActivity extends AppCompatActivity {
         genResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // click this button update sucrate and number of failures
-                boolean res = exp.genResult();
-                lastRes.setText(Boolean.toString(res));
-                result.outcomes.add(res);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                // do onPreExecute stuff
+                                pb.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        // do your stuff
+                        boolean res = exp.genResult();
+                        long startTime = System.currentTimeMillis();
+                        while(System.currentTimeMillis()-startTime<2500){
+                        }
+                        result.outcomes.add(res);
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                // do onPostExecute stuff
+                                pb.setVisibility(View.INVISIBLE);
+                                lastRes.setText(Boolean.toString(res));
 
 
+                            }
+                        });
+                    }
+                }).start();
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -96,4 +127,6 @@ public class BinomialActivity extends AppCompatActivity {
 
             }
         });
-}}
+}
+
+}
