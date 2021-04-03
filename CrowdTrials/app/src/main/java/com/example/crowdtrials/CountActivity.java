@@ -78,8 +78,8 @@ public class CountActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(CountActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
-                intent.putExtra("user",user);
-                setResult(RESULT_OK,intent);
+                intent.putExtra("type","count");
+                startActivity(intent);
                 finish();
 
 
