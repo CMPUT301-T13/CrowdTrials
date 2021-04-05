@@ -81,6 +81,8 @@ public class BinomialActivity extends AppCompatActivity {
                         while(System.currentTimeMillis()-startTime<2500){
                         }
                         result.outcomes.add(res);
+
+                        database.updateWithResults(result,exp.name);
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 // do onPostExecute stuff
@@ -120,10 +122,8 @@ public class BinomialActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(BinomialActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
-                intent.putExtra("user",user);
-                setResult(RESULT_OK,intent);
-                finish();
-
+                intent.putExtra("type","bin");
+                startActivity(intent);
 
             }
         });

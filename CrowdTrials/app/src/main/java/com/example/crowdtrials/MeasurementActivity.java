@@ -77,9 +77,8 @@ public class MeasurementActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(MeasurementActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
-                intent.putExtra("user",user);
-                setResult(RESULT_OK,intent);
-                finish();
+                intent.putExtra("type","meas");
+                startActivity(intent);
 
 
             }

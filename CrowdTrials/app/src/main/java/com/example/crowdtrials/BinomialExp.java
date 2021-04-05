@@ -3,6 +3,7 @@ package com.example.crowdtrials;
 //import android.location.Location;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -10,6 +11,7 @@ import java.util.Date;
  */
 public class BinomialExp extends Experiment implements Serializable {
     double probability;
+    //ArrayList<BoolResult> results = new ArrayList<>();
     //String type = "Binomial Exp";
 
     /**
