@@ -5,6 +5,7 @@ package com.example.crowdtrials;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -22,7 +23,8 @@ public abstract class Experiment implements Serializable {
     boolean published=false;
     boolean ended=false;
     HashSet<User> subscribers = new HashSet<>();
-    QnA questionsAnswers;
+    //QnA questionsAnswers;
+    HashMap<String, String> QnA = new HashMap<>();
     String type;
     boolean isGeoLocationEnabled;
 
@@ -197,8 +199,8 @@ public abstract class Experiment implements Serializable {
      * @return
      * The object representing questions and answers of the current experiment.
      */
-    public QnA getQuestionsAnswers() {
-        return questionsAnswers;
+    public HashMap<String,String> getQuestionsAnswers() {
+        return QnA;
     }
 
     /**
