@@ -81,6 +81,8 @@ public class BinomialActivity extends AppCompatActivity {
                         while(System.currentTimeMillis()-startTime<2500){
                         }
                         result.outcomes.add(res);
+
+                        database.updateWithResults(result,exp.name);
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 // do onPostExecute stuff
