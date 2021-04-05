@@ -24,7 +24,7 @@ public abstract class Experiment implements Serializable {
     boolean ended=false;
     HashSet<User> subscribers = new HashSet<>();
     //QnA questionsAnswers;
-    HashMap<String, String> QnA = new HashMap<>();
+    ArrayList<QnA> qnalist = new ArrayList<>();
     String type;
     boolean isGeoLocationEnabled;
 
@@ -199,8 +199,8 @@ public abstract class Experiment implements Serializable {
      * @return
      * The object representing questions and answers of the current experiment.
      */
-    public HashMap<String,String> getQuestionsAnswers() {
-        return QnA;
+    public ArrayList<QnA> getQuestionsAnswers() {
+        return qnalist;
     }
 
     /**
