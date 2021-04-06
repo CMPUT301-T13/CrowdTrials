@@ -17,7 +17,9 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listviewdetact);
         Experiment exp;
-
+        //db.getSingleExperiment();
+        Log.e("working","not working.");
+        reslist=findViewById(R.id.res_list);
         String type=(String) getIntent().getSerializableExtra("type");
         if(type.equals("meas")){
             exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
@@ -32,10 +34,14 @@ public class DetailActivity extends AppCompatActivity {
         else if(type.equals("bin")){
             exp = (BinomialExp) getIntent().getSerializableExtra("exp");
             ArrayList<BoolResult> res = new ArrayList<>();
+            Log.e("working","working!");
+            Log.e("working",Integer.toString(exp.experimenters.size()));
+            Log.e("BININFO#",Integer.toString(exp.results.size()));
             for(int i=0;i<exp.results.size();i++){
                 res.add((BoolResult) exp.results.get(i));
             }
             Log.e("BININFO#",Integer.toString(res.size()));
+
             ArrayAdapter<BoolResult> resultAdapter = new ArrayAdapter<>(this,R.layout.displayresults,res);
             reslist.setAdapter(resultAdapter);
         }
@@ -57,6 +63,7 @@ public class DetailActivity extends AppCompatActivity {
             ArrayAdapter<IntResult> resultAdapter = new ArrayAdapter<>(this,R.layout.displayresults,res);
             reslist.setAdapter(resultAdapter);
         }
+
         // want to have it setup so that clicking a result tells you who it is from and basic info about the result
 
 

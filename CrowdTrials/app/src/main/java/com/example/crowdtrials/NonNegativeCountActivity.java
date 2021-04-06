@@ -48,9 +48,14 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Integer res = Integer.parseInt(non_result.getText().toString());
-                non_result.getText().clear();
-                lastRes.setText(res.toString());
-                result.values.add(res);
+                if(res<=0){
+                    lastRes.setText("LAST RESULT WAS NEGATIVE, INVALID!");
+                }
+                else {
+                    non_result.getText().clear();
+                    lastRes.setText(res.toString());
+                    result.values.add(res);
+                }
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
