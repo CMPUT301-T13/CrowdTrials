@@ -20,11 +20,10 @@ import androidx.fragment.app.DialogFragment;
 public class CreateUserFragment extends DialogFragment {
     EditText name;
     EditText phoneNum;
-    EditText desiredUsername;
     private CreateUserFragment.OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(String phoneNum, String name,String username);
+        void onOkPressed(String phoneNum, String name);
 
     }
 
@@ -38,11 +37,10 @@ public class CreateUserFragment extends DialogFragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-    public static CreateUserFragment getNameNumType(String phoneNum, String name,String username){
+    public static CreateUserFragment getNameNumType(String phoneNum, String name){
         Bundle args= new Bundle();
         args.putSerializable("name",name);
         args.putSerializable("phoneNum",phoneNum);
-        args.putSerializable("desired",username);
         CreateUserFragment fragment = new CreateUserFragment();
         fragment.setArguments(args);
         return fragment;
@@ -56,7 +54,7 @@ public class CreateUserFragment extends DialogFragment {
         name.setError("Please enter your real name");
         phoneNum = view.findViewById(R.id.phoneNum_editText);
         phoneNum.setError("Under 10 digits please and no dashes");
-        desiredUsername = view.findViewById(R.id.editusername_editText);
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -68,8 +66,7 @@ public class CreateUserFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String n=name.getText().toString();
                         String num = phoneNum.getText().toString();
-                        String newuser=desiredUsername.getText().toString();
-                        listener.onOkPressed(num,n,newuser);
+                        listener.onOkPressed(num,n);
                     }}).create();
     }
 
