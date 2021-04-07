@@ -7,6 +7,7 @@ import android.util.Log;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -24,7 +25,8 @@ public abstract class Experiment implements Serializable {
     boolean published=false;
     boolean ended=false;
     HashSet<User> subscribers = new HashSet<>();
-    QnA questionsAnswers;
+    //QnA questionsAnswers;
+    ArrayList<QnA> qnalist = new ArrayList<>();
     String type;
     boolean isGeoLocationEnabled;
 
@@ -201,8 +203,8 @@ public abstract class Experiment implements Serializable {
      * @return
      * The object representing questions and answers of the current experiment.
      */
-    public QnA getQuestionsAnswers() {
-        return questionsAnswers;
+    public ArrayList<QnA> getQuestionsAnswers() {
+        return qnalist;
     }
 
     /**

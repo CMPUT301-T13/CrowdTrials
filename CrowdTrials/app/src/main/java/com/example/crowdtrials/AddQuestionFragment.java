@@ -7,68 +7,63 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-/**
- * This class represents the fragment used to create a new User.
- */
-public class CreateUserFragment extends DialogFragment {
-    EditText name;
-    EditText phoneNum;
-    private CreateUserFragment.OnFragmentInteractionListener listener;
+public class AddQuestionFragment extends DialogFragment {
+    // Based on AddCityFragment made by CMPUT 301 TAs in lab 3
+    // this is to get the username from the user
+    private EditText question;
+    private AddQuestionFragment.OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(String phoneNum, String name);
+        void onOkPressed(String username);
 
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof CreateUserFragment.OnFragmentInteractionListener){
-            listener = (CreateUserFragment.OnFragmentInteractionListener) context;
+        if (context instanceof AddQuestionFragment.OnFragmentInteractionListener){
+            listener = (AddQuestionFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
-    public static CreateUserFragment getNameNumType(String phoneNum, String name){
+    public static AddQuestionFragment QuestionInstance(String username){
         Bundle args= new Bundle();
-        args.putSerializable("name",name);
-        args.putSerializable("phoneNum",phoneNum);
-        CreateUserFragment fragment = new CreateUserFragment();
+        args.putSerializable("username",username);
+        AddQuestionFragment fragment = new AddQuestionFragment();
         fragment.setArguments(args);
         return fragment;
     }
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.create_user_fragment_layout, null);
-        name = view.findViewById(R.id.name_editText);
-        // provide instructions
-        name.setError("Please enter your real name");
-        phoneNum = view.findViewById(R.id.phoneNum_editText);
-        phoneNum.setError("Under 10 digits please and no dashes");
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.addquestion_fragment, null);
+        question = view.findViewById(R.id.newquestion_editText);
 
+        // tell user what happens if username does not exist
+        question.setError("Please be appropriate and constructive in your questions.");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Create a Profile")
+                .setTitle("Add question")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String n=name.getText().toString();
-                        String num = phoneNum.getText().toString();
-                        listener.onOkPressed(num,n);
+                        // on ok click we need to query the database back in login activity to see if username is in database
+                        String newquestion=question.getText().toString();
+                        listener.onOkPressed(newquestion);
                     }}).create();
     }
+
 
 
 }

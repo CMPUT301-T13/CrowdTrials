@@ -252,8 +252,8 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
 
     @Override
-    public void onOkPressed(String phoneNum,String name,String desuser) {
-        user = new User(username,new ContactInfo(name,phoneNum));
+    public void onOkPressed(String phoneNum,String name) {
+        //user = new User(username,new ContactInfo(name,phoneNum));
     }
     @Override
     public void onAddExperimentOkPressed(Experiment newExperiment) {
