@@ -17,6 +17,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listviewdetact);
         Experiment exp;
+        reslist = findViewById(R.id.res_list);
 
         String type=(String) getIntent().getSerializableExtra("type");
         if(type.equals("meas")){

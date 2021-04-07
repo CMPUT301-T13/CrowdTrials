@@ -52,6 +52,7 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         TextView userNameTextView = view.findViewById(R.id.ownerUserName);
         Button subscribedButton = view.findViewById(R.id.subscribeButton);
         Button addResult = view.findViewById(R.id.addResultButton);
+        TextView experimentName = view.findViewById(R.id.experiment_name);
         subscribedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +93,8 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         // the strings
         experimentDescription.setText("Experiment Description: " + experiment.getDescription());
         userNameTextView.setText(experiment.getOwner().username);
+        experimentName.setText(experiment.getName());
+
 
 
 
