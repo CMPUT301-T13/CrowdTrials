@@ -56,7 +56,9 @@ public class BinomialActivity extends AppCompatActivity {
         pb=(ProgressBar)findViewById(R.id.progressBar1);
         pb.setVisibility(View.GONE);
        // pb = new ProgressBar(this);
+
         //makeTheEditTextsUnEditable();
+
 
         title.setText(exp.name);
         prob.setText(Double.toString(exp.probability));
@@ -133,8 +135,8 @@ public class BinomialActivity extends AppCompatActivity {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
                 }
                 //og.d("RESULT ACTIVITY", "run: " + res);
-                //exp.results.add(result);
-                exp.addResult(result);
+                exp.results.add(result);
+                //exp.addResult(result);
                 Log.d("REsults size",Integer.toString(exp.results.size()));
                 database.updateWithResults(result,exp.name);
                 Intent intent = new Intent(BinomialActivity.this, DetailActivity.class);
@@ -145,7 +147,7 @@ public class BinomialActivity extends AppCompatActivity {
             }
         });
 }
-
+/*
  public void makeTheEditTextsUnEditable(){
      EditText experimentNameEditText = findViewById(R.id.name_editText);
      experimentNameEditText.setFocusable(false);
@@ -170,7 +172,7 @@ public class BinomialActivity extends AppCompatActivity {
 
 
 
- }
+ }*/
 
 
 }
