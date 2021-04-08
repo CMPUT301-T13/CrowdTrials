@@ -1,11 +1,13 @@
 package com.example.crowdtrials;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -54,7 +56,7 @@ public class BinomialActivity extends AppCompatActivity {
         pb=(ProgressBar)findViewById(R.id.progressBar1);
         pb.setVisibility(View.GONE);
        // pb = new ProgressBar(this);
-
+        makeTheEditTextsUnEditable();
 
         title.setText(exp.name);
         prob.setText(Double.toString(exp.probability));
@@ -62,7 +64,10 @@ public class BinomialActivity extends AppCompatActivity {
         plaintextLastRes.setText("Last result");
         lastRes.setText("");
         result=new BoolResult(user);
+        //exp.addResult(result);
        // exp.probability=0.5;
+
+        exp.experimenters.add(user);
         genResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +86,8 @@ public class BinomialActivity extends AppCompatActivity {
                         while(System.currentTimeMillis()-startTime<2500){
                         }
                         result.outcomes.add(res);
+                        Log.d("RESULT ACTIVITY", "run: " + result);
+
 
                         database.updateWithResults(result,exp.name);
                         runOnUiThread(new Runnable() {
@@ -102,8 +109,11 @@ public class BinomialActivity extends AppCompatActivity {
                 Intent intent = new Intent(BinomialActivity.this, MainActivity.class);
                 //result.outcomes.get(0);
                 //String ok=exp.name;
-                database.updateWithResults(result,exp.name);
                 exp.addResult(result);
+                Log.d("RESULT ACTIVITY back", "run: " + exp.results);
+                Log.d("RESULT ACTIVITY backu", "run: " + exp.experimenters.get(0).username);
+                database.updateWithResults(result,exp.name);
+                //exp.addResult(result);
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
                 intent.putExtra("pos",pos);
@@ -129,5 +139,32 @@ public class BinomialActivity extends AppCompatActivity {
             }
         });
 }
+
+ public void makeTheEditTextsUnEditable(){
+     EditText experimentNameEditText = findViewById(R.id.name_editText);
+     experimentNameEditText.setFocusable(false);
+     experimentNameEditText.setEnabled(false);
+     experimentNameEditText.setCursorVisible(false);
+     experimentNameEditText.setBackgroundColor(Color.TRANSPARENT);
+     EditText experimentDescriptionEditText = findViewById(R.id.description_editText);
+     experimentDescriptionEditText.setFocusable(false);
+     experimentDescriptionEditText.setEnabled(false);
+     experimentDescriptionEditText.setCursorVisible(false);
+     experimentDescriptionEditText.setBackgroundColor(Color.TRANSPARENT);
+     EditText minTrialsEditText = findViewById(R.id.minTrialsEditText);
+     minTrialsEditText.setFocusable(false);
+     minTrialsEditText.setEnabled(false);
+     minTrialsEditText.setCursorVisible(false);
+     minTrialsEditText.setBackgroundColor(Color.TRANSPARENT);
+     EditText region_editText = findViewById(R.id.region_editText);
+     region_editText.setFocusable(false);
+     region_editText.setEnabled(false);
+     region_editText.setCursorVisible(false);
+     region_editText.setBackgroundColor(Color.TRANSPARENT);
+
+
+
+ }
+
 
 }

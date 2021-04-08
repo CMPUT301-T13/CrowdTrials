@@ -1,11 +1,12 @@
 package com.example.crowdtrials;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * This abstract class represents an array of Results for the experiment
  */
-public abstract class ResultArr {
+public abstract class ResultArr implements Serializable {
     public User experimenter;
     //ArrayList<Double> values = new ArrayList<>();
 

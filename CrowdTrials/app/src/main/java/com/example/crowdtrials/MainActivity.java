@@ -9,6 +9,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 //import android.location.Location;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     String username;
     PagerAdapter pagerAdapter;
     Toolbar toolbar;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,13 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
             Random random = new Random();
             int num = random.nextInt(4000000 - 1) + 1;
             username="nameless"+Integer.toString(num);
+            sharedPreferences = this.getPreferences(MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            editor.putString("user",username);
+            editor.commit();
+
+
+
         }
         user = new User(username);
 

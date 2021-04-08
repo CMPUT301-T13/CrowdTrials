@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         collectionReference= db.collection("Users");
         Button login = findViewById(R.id.loginbutton);
+        boolean isThisTheFirstRun=sharedPreferences.getBoolean("firstRun",true);
 
         if (attemptToFindUser!=null && attemptToFindUser.length()!=0){
             Intent intent = new Intent(this,MainActivity.class);
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             intent.putExtra("user","USER_DOES_NOT_HAVE_ACCOUNT");
             startActivityForResult(intent,1);
         }
-        Log.d("Found User",attemptToFindUser);
+        //Log.d("Found User",attemptToFindUser);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

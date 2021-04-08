@@ -2,6 +2,8 @@ package com.example.crowdtrials;
 
 //import android.location.Location;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -161,7 +163,9 @@ public abstract class Experiment implements Serializable {
      * The results being entered for the experiment
      */
     public void addResult(ResultArr results) {
-        if(owner.username.equals(results.experimenter.username) || experimenters.contains(results.experimenter.username)){
+
+        if(owner.username.equals(results.experimenter.username) || this.experimenters.contains(results.experimenter)){
+            Log.d("ADD RESULT","IVE BEEN RUN ");
             this.results.add(results);
         }
 

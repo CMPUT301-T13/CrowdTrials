@@ -20,6 +20,7 @@ public class DetailActivity extends AppCompatActivity {
         //db.getSingleExperiment();
         Log.e("working","not working.");
         reslist=findViewById(R.id.res_list);
+
         String type=(String) getIntent().getSerializableExtra("type");
         if(type.equals("meas")){
             exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
