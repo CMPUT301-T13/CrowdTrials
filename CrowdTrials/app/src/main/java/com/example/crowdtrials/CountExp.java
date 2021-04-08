@@ -15,7 +15,8 @@ public class CountExp extends Experiment implements Serializable {
      * This is a default constructor for a Counts Experiment
      */
     public CountExp(){
-        this.type = "CountExp";
+        this.setType("CountExp");
+
     }
 
     /**
@@ -36,7 +37,7 @@ public class CountExp extends Experiment implements Serializable {
     public CountExp(User owner, Location region, String description, Date date, int minTrials,String experimentName) {
         super(owner, region, description, date, minTrials,experimentName);
 
+        this.setType("CountExp");
 
-        this.type = "CountExp";
     }
 }

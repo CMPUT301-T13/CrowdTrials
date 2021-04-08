@@ -67,6 +67,8 @@ public abstract class Experiment implements Serializable {
 
     }
 
+
+
     /**
      * This returns an array list of experimenters
      * @return
@@ -278,5 +280,13 @@ public abstract class Experiment implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
