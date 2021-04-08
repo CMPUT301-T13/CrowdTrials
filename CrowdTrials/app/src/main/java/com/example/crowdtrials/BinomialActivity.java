@@ -56,7 +56,9 @@ public class BinomialActivity extends AppCompatActivity {
         pb=(ProgressBar)findViewById(R.id.progressBar1);
         pb.setVisibility(View.GONE);
        // pb = new ProgressBar(this);
-        makeTheEditTextsUnEditable();
+
+        //makeTheEditTextsUnEditable();
+
 
         title.setText(exp.name);
         prob.setText(Double.toString(exp.probability));
@@ -86,7 +88,7 @@ public class BinomialActivity extends AppCompatActivity {
                         while(System.currentTimeMillis()-startTime<2500){
                         }
                         result.outcomes.add(res);
-                        Log.d("RESULT ACTIVITY", "run: " + result);
+                        //Log.d("RESULT ACTIVITY", "run: " + res);
 
 
                         database.updateWithResults(result,exp.name);
@@ -95,8 +97,6 @@ public class BinomialActivity extends AppCompatActivity {
                                 // do onPostExecute stuff
                                 pb.setVisibility(View.INVISIBLE);
                                 lastRes.setText(Boolean.toString(res));
-
-
                             }
                         });
                     }
@@ -131,7 +131,13 @@ public class BinomialActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 result.outcomes.add(res);
-                exp.addResult(result);
+                for(int i=0;i<result.outcomes.size();i++){
+                    Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
+                }
+                //og.d("RESULT ACTIVITY", "run: " + res);
+                exp.results.add(result);
+                //exp.addResult(result);
+                Log.d("REsults size",Integer.toString(exp.results.size()));
                 database.updateWithResults(result,exp.name);
                 Intent intent = new Intent(BinomialActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
@@ -141,7 +147,7 @@ public class BinomialActivity extends AppCompatActivity {
             }
         });
 }
-
+/*
  public void makeTheEditTextsUnEditable(){
      EditText experimentNameEditText = findViewById(R.id.name_editText);
      experimentNameEditText.setFocusable(false);
@@ -166,7 +172,7 @@ public class BinomialActivity extends AppCompatActivity {
 
 
 
- }
+ }*/
 
 
 }
