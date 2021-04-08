@@ -9,6 +9,18 @@ public class IntResult extends ResultArr {
 
     public ArrayList<Integer> values = new ArrayList<>();
 
+    @Override
+    public double averageResult() {
+        double summ=0;
+        for(int i=0;i<values.size();i++){
+            summ+=values.get(i);
+        }
+        if(values.size()==0){
+            return 0;
+        }
+        return summ/values.size();
+    }
+
     /**
      * This assigns given user to be the experimenter
      * @param experimenter

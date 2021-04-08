@@ -8,6 +8,18 @@ import java.util.ArrayList;
 public class FloatResult extends ResultArr{
     public ArrayList<Float> measurements = new ArrayList<>();
 
+    @Override
+    public double averageResult() {
+        double summ=0;
+        for(int i=0;i<measurements.size();i++){
+            summ+=measurements.get(i);
+        }
+        if(measurements.size()==0){
+            return 0;
+        }
+        return summ/measurements.size();
+    }
+
     /**
      * This assigns given user to be the experimenter
      * @param experimenter
