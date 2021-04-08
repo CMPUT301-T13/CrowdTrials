@@ -88,8 +88,6 @@ public class BinomialActivity extends AppCompatActivity {
                                 // do onPostExecute stuff
                                 pb.setVisibility(View.INVISIBLE);
                                 lastRes.setText(Boolean.toString(res));
-
-
                             }
                         });
                     }
