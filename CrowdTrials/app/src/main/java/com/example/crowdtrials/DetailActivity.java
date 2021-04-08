@@ -13,9 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements ResultsCallback{
     Database db;
     ListView reslist;
+    ArrayList<ResultArr> resultArrArrayList;
     ArrayAdapter<ResultArr> resAdapter;
     Button back;
     String type;
@@ -29,24 +30,30 @@ public class DetailActivity extends AppCompatActivity {
         reslist=findViewById(R.id.res_list);
         back = findViewById(R.id.backbuttondispres);
         type=(String) getIntent().getSerializableExtra("type");
+
+
         if(type.equals("meas")){
             exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
+            Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
             resAdapter = new ResultList(this,exp.results);
             reslist.setAdapter(resAdapter);
 
         }
         else if(type.equals("bin")){
             exp = (BinomialExp) getIntent().getSerializableExtra("exp");
+            Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
             resAdapter = new ResultList(this,exp.results);
             reslist.setAdapter(resAdapter);
         }
         else if(type.equals("ncount")){
             exp = (NonNegativeCountExp) getIntent().getSerializableExtra("exp");
+            Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
             resAdapter = new ResultList(this,exp.results);
             reslist.setAdapter(resAdapter);
         }
         else{
             exp = (CountExp) getIntent().getSerializableExtra("exp");
+            Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
             resAdapter = new ResultList(this,exp.results);
             reslist.setAdapter(resAdapter);
         }
@@ -79,5 +86,8 @@ public class DetailActivity extends AppCompatActivity {
         // want to have it setup so that clicking a result tells you who it is from and basic info about the result
 
 
+    }
+    public void onCallback(ArrayList<ResultArr> value, int whichCase){
+        resultArrArrayList = value;
     }
 }

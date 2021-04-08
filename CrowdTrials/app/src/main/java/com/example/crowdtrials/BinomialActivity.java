@@ -56,7 +56,7 @@ public class BinomialActivity extends AppCompatActivity {
         pb=(ProgressBar)findViewById(R.id.progressBar1);
         pb.setVisibility(View.GONE);
        // pb = new ProgressBar(this);
-        makeTheEditTextsUnEditable();
+        //makeTheEditTextsUnEditable();
 
         title.setText(exp.name);
         prob.setText(Double.toString(exp.probability));

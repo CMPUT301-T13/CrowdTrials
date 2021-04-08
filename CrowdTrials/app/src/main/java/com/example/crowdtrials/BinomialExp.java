@@ -32,14 +32,14 @@ public class BinomialExp extends Experiment implements Serializable {
     public BinomialExp(User owner, Location region, String description, Date date, int minTrials,String experimentName) {
         super(owner, region, description, date, minTrials, experimentName);
 
-        this.type = "Binomial Exp";
+        this.type = "Binomial Experiment";
     }
 
     /**
      * This is a default constructor for a Binomial Experiment
      */
     public BinomialExp() {
-        this.type = "Binomial Exp";
+        this.type = "Binomial Experiment";
     }
 
     /**
