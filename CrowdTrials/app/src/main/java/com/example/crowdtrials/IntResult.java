@@ -18,7 +18,8 @@ public class IntResult extends ResultArr {
         if(values.size()==0){
             return 0;
         }
-        return summ/values.size();
+        double correctAnswer= (double) summ/values.size();
+        return correctAnswer;
     }
 
     /**

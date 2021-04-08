@@ -17,7 +17,8 @@ public class FloatResult extends ResultArr{
         if(measurements.size()==0){
             return 0;
         }
-        return summ/measurements.size();
+        double correctAnswer= (double) summ/measurements.size();
+        return correctAnswer;
     }
 
     /**
