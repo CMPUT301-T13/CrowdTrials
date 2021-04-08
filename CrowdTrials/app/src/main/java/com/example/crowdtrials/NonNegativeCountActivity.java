@@ -43,7 +43,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
        // plaintextLastRes.setText("Last result");
         lastRes.setText("");
         result=new IntResult(user);
-
+        exp.experimenters.add(user);
         final Button confirmButton = findViewById(R.id.button_confirm);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -81,6 +81,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 exp.addResult(result);
+                //exp.results.add(result);
                 database.updateWithResults(result,exp.name);
                 Intent intent = new Intent(NonNegativeCountActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
