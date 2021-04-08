@@ -129,7 +129,7 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
     @Override
     public void onOkPressed(String username) {
         exp.ignoredUsers.add(username);
-        
+
         for(int i=0;i<viewResultsFrom.size();i++){
             if (viewResultsFrom.get(i).experimenter.username.equals(username)){
                 viewResultsFrom.remove(i);

@@ -84,7 +84,7 @@ public class CountActivity extends AppCompatActivity {
                 intent.putExtra("type","count");
                 intent.putExtra("user",user);
                 startActivity(intent);
-                finish();
+
 
 
             }
