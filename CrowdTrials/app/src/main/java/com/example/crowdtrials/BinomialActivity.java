@@ -142,6 +142,7 @@ public class BinomialActivity extends AppCompatActivity {
                 Intent intent = new Intent(BinomialActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","bin");
+                intent.putExtra("user",user);
                 startActivity(intent);
 
             }
