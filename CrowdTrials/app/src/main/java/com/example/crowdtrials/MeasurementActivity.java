@@ -1,5 +1,6 @@
 package com.example.crowdtrials;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,7 @@ public class MeasurementActivity extends AppCompatActivity {
     EditText meas_result;
     FloatResult result;
     Button statsButton;
-
+    TextView warning;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
     @Override
@@ -36,11 +37,15 @@ public class MeasurementActivity extends AppCompatActivity {
         pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_meas);
         viewDetails=findViewById(R.id.detail_meas_button);
-        //plaintextLastRes=findViewById(R.id.plaintext_lastres_meas);
+        plaintextLastRes=findViewById(R.id.displayLastRes_meas);
         title=findViewById(R.id.title_meas);
         lastRes=findViewById(R.id.lastresultmeas);
         meas_result=findViewById(R.id.editText_result);
         statsButton = findViewById(R.id.statsbutton3);
+        warning=findViewById(R.id.warningmeas);
+        if(!exp.isGeoLocationEnabled){
+            warning.setVisibility(View.GONE);
+        }
         title.setText(exp.name);
         plaintextLastRes.setText("Last result");
         lastRes.setText("");
@@ -61,8 +66,11 @@ public class MeasurementActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(MeasurementActivity.this, MainActivity.class);
-                exp.addResult(result);
-                database.updateWithResults(result,exp.name);
+                if(result.measurements.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
                 intent.putExtra("pos",pos);
@@ -89,4 +97,26 @@ public class MeasurementActivity extends AppCompatActivity {
 
             }
         });
-    }}
+
+        final Button barcode_scan = findViewById(R.id.barcode_scan);
+        barcode_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MeasurementActivity.this,BarcodeScannerActivity.class);
+                startActivityForResult(intent,1);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                String scannedCode = data.getSerializableExtra("scannedCode").toString();
+                meas_result.setText(scannedCode);
+            }
+        }
+    }
+}

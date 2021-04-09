@@ -1,20 +1,29 @@
 package com.example.crowdtrials;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 
 public class ResultDetailActivity extends AppCompatActivity {
     Button back;
     Experiment exp;
     User user;
+    ImageView qr;
     String type;
     ListView outcomesList;
     @Override
@@ -26,6 +35,8 @@ public class ResultDetailActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("user");
         type = (String) getIntent().getSerializableExtra("typeres");
         back = findViewById(R.id.backbuttondispoutcomes);
+        qr = findViewById(R.id.qrView);
+        qr.setVisibility(View.INVISIBLE);
         if(type.equals("int")){
             IntResult res = (IntResult) getIntent().getSerializableExtra("res");
             ArrayAdapter<Integer> outcomes = new ArrayAdapter<Integer>(this,R.layout.outcomeslistview,R.id.outcome_text,res.values);
@@ -52,5 +63,44 @@ public class ResultDetailActivity extends AppCompatActivity {
             }
         });
 
+        outcomesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                generateQR(position);
+            }
+        });
+
+    }
+
+    private void generateQR(int position) {
+        qr.setVisibility(View.VISIBLE);
+        outcomesList.setVisibility(View.GONE);
+
+        String type = (String) getIntent().getSerializableExtra("typeres");
+        String trial = null;
+        if(type.equals("int")){
+            IntResult res = (IntResult) getIntent().getSerializableExtra("res");
+            ArrayList<Integer> outcomes = res.values;
+            trial = String.valueOf(outcomes.get(position));
+
+        }
+        else if(type.equals("float")){
+            FloatResult res = (FloatResult) getIntent().getSerializableExtra("res");
+            ArrayList<Float> outcomes = res.measurements;
+            trial = String.valueOf(outcomes.get(position));
+        }
+        else{
+            BoolResult res = (BoolResult) getIntent().getSerializableExtra("res");
+            ArrayList<Boolean> outcomes = res.outcomes;
+            trial = String.valueOf(outcomes.get(position));
+        }
+        QRGEncoder qrgEncoder = new QRGEncoder(trial,null, QRGContents.Type.TEXT,275);
+        try {
+            Bitmap bitmap = qrgEncoder.getBitmap();
+            qr.setImageBitmap(bitmap);
+        }
+        catch (Exception e) {
+            Log.v("Exception",e.toString());
+        }
     }
 }

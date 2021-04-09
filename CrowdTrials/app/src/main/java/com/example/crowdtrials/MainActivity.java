@@ -66,18 +66,6 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
-        if(username.equals("USER_DOES_NOT_HAVE_ACCOUNT")){
-            Random random = new Random();
-            int num = random.nextInt(4000000 - 1) + 1;
-            username="nameless"+Integer.toString(num);
-            sharedPreferences = this.getPreferences(MODE_PRIVATE);
-            editor = sharedPreferences.edit();
-            editor.putString("user",username);
-            editor.commit();
-
-
-
-        }
         user = new User(username);
 
         toolbar = findViewById(R.id.toolbar);
@@ -85,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         setSupportActionBar(toolbar);
         // query database to see if username exists
         // query database with the passed in username
-
         database.readUser(username,this::userCallback);
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);

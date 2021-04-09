@@ -3,6 +3,7 @@ package com.example.crowdtrials;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
     TextView plaintextLastRes;
     TextView lastRes;
     TextView title;
+    TextView warning;
     EditText non_result;
     IntResult result;
     Button statsButton;
@@ -47,9 +49,12 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         lastRes = findViewById(R.id.lastresultnon);
         non_result = findViewById(R.id.editText_result_non);
         qRScan = findViewById(R.id.count_scan);
+        warning = findViewById(R.id.warningnon);
 
-
-
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
+        if(!exp.isGeoLocationEnabled){
+            warning.setVisibility(View.GONE);
+        }
 
         title.setText(exp.name);
         // plaintextLastRes.setText("Last result");
@@ -80,8 +85,11 @@ public class NonNegativeCountActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(NonNegativeCountActivity.this, MainActivity.class);
-                exp.addResult(result);
-                database.updateWithResults(result, exp.name);
+                if(result.values.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 intent.putExtra("exp", exp);
                 intent.putExtra("user", user);
                 intent.putExtra("pos", pos);

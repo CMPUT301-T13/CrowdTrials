@@ -35,13 +35,13 @@ public class BinomialActivity extends AppCompatActivity {
     TextView title;
     ProgressBar pb;
     BoolResult result;
-
     Button statsButton;
     String qrTrial = null;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
     int qr = 0;
     boolean res;
+    TextView warning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +60,17 @@ public class BinomialActivity extends AppCompatActivity {
         prob = findViewById(R.id.probabilityViewer);
         lastRes = findViewById(R.id.lastresultbin);
         pb = (ProgressBar) findViewById(R.id.progressBar1);
-
+        warning = findViewById(R.id.warningbin);
         statsButton = findViewById(R.id.statsbutton);
         pb.setVisibility(View.GONE);
         qrScan = findViewById(R.id.bin_scan);
         // pb = new ProgressBar(this);
-
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
         //makeTheEditTextsUnEditable();
 
+        if(!exp.isGeoLocationEnabled){
+            warning.setVisibility(View.GONE);
+        }
 
         title.setText(exp.name);
         prob.setText(Double.toString(exp.probability));
@@ -120,10 +123,11 @@ public class BinomialActivity extends AppCompatActivity {
                 Intent intent = new Intent(BinomialActivity.this, MainActivity.class);
                 //result.outcomes.get(0);
                 //String ok=exp.name;
-                exp.addResult(result);
-                Log.d("RESULT ACTIVITY back", "run: " + exp.results);
-                Log.d("RESULT ACTIVITY backu", "run: " + exp.experimenters.get(0).username);
-                database.updateWithResults(result, exp.name);
+                if(result.outcomes.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 //exp.addResult(result);
                 intent.putExtra("exp", exp);
                 intent.putExtra("user", user);
@@ -159,10 +163,11 @@ public class BinomialActivity extends AppCompatActivity {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
                 }
                 //og.d("RESULT ACTIVITY", "run: " + res);
-                exp.results.add(result);
-                //exp.addResult(result);
-                Log.d("REsults size", Integer.toString(exp.results.size()));
-                database.updateWithResults(result, exp.name);
+                if(result.outcomes.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 Intent intent = new Intent(BinomialActivity.this, DetailActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "bin");
@@ -184,10 +189,10 @@ public class BinomialActivity extends AppCompatActivity {
     }
 
     public void qrUpdate() {
-        if(qrTrial.equals("pass")) {
+        if(qrTrial.equals("true")) {
             res = true;
         }
-        else if(qrTrial.equals("fail")) {
+        else if(qrTrial.equals("false")) {
             res = false;
         }
         result.outcomes.add(res);
