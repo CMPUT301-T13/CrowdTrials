@@ -65,8 +65,9 @@ public class BinomialActivity extends AppCompatActivity {
         pb.setVisibility(View.GONE);
         qrScan = findViewById(R.id.bin_scan);
         // pb = new ProgressBar(this);
-
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
         //makeTheEditTextsUnEditable();
+
         if(!exp.isGeoLocationEnabled){
             warning.setVisibility(View.GONE);
         }

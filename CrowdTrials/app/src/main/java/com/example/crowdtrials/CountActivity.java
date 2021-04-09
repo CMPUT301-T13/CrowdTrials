@@ -51,6 +51,7 @@ public class CountActivity extends AppCompatActivity {
         lastRes = findViewById(R.id.lastresultnon);
         count_result = findViewById(R.id.editText_result_non);
         warning = findViewById(R.id.warningnon);
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
         if(!exp.isGeoLocationEnabled){
             warning.setVisibility(View.GONE);
         }

@@ -3,6 +3,7 @@ package com.example.crowdtrials;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,6 +51,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         qRScan = findViewById(R.id.count_scan);
         warning = findViewById(R.id.warningnon);
 
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
         if(!exp.isGeoLocationEnabled){
             warning.setVisibility(View.GONE);
         }
