@@ -98,4 +98,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.705" />
 
+    <Button
+        android:id="@+id/statsbutton3"
+        android:layout_width="91dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:text="Stats"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lastresultmeas" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,6 +33,7 @@ public class BinomialActivity extends AppCompatActivity {
     TextView title;
     ProgressBar pb;
     BoolResult result;
+    Button statsButton;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
     boolean res;
@@ -54,6 +55,8 @@ public class BinomialActivity extends AppCompatActivity {
         prob=findViewById(R.id.probabilityViewer);
         lastRes=findViewById(R.id.lastresultbin);
         pb=(ProgressBar)findViewById(R.id.progressBar1);
+
+        statsButton = findViewById(R.id.statsbutton);
         pb.setVisibility(View.GONE);
        // pb = new ProgressBar(this);
 
@@ -125,6 +128,21 @@ public class BinomialActivity extends AppCompatActivity {
 
             }
         });
+        statsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
+                // do this so we can make changes permanent (during lifespan of app until closed)
+
+                Intent intent = new Intent(BinomialActivity.this, StatsActivity.class);
+                intent.putExtra("exp",exp);
+                intent.putExtra("type","bin");
+                startActivity(intent);
+
+            }
+        });
+
+
         viewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,6 +164,8 @@ public class BinomialActivity extends AppCompatActivity {
 
             }
         });
+
+
 }
 /*
  public void makeTheEditTextsUnEditable(){

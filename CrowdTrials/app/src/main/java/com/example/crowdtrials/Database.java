@@ -325,10 +325,10 @@ public class Database {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        Log.d("GET ALL RESULTS","before");
+                       // Log.d("GET ALL RESULTS","before");
                         if (task.isSuccessful()) {
                             ArrayList<ResultArr> ListFromDataBase = new ArrayList<ResultArr>();
-                            Log.d("GET ALL RESULTS","couldnt get documents");
+                            //Log.d("GET ALL RESULTS","couldnt get documents");
 
                             ContactInfo contactInfo;
                             Location newRegion;
@@ -387,7 +387,7 @@ public class Database {
                                     case "Measurement Experiment":
 
 
-                                         fieldPath =  FieldPath.of("Result","outcomes");
+                                         fieldPath =  FieldPath.of("Result","measurements");
 
                                         ArrayList<Float> values = (ArrayList<Float>) document.get(fieldPath);
 
@@ -414,7 +414,7 @@ public class Database {
                                     case "NonNegative Count Experiment":
                                     case "Count Experiment":
 
-                                        fieldPath =  FieldPath.of("Result","outcomes");
+                                        fieldPath =  FieldPath.of("Result","values");
 
                                         ArrayList<Integer> count = (ArrayList<Integer>) document.get(fieldPath);
 

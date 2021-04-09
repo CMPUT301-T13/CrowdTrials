@@ -89,5 +89,8 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
     }
     public void onCallback(ArrayList<ResultArr> value, int whichCase){
         resultArrArrayList = value;
+        for (ResultArr result :value){
+            //Log.e("IN DETAIL ACTIVITY","" + result.experimenter.username );
+        }
     }
 }

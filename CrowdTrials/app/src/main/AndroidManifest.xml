@@ -47,6 +47,12 @@
         <meta-data android:name="android.app.default_searchable"
             android:value=".SearchableActivity" />
         </activity>
+        <activity
+            android:name=".StatsActivity"
+            />
+        <activity
+            android:name=".PlotActivity"
+            />
 
 
     </application>

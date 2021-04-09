@@ -24,26 +24,29 @@ public class CountActivity extends AppCompatActivity {
     TextView title;
     EditText count_result;
     IntResult result;
+    Button statsButton;
     int pos;
-    Database database =  Database.getSingleDatabaseInstance();
+    Database database = Database.getSingleDatabaseInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nonnegativeactivity);
-        user=(User) getIntent().getSerializableExtra("user");
+        user = (User) getIntent().getSerializableExtra("user");
         exp = (CountExp) getIntent().getSerializableExtra("exp");
-        pos=(Integer) getIntent().getSerializableExtra("pos");
-        back=findViewById(R.id.backbutton_non);
-        viewDetails=findViewById(R.id.detail_non_button);
+        pos = (Integer) getIntent().getSerializableExtra("pos");
+        back = findViewById(R.id.backbutton_non);
+        viewDetails = findViewById(R.id.detail_non_button);
+        statsButton = findViewById(R.id.statsButton2);
         //plaintextLastRes=findViewById(R.id.plaintext_lastres_non);
-        title=findViewById(R.id.title_non);
-        lastRes=findViewById(R.id.lastresultnon);
-        count_result=findViewById(R.id.editText_result_non);
+        title = findViewById(R.id.title_non);
+        lastRes = findViewById(R.id.lastresultnon);
+        count_result = findViewById(R.id.editText_result_non);
         Log.e("Count Activity", "Experiment: " + exp.name);
         title.setText(exp.name);
 //        plaintextLastRes.setText("Last result");
         lastRes.setText("");
-        result=new IntResult(user);
+        result = new IntResult(user);
         exp.experimenters.add(user);
         final Button confirmButton = findViewById(R.id.button_confirm_non);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -61,11 +64,11 @@ public class CountActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(CountActivity.this, MainActivity.class);
                 exp.addResult(result);
-                database.updateWithResults(result,exp.name);
-                intent.putExtra("exp",exp);
-                intent.putExtra("user",user);
-                intent.putExtra("pos",pos);
-                setResult(RESULT_OK,intent);
+                database.updateWithResults(result, exp.name);
+                intent.putExtra("exp", exp);
+                intent.putExtra("user", user);
+                intent.putExtra("pos", pos);
+                setResult(RESULT_OK, intent);
                 finish();
 
 
@@ -78,14 +81,29 @@ public class CountActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 exp.results.add(result);
                 //exp.addResult(result);
-                database.updateWithResults(result,exp.name);
+                database.updateWithResults(result, exp.name);
                 Intent intent = new Intent(CountActivity.this, DetailActivity.class);
-                intent.putExtra("exp",exp);
-                intent.putExtra("type","count");
+                intent.putExtra("exp", exp);
+                intent.putExtra("type", "count");
                 startActivity(intent);
                 finish();
 
 
             }
         });
-    }}
+
+        statsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
+                // do this so we can make changes permanent (during lifespan of app until closed)
+
+                Intent intent = new Intent(CountActivity.this, StatsActivity.class);
+                intent.putExtra("exp", exp);
+                intent.putExtra("type", "count");
+                startActivity(intent);
+
+            }
+        });
+    }
+}

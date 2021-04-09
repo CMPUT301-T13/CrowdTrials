@@ -23,6 +23,8 @@ public class MeasurementActivity extends AppCompatActivity {
     TextView title;
     EditText meas_result;
     FloatResult result;
+    Button statsButton;
+
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
     @Override
@@ -38,7 +40,7 @@ public class MeasurementActivity extends AppCompatActivity {
         title=findViewById(R.id.title_meas);
         lastRes=findViewById(R.id.lastresultmeas);
         meas_result=findViewById(R.id.editText_result);
-
+        statsButton = findViewById(R.id.statsbutton3);
         title.setText(exp.name);
         plaintextLastRes.setText("Last result");
         lastRes.setText("");
