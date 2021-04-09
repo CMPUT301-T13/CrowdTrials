@@ -2,12 +2,14 @@ package com.example.crowdtrials;
 
 import androidx.annotation.WorkerThread;
 
+import org.junit.Test;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BinomialExpTest {
@@ -83,46 +85,80 @@ public class BinomialExpTest {
     }
 
     // ResultsArr is not yet complete
-    //@Test
-    //void testGetResults() {
-    //}
+    @Test
+    void testGetResults() {
+        mockBinomialExp.results.add(new BoolResult(mockUser));
+        assert(mockBinomialExp.getResults().equals(mockBinomialExp.results));
+    }
 
-    //@Test
-    //void testAddResult() {
+    @Test
+    void testAddResult() {
+        mockBinomialExp.experimenters.add(mockUser);
+        int n = mockBinomialExp.results.size();
+        mockBinomialExp.addResult(new BoolResult(mockUser));
+        assert(n<mockBinomialExp.results.size());
 
-    //}
 
-    //@Test
-    //void testIsPublished() {
-    //}
+    }
 
-    //@Test
-    //void testIsEnded() {
-    //}
+    @Test
+    void testIsPublished() {
+        mockBinomialExp.published=true;
+        assert(mockBinomialExp.isPublished());
+    }
 
-    //@Test
-    //void testGetSubscribers() {
-    //}
+    @Test
+    void testIsEnded() {
+        mockBinomialExp.ended=true;
+        assert(mockBinomialExp.isEnded());
+    }
 
-    //@Test
-    //void testGetQuestionsAnswers() {
-    //}
+    @Test
+    void testGetSubscribers() {
+        mockBinomialExp.subscribers.add(mockUser);
+        assert(mockBinomialExp.subscribers.equals(mockBinomialExp.getSubscribers()));
+    }
 
-    //@Test
-    //void testIgnoreResultsFrom() {
-   // }
+    @Test
+    void testGetQuestionsAnswers() {
+        assert(mockBinomialExp.qnalist.equals(mockBinomialExp.getQuestionsAnswers()));
+    }
 
-    //@Test
-    //void testPublishExperiment() {
-    //}
+    @Test
+    void testIgnoreResultsFrom() {
+        mockBinomialExp.ignoredUsers.add(mockUser.username);
+        mockBinomialExp.results.add(new BoolResult(mockUser));
+        int n=mockBinomialExp.results.size();
+        for(int i=0;i<mockBinomialExp.results.size();i++){
+            if(mockBinomialExp.results.get(i).experimenter.username.equals(mockUser.username)){
+                mockBinomialExp.results.remove(i);
+            }
+        }
+        assert(mockBinomialExp.results.size()<n);
+   }
 
-    //@Test
-    //void testDepublishExperiment() {
-    //}
+    @Test
+    void testPublishExperiment() {
+        mockBinomialExp.published=false;
+        mockBinomialExp.owner=mockUser;
+        mockBinomialExp.publishExperiment(mockUser);
+        assert(mockBinomialExp.isPublished());
+    }
 
-    //@Test
-    //void testEndExperiment() {
-    //}
+    @Test
+    void testDepublishExperiment() {
+        mockBinomialExp.published=true;
+        mockBinomialExp.owner=mockUser;
+        mockBinomialExp.depublishExperiment(mockUser);
+        assert(!mockBinomialExp.isPublished());
+    }
+
+    @Test
+    void testEndExperiment() {
+        mockBinomialExp.ended=true;
+        mockBinomialExp.endExperiment(mockUser);
+        assert(mockBinomialExp.isEnded());
+    }
 
 
     @Test

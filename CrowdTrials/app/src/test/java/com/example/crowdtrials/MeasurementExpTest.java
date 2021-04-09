@@ -1,5 +1,7 @@
 package com.example.crowdtrials;
 
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -13,114 +15,150 @@ public class MeasurementExpTest {
     }
     private User mockUser = new User("James99", mockContact());
 
+
+
     @Test
     void testGetRegion() {
         Location mockRegion = new Location("Antarctica");
         mockMeasurementExp.setRegion(mockRegion);
-        assertEquals(mockRegion, mockMeasurementExp.getRegion());
+        Assert.assertEquals(mockRegion, mockMeasurementExp.getRegion());
     }
 
     @Test
     void testSetRegion() {
         Location mockRegion = new Location("Antarctica");
         mockMeasurementExp.setRegion(mockRegion);
-        assertEquals(mockRegion, mockMeasurementExp.region);
+        Assert.assertEquals(mockRegion, mockMeasurementExp.region);
     }
 
     @Test
     void testGetDescription() {
         String mockDescription = "This is a mock experiment description";
         mockMeasurementExp.setDescription(mockDescription);
-        assertEquals(mockDescription, mockMeasurementExp.getDescription());
+        Assert.assertEquals(mockDescription, mockMeasurementExp.getDescription());
     }
 
     @Test
     void testSetDescription() {
         String mockDescription = "This is a mock experiment description";
         mockMeasurementExp.setDescription(mockDescription);
-        assertEquals(mockDescription, mockMeasurementExp.description);
+        Assert.assertEquals(mockDescription, mockMeasurementExp.description);
     }
 
     @Test
     void testGetDate() {
         Date mockDate = new Date();
         mockMeasurementExp.setDate(mockDate);
-        assertEquals(mockDate, mockMeasurementExp.getDate());
+        Assert.assertEquals(mockDate, mockMeasurementExp.getDate());
     }
 
     @Test
     void testSetDate() {
         Date mockDate = new Date();
         mockMeasurementExp.setDate(mockDate);
-        assertEquals(mockDate, mockMeasurementExp.date);
+        Assert.assertEquals(mockDate, mockMeasurementExp.date);
     }
 
     @Test
     void testGetOwner() {
         mockMeasurementExp.setOwner(mockUser);
-        assertEquals(mockUser, mockMeasurementExp.getOwner());
+        Assert.assertEquals(mockUser, mockMeasurementExp.getOwner());
     }
 
     @Test
     void testSetOwner() {
         mockMeasurementExp.setOwner(mockUser);
-        assertEquals(mockUser, mockMeasurementExp.owner);
+        Assert.assertEquals(mockUser, mockMeasurementExp.owner);
     }
 
     // ResultsArr is not yet complete
-    //@Test
-    //void testGetResults() {
+    @Test
+    void testGetResults() {
+        mockMeasurementExp.results.add(new FloatResult(mockUser));
+        assert(mockMeasurementExp.getResults().equals(mockMeasurementExp.results));
+    }
 
-    //}
+    @Test
+    void testAddResult() {
+        mockMeasurementExp.experimenters.add(mockUser);
+        int n = mockMeasurementExp.results.size();
+        mockMeasurementExp.addResult(new FloatResult(mockUser));
+        assert(n<mockMeasurementExp.results.size());
 
-    //@Test
-    //void testAddResult() {
-    //}
 
-    //@Test
-    //void testIsPublished() {
-    //}
+    }
 
-    //@Test
-    //void testIsEnded() {
-    //}
+    @Test
+    void testIsPublished() {
+        mockMeasurementExp.published=true;
+        assert(mockMeasurementExp.isPublished());
+    }
 
-    //@Test
-    //void testGetSubscribers() {
-    //}
+    @Test
+    void testIsEnded() {
+        mockMeasurementExp.ended=true;
+        assert(mockMeasurementExp.isEnded());
+    }
 
-    //@Test
-    //void testGetQuestionsAnswers() {
-    //}
+    @Test
+    void testGetSubscribers() {
+        mockMeasurementExp.subscribers.add(mockUser);
+        assert(mockMeasurementExp.subscribers.equals(mockMeasurementExp.getSubscribers()));
+    }
 
-    //@Test
-    //void testIgnoreResultsFrom() {
-    // }
+    @Test
+    void testGetQuestionsAnswers() {
+        assert(mockMeasurementExp.qnalist.equals(mockMeasurementExp.getQuestionsAnswers()));
+    }
 
-    //@Test
-    //void testPublishExperiment() {
-    //}
+    @Test
+    void testIgnoreResultsFrom() {
+        mockMeasurementExp.ignoredUsers.add(mockUser.username);
+        mockMeasurementExp.results.add(new FloatResult(mockUser));
+        int n=mockMeasurementExp.results.size();
+        for(int i=0;i<mockMeasurementExp.results.size();i++){
+            if(mockMeasurementExp.results.get(i).experimenter.username.equals(mockUser.username)){
+                mockMeasurementExp.results.remove(i);
+            }
+        }
+        assert(mockMeasurementExp.results.size()<n);
+    }
 
-    //@Test
-    //void testDepublishExperiment() {
-    //}
+    @Test
+    void testPublishExperiment() {
+        mockMeasurementExp.published=false;
+        mockMeasurementExp.owner=mockUser;
+        mockMeasurementExp.publishExperiment(mockUser);
+        assert(mockMeasurementExp.isPublished());
+    }
 
-    //@Test
-    //void testEndExperiment() {
-    //}
+    @Test
+    void testDepublishExperiment() {
+        mockMeasurementExp.published=true;
+        mockMeasurementExp.owner=mockUser;
+        mockMeasurementExp.depublishExperiment(mockUser);
+        assert(!mockMeasurementExp.isPublished());
+    }
+
+    @Test
+    void testEndExperiment() {
+        mockMeasurementExp.ended=true;
+        mockMeasurementExp.endExperiment(mockUser);
+        assert(mockMeasurementExp.isEnded());
+    }
+
 
     @Test
     void testGetName() {
         String mockExperimentName = "Test Experiment";
         mockMeasurementExp.setName(mockExperimentName);
-        assertEquals(mockExperimentName, mockMeasurementExp.name);
+        Assert.assertEquals(mockExperimentName, mockMeasurementExp.name);
     }
 
     @Test
     void testSetName() {
         String mockExperimentName = "Test Experiment";
         mockMeasurementExp.setName(mockExperimentName);
-        assertEquals(mockExperimentName, mockMeasurementExp.getName());
+        Assert.assertEquals(mockExperimentName, mockMeasurementExp.getName());
     }
-
 }
