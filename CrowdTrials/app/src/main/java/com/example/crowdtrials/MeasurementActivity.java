@@ -1,5 +1,6 @@
 package com.example.crowdtrials;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -93,4 +94,26 @@ public class MeasurementActivity extends AppCompatActivity {
 
             }
         });
-    }}
+
+        final Button barcode_scan = findViewById(R.id.barcode_scan);
+        barcode_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MeasurementActivity.this,BarcodeScannerActivity.class);
+                startActivityForResult(intent,1);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                String scannedCode = data.getSerializableExtra("scannedCode").toString();
+                meas_result.setText(scannedCode);
+            }
+        }
+    }
+}
