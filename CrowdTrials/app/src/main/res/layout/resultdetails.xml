@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <ListView
-        android:id="@+id/res_list"
+        android:id="@+id/outcome_list"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="64dp"
@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.00999999"/>
 
     <Button
-        android:id="@+id/backbuttondispres"
+        android:id="@+id/backbuttondispoutcomes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -31,25 +31,4 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <Button
-        android:id="@+id/ignoreResultsFromButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Ignore From"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/viewquestions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="QnA"
-        app:layout_constraintEnd_toStartOf="@+id/ignoreResultsFromButton"
-        app:layout_constraintStart_toEndOf="@+id/backbuttondispres"
-        app:layout_constraintTop_toTopOf="parent" />
-    />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,8 @@ public class MeasurementExp extends Experiment implements Serializable {
      * This is a default constructor for a measurement experiment
      */
     public MeasurementExp(){
-        this.type = "MeasurementExp";
+        this.setType("Measurement Experiment");
+
     }
 
     /**
@@ -35,7 +36,8 @@ public class MeasurementExp extends Experiment implements Serializable {
      */
     public MeasurementExp(User owner, Location region, String description, Date date, int minTrials,String experimentName) {
         super(owner, region, description, date, minTrials,experimentName);
-        this.type = "MeasurementExp";
+        this.setType("Measurement Experiment");
+
     }
 
 }

@@ -83,6 +83,7 @@ public class MeasurementActivity extends AppCompatActivity {
                 Intent intent = new Intent(MeasurementActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","meas");
+                intent.putExtra("user",user);
                 startActivity(intent);
 
 

@@ -24,6 +24,7 @@ public abstract class Experiment implements Serializable {
     int minTrials;
     boolean published=false;
     boolean ended=false;
+    HashSet<String> ignoredUsers = new HashSet<>();
     HashSet<User> subscribers = new HashSet<>();
     //QnA questionsAnswers;
     ArrayList<QnA> qnalist = new ArrayList<>();
@@ -66,6 +67,8 @@ public abstract class Experiment implements Serializable {
         this.name = experimentName;
 
     }
+
+
 
     /**
      * This returns an array list of experimenters
@@ -278,5 +281,13 @@ public abstract class Experiment implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
