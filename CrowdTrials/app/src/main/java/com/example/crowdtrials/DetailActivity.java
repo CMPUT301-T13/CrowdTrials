@@ -26,6 +26,7 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
     User user;
     Button ignoreResultsFrom;
     Button questionsbutton;
+    Button editExperiment;
     String type;
     ArrayList<ResultArr> viewResultsFrom = new ArrayList<>();
     @Override
@@ -35,12 +36,14 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         //Experiment exp;
         //db.getSingleExperiment();
         Log.e("working","not working.");
+        editExperiment=findViewById(R.id.editexperimentbutton);
         reslist=findViewById(R.id.res_list);
         back = findViewById(R.id.backbuttondispres);
         type=(String) getIntent().getSerializableExtra("type");
         ignoreResultsFrom = findViewById(R.id.ignoreResultsFromButton);
         user=(User) getIntent().getSerializableExtra("user");
         questionsbutton = findViewById(R.id.viewquestions);
+
         if(type.equals("meas")){
             exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
             Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
@@ -88,8 +91,19 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         }
 
         if(exp.owner==null || !exp.owner.username.equals(user.username)){
-            //ignoreResultsFrom.setVisibility(GONE);
+            ignoreResultsFrom.setVisibility(GONE);
+            editExperiment.setVisibility(GONE);
         }
+        editExperiment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DetailActivity.this, EditExperimentActivity.class);
+                intent.putExtra("exp",exp);
+                intent.putExtra("user",user);
+                startActivity(intent);
+
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
