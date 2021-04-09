@@ -16,6 +16,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Random;
+
 /**
  * The class handles the login activity of the application
  */
@@ -42,10 +44,16 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             Intent intent = new Intent(this,MainActivity.class);
             intent.putExtra("user",attemptToFindUser);
             startActivityForResult(intent,1);
+            Log.e("user",attemptToFindUser);
         }
         else{
+            Random random = new Random();
+            int num = random.nextInt(4000000 - 1) + 1; // create the user a username
+            String username="nameless"+Integer.toString(num);
+            editor.putString("user",username);
+            editor.commit();
             Intent intent = new Intent(this,MainActivity.class);
-            intent.putExtra("user","USER_DOES_NOT_HAVE_ACCOUNT");
+            intent.putExtra("user",username);
             startActivityForResult(intent,1);
         }
         //Log.d("Found User",attemptToFindUser);

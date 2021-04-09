@@ -65,8 +65,11 @@ public class MeasurementActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(MeasurementActivity.this, MainActivity.class);
-                exp.addResult(result);
-                database.updateWithResults(result,exp.name);
+                if(result.measurements.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
                 intent.putExtra("pos",pos);

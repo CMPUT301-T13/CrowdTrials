@@ -123,10 +123,11 @@ public class BinomialActivity extends AppCompatActivity {
                 Intent intent = new Intent(BinomialActivity.this, MainActivity.class);
                 //result.outcomes.get(0);
                 //String ok=exp.name;
-                exp.addResult(result);
-                Log.d("RESULT ACTIVITY back", "run: " + exp.results);
-                Log.d("RESULT ACTIVITY backu", "run: " + exp.experimenters.get(0).username);
-                database.updateWithResults(result, exp.name);
+                if(result.outcomes.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 //exp.addResult(result);
                 intent.putExtra("exp", exp);
                 intent.putExtra("user", user);
@@ -162,10 +163,11 @@ public class BinomialActivity extends AppCompatActivity {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
                 }
                 //og.d("RESULT ACTIVITY", "run: " + res);
-                exp.results.add(result);
-                //exp.addResult(result);
-                Log.d("REsults size", Integer.toString(exp.results.size()));
-                database.updateWithResults(result, exp.name);
+                if(result.outcomes.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 Intent intent = new Intent(BinomialActivity.this, DetailActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "bin");
