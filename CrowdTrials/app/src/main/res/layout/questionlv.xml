@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <ListView
-        android:id="@+id/res_list"
+        android:id="@+id/question_list"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="64dp"
@@ -20,36 +20,43 @@
         app:layout_constraintVertical_bias="0.00999999"/>
 
     <Button
-        android:id="@+id/backbuttondispres"
+        android:id="@+id/backbuttonquest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <Button
-        android:id="@+id/ignoreResultsFromButton"
+        android:id="@+id/add_question_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Ignore From"
+        android:text="AddQuestion"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/backbuttonquest"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/viewquestions"
+        android:id="@+id/answerquestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="QnA"
-        app:layout_constraintEnd_toStartOf="@+id/ignoreResultsFromButton"
-        app:layout_constraintStart_toEndOf="@+id/backbuttondispres"
+        android:text="Answer"
+        app:layout_constraintStart_toEndOf="@+id/backbuttonquest"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/viewanswers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="view"
+        app:layout_constraintEnd_toStartOf="@+id/add_question_button"
+        app:layout_constraintStart_toEndOf="@+id/answerquestion"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     />
 </androidx.constraintlayout.widget.ConstraintLayout>

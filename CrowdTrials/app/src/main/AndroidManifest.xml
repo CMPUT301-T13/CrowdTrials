@@ -44,10 +44,16 @@
             android:name=".MeasurementActivity"
             android:label="@string/app_name" />
         <activity
+            android:name=".ViewAnswersActivity"
+            android:label="@string/app_name" />
+        <activity
             android:name=".DetailActivity"
             android:label="CrowdTrials" />
         <activity
             android:name=".ResultDetailActivity"
+            android:label="CrowdTrials" />
+        <activity
+            android:name=".QuestionActivity"
             android:label="CrowdTrials" />
         <activity android:name=".MainActivity">
             <meta-data
