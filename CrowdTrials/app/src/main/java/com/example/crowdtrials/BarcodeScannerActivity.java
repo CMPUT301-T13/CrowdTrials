@@ -16,6 +16,14 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
+
+/* REFERENCES
+ * Yuriy Budiyev, 06-12-18,  MIT License, https://github.com/yuriy-budiyev/code-scanner
+ */
+
+/**
+ * This class is used to scan a Barcode and register the barcode as a trial for a measurement experiment.
+ */
 public class BarcodeScannerActivity extends AppCompatActivity {
     private CodeScanner codeScanner;
 

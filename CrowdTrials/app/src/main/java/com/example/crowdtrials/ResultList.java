@@ -13,6 +13,9 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * This activity represents the adapter for a list of results
+ */
 public class ResultList extends ArrayAdapter<ResultArr> {
     private ArrayList<ResultArr> results;
     private Context context;
