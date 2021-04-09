@@ -35,6 +35,7 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
         addQ=findViewById(R.id.add_question_button);
         viewAnswer=findViewById(R.id.viewanswers);
         respondToQuestion=findViewById(R.id.answerquestion);
+        // YOU MUST CLICK ON A QUESTION THEN CLICK THE ANSWER OR VIEW IN ORDER TO INTERACT WITH THAT PARTICULAR QUESTION.
         addQ.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 new AddQuestionFragment().show(getSupportFragmentManager(), "ADD_QUESTION");
