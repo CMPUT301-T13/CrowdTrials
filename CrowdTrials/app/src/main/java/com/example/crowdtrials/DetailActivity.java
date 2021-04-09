@@ -91,8 +91,8 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         }
 
         if(exp.owner==null || !exp.owner.username.equals(user.username)){
-            ignoreResultsFrom.setVisibility(GONE);
-            editExperiment.setVisibility(GONE);
+            //ignoreResultsFrom.setVisibility(GONE);
+            //editExperiment.setVisibility(GONE);
         }
         editExperiment.setOnClickListener(new View.OnClickListener() {
             @Override

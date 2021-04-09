@@ -158,7 +158,9 @@ public class BinomialActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                result.outcomes.add(res);
+                if(lastRes.getText().toString().length()!=0) {
+                    result.outcomes.add(res);
+                }
                 for (int i = 0; i < result.outcomes.size(); i++) {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
                 }

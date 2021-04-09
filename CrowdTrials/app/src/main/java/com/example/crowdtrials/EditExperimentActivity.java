@@ -38,8 +38,8 @@ public class EditExperimentActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("user");
         exp = (Experiment) getIntent().getSerializableExtra("exp");
         if(exp.owner.username!=user.username){
-            publish.setVisibility(View.GONE);
-            ended.setVisibility(View.GONE);
+            //publish.setVisibility(View.GONE);
+            //ended.setVisibility(View.GONE);
         }
         tit.setText(exp.name);
         desc.setText(exp.description);
@@ -65,12 +65,14 @@ public class EditExperimentActivity extends AppCompatActivity {
                 if(exp.published){
                     exp.published=false;
                     publish.setText("Publish");
-                    database.updatePub(exp,exp.published);
+                    published.setText("Published status: "+exp.published);
+
                 }
                 else{
                     exp.published=true;
                     publish.setText("Depublish");
-                    database.updatePub(exp,exp.published);
+                    published.setText("Published status: "+exp.published);
+
                 }
 
 
@@ -84,12 +86,14 @@ public class EditExperimentActivity extends AppCompatActivity {
                 if(exp.ended){
                     exp.ended=false;
                     publish.setText("End");
-                    database.updateEnd(exp,exp.ended);
+                    ended.setText("Ended status: "+exp.ended);
+                    //database.updateEnd(exp,exp.ended);
                 }
                 else{
                     exp.ended=true;
                     publish.setText("Restart");
-                    database.updateEnd(exp,exp.ended);
+                    ended.setText("Ended status: "+exp.ended);
+                    //database.updateEnd(exp,exp.ended);
                 }
 
 
