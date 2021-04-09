@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -119,6 +120,21 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
                 new IgnoreResultFragment().show(getSupportFragmentManager(), "IGNORE");
 
             }
+        });
+        reslist.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(DetailActivity.this, ResultDetailActivity.class);
+                intent.putExtra("user",user);
+                intent.putExtra("exp",exp);
+                intent.putExtra("res",resAdapter.getItem(i));
+                intent.putExtra("typeres",resAdapter.getItem(i).type);
+                Log.e("type",resAdapter.getItem(i).type);
+                startActivity(intent);
+
+            }
+
+
         });
 
     }

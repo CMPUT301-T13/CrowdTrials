@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class FloatResult extends ResultArr{
     public ArrayList<Float> measurements = new ArrayList<>();
-
     @Override
     public double averageResult() {
         double summ=0;
@@ -28,6 +27,7 @@ public class FloatResult extends ResultArr{
      */
     public FloatResult(User experimenter) {
         super(experimenter);
+        this.type="float";
 
     }
 }

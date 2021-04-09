@@ -37,6 +37,7 @@ public class BoolResult extends ResultArr{
      */
     public BoolResult(User experimenter) {
         super(experimenter);
+        this.type="bool";
 
     }
 }
