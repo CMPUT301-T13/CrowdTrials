@@ -35,13 +35,13 @@ public class BinomialActivity extends AppCompatActivity {
     TextView title;
     ProgressBar pb;
     BoolResult result;
-
     Button statsButton;
     String qrTrial = null;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
     int qr = 0;
     boolean res;
+    TextView warning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +60,17 @@ public class BinomialActivity extends AppCompatActivity {
         prob = findViewById(R.id.probabilityViewer);
         lastRes = findViewById(R.id.lastresultbin);
         pb = (ProgressBar) findViewById(R.id.progressBar1);
-
+        warning = findViewById(R.id.warningbin);
         statsButton = findViewById(R.id.statsbutton);
         pb.setVisibility(View.GONE);
         qrScan = findViewById(R.id.bin_scan);
         // pb = new ProgressBar(this);
-
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
         //makeTheEditTextsUnEditable();
 
+        if(!exp.isGeoLocationEnabled){
+            warning.setVisibility(View.GONE);
+        }
 
         title.setText(exp.name);
         prob.setText(Double.toString(exp.probability));

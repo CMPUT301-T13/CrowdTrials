@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.w3c.dom.Text;
+
 /**
  * This class represents the activity for a Counts Experiment.
  */
@@ -22,6 +24,7 @@ public class CountActivity extends AppCompatActivity {
     Button viewDetails;
     Button qRScan;
     TextView plaintextLastRes;
+    TextView warning;
     TextView lastRes;
     TextView title;
     EditText count_result;
@@ -47,6 +50,12 @@ public class CountActivity extends AppCompatActivity {
         title = findViewById(R.id.title_non);
         lastRes = findViewById(R.id.lastresultnon);
         count_result = findViewById(R.id.editText_result_non);
+        warning = findViewById(R.id.warningnon);
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
+        if(!exp.isGeoLocationEnabled){
+            warning.setVisibility(View.GONE);
+        }
+
         Log.e("Count Activity", "Experiment: " + exp.name);
         title.setText(exp.name);
 //        plaintextLastRes.setText("Last result");
