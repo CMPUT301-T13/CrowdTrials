@@ -11,30 +11,36 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
-public class QuestionActivity extends AppCompatActivity implements AddQuestionFragment.OnFragmentInteractionListener,RespondQuestionFragment.OnFragmentInteractionListener {
+public class QuestionActivity extends AppCompatActivity implements AddQuestionFragment.OnFragmentInteractionListener,RespondQuestionFragment.OnFragmentInteractionListener ,QuestionsCallback{
     Database db;
     ArrayAdapter<QnA> ques;
     ListView queslist;
-    Button addQ;
+    FloatingActionButton addQ;
     Button viewAnswer;
     Button respondToQuestion;
     Experiment exp;
     User user;
+    ArrayList<QnA> questions;
     QnA lastclicked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questionlv);
-        queslist=findViewById(R.id.question_list);
+        queslist=(ListView)findViewById(R.id.question_list);
         exp = (Experiment) getIntent().getSerializableExtra("exp");
         user = (User) getIntent().getSerializableExtra("user");
-        ques=new QList(this,exp.qnalist);
+        questions = exp.qnalist;
+        ques=new QuestionsList(this,questions);
         queslist.setAdapter(ques);
         addQ=findViewById(R.id.add_question_button);
         viewAnswer=findViewById(R.id.viewanswers);
         respondToQuestion=findViewById(R.id.answerquestion);
+        db = Database.getSingleDatabaseInstance();
+        db.getQuestions(exp,this::onCallback);
         // YOU MUST CLICK ON A QUESTION THEN CLICK THE ANSWER OR VIEW IN ORDER TO INTERACT WITH THAT PARTICULAR QUESTION.
         addQ.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -43,24 +49,17 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
         });
         viewAnswer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(QuestionActivity.this, ViewAnswersActivity.class);
-                intent.putExtra("qna",lastclicked);
-                startActivity(intent);
+
 
 
             }
         });
-        respondToQuestion.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if(lastclicked!=null) {
-                    new RespondQuestionFragment().show(getSupportFragmentManager(), "ADD_QUESTION");
-                }
-            }
-        });
+
         queslist.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                lastclicked=ques.getItem(i);
+                startViewAnswersIntent(ques.getItem(i),i);
+
 
             }
 
@@ -69,12 +68,36 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
 
     }
 
+    public void startViewAnswersIntent(QnA question,int position){
+        Log.e("I've been called","In itemClickListener");
+        Intent intent = new Intent(QuestionActivity.this, ViewAnswersActivity.class);
+        intent.putExtra("qna",ques.getItem(position));
+        intent.putExtra("exp",exp);
+        startActivity(intent);
+    }
+
+    public void onCallback(ArrayList<QnA> value, int whichCase){
+        Log.e("Called in questions", " " + value.get(0).question);
+        questions.clear();
+        questions.addAll(value);
+        ques.notifyDataSetChanged();
+
+    }
+
     @Override
-    public void onOkPressed(String newquestion) {
-        exp.qnalist.add(new QnA(newquestion));
+    public void onOkPressed(String newStringquestion) {
+        QnA newQuestion = new QnA(newStringquestion);
+        exp.qnalist.add(newQuestion);
+        db.addQuestion(newQuestion,exp.getName());
     }
     @Override
     public void onAddAnswerOkPressed(String newanswer) {
         lastclicked.answers.add(newanswer);
+        db.addAnswer(lastclicked,exp.getName(),newanswer);
+    }
+
+    public void startRespondFragment(QnA question,int position){
+        lastclicked = question;
+        new RespondQuestionFragment().show(getSupportFragmentManager(), "ADD_QUESTION");
     }
 }

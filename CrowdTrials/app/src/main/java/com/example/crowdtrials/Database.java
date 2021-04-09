@@ -13,6 +13,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,6 +31,7 @@ public class Database {
     final CollectionReference collectionReference;
     final CollectionReference userCollectionReference;
     ArrayList<Experiment> subscribedListFromDataBase = new ArrayList<Experiment>();
+
     ArrayList<Experiment> searchedExperiments ;
 
     private Database() {
@@ -73,6 +75,39 @@ public class Database {
                         Log.w("My Activity", "Error adding document", e);
                     }
                 });
+    }
+    public void addQuestion(QnA question,String experimentName){
+        Map<String, Object> data = new HashMap<>();
+        data.put("Question",question);
+        collectionReference.document(experimentName).collection("Questions").document(question.question).set(data);
+
+    }
+    public void addAnswer(QnA question,String experimentName,String answer){
+        Map<String, Object> data = new HashMap<>();
+
+
+        DocumentReference docRef = collectionReference.document(experimentName).collection("Questions").document(question.question);
+        FieldPath fieldPath = FieldPath.of("Question","answers");
+        docRef.update(fieldPath, FieldValue.arrayUnion(question.answers.toArray()));
+
+
+        /*
+        data.put("Question",question);
+        collectionReference.document(experimentName).collection("Questions").document(question.question).collection("Answers").add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("My Activity", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("My Activity", "Error adding document", e);
+                    }
+                });
+
+         */
     }
 
     /**
@@ -454,6 +489,69 @@ public class Database {
                 });
 
 
+    }
+
+    public void getAnswers(Experiment exp,QnA question, QuestionsCallback myCallback){
+        DocumentReference docRef = collectionReference.document(exp.getName()).collection("Questions").document(question.question);
+        ArrayList<QnA> questionsList = new ArrayList<QnA>();
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    FieldPath fieldPath = FieldPath.of("Question","question");
+                    FieldPath secondFieldPath= FieldPath.of("Question","answers");
+
+                    String questionString;
+                    QnA question;
+                    ArrayList<String> answers = new ArrayList<>();
+                    questionString = (String)document.get(fieldPath);
+                    if (document.get(secondFieldPath) != null) {
+                        answers = (ArrayList<String>) document.get(secondFieldPath);
+
+                    }
+                    question = new QnA(questionString);
+                    question.answers = answers;
+                    questionsList.add(question);
+                    myCallback.onCallback(questionsList, 0);
+                }
+            }
+        });
+    }
+
+
+
+    public void getQuestions(Experiment exp, QuestionsCallback myCallback){
+
+        ArrayList<QnA> questionsList = new ArrayList<QnA>();
+        collectionReference.document(exp.getName()).collection("Questions")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        // Log.d("GET ALL RESULTS","before");
+                        String questionString;
+                        QnA  question;
+                        ArrayList<String> answers=new ArrayList<>();
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                FieldPath fieldPath = FieldPath.of("Question","question");
+                                questionString = (String)document.get(fieldPath);
+                                if(document.get("answers")!=null){
+                                    answers = (ArrayList<String>)document.get("answers");
+
+                                }
+                                Log.d("My Activity", "get Questions " + questionString);
+                                question = new QnA(questionString);
+                                question.answers = answers;
+                                questionsList.add(question);
+                            }
+
+                        myCallback.onCallback(questionsList,0);
+
+                        }
+                    }
+                });
     }
 
     /**

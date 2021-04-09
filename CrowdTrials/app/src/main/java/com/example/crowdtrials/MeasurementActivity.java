@@ -24,7 +24,7 @@ public class MeasurementActivity extends AppCompatActivity {
     EditText meas_result;
     FloatResult result;
     Button statsButton;
-
+    TextView warning;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
     @Override
@@ -41,6 +41,10 @@ public class MeasurementActivity extends AppCompatActivity {
         lastRes=findViewById(R.id.lastresultmeas);
         meas_result=findViewById(R.id.editText_result);
         statsButton = findViewById(R.id.statsbutton3);
+        warning=findViewById(R.id.warningmeas);
+        if(!exp.isGeoLocationEnabled){
+            warning.setVisibility(View.GONE);
+        }
         title.setText(exp.name);
         plaintextLastRes.setText("Last result");
         lastRes.setText("");
