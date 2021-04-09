@@ -58,11 +58,11 @@ public class QRScannerActivity extends AppCompatActivity {
         Intent intent;
 
         switch(result) {
-            case "pass":
+            case "true":
                 if(selectedExperiment.getType().equals("Binomial Experiment") ) {
                     intent = new Intent();
                     intent.putExtra("exp", selectedExperiment);
-                    intent.putExtra("trial","pass");
+                    intent.putExtra("trial","true");
                     setResult(Activity.RESULT_OK,intent);
                     finish();
                 }
@@ -76,11 +76,11 @@ public class QRScannerActivity extends AppCompatActivity {
                 }
                 break;
 
-            case "fail":
+            case "false":
                 if(selectedExperiment.getType().equals("Binomial Experiment")) {
                     intent = new Intent();
                     intent.putExtra("exp", selectedExperiment);
-                    intent.putExtra("trial","fail");
+                    intent.putExtra("trial","false");
                     setResult(Activity.RESULT_OK,intent);
                     finish();
                 }
