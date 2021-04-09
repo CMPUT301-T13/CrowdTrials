@@ -8,6 +8,12 @@ import java.util.ArrayList;
 public class IntResult extends ResultArr {
     public ArrayList<Integer> values = new ArrayList<>();
 
+
+    /**
+     * This methods calculates the Average counts for a CountExp or Non negative Count exp
+     * @return
+     * The average counts of the experiment
+     */
     @Override
     public double averageResult() {
         double summ=0;

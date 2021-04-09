@@ -11,7 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-public class  StatsActivity extends AppCompatActivity implements ResultsCallback{
+/**
+ * This class represents the activity used for statistics of an experiment
+ */
+public class StatsActivity extends AppCompatActivity implements ResultsCallback{
     String type;
     Database database;
     Experiment exp;

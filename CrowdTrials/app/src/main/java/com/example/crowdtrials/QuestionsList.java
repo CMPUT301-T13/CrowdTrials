@@ -13,6 +13,9 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the adapter for a list of questions of an experiment
+ */
 public class QuestionsList  extends  ArrayAdapter<QnA>{
 
 
@@ -21,13 +24,31 @@ public class QuestionsList  extends  ArrayAdapter<QnA>{
         TextView questionText;
         TextView numberOfQuestionText;
         Button respondToQuestion;
+
+    /**
+     * This method is a constructor for the adapter for list of questions
+     * @param context
+     * The current context
+     * @param questions
+     * The list of questions
+     */
         public QuestionsList(Context context, ArrayList<QnA> questions) {
             super(context,0,questions);
             this.questions = questions;
             this.context = context;
         }
 
-
+    /**
+     * This method is used to return a View based on user selection
+     * @param position
+     * The position selected by user
+     * @param convertView
+     * The view being converted
+     * @param parent
+     * The parent view
+     * @return
+     * The view associated to the position selected by the user
+     */
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View view = convertView;
 

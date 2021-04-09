@@ -76,12 +76,30 @@ public class Database {
                     }
                 });
     }
+
+    /**
+     * This method adds a question of a certain experiment to the database
+     * @param question
+     * This is the question object to be added to the database
+     * @param experimentName
+     * This is the name of the experiment for which the question is asked
+     */
     public void addQuestion(QnA question,String experimentName){
         Map<String, Object> data = new HashMap<>();
         data.put("Question",question);
         collectionReference.document(experimentName).collection("Questions").document(question.question).set(data);
 
     }
+
+    /**
+     * This method adds an answer to a question of a certain experiment to the database.
+     * @param question
+     * This is the question object for which the answer is entered.
+     * @param experimentName
+     * This is the name of the experiment for which the answer is entered
+     * @param answer
+     * This is the answer String to be entered.
+     */
     public void addAnswer(QnA question,String experimentName,String answer){
         Map<String, Object> data = new HashMap<>();
 
@@ -357,6 +375,14 @@ public class Database {
 
     }
 
+    /**
+     * This method gets all the outcomes of an experiment from the database
+     * @param exp
+     * The experiment whose outcomes have to be found
+     * @param myCallback
+     * This is the interface to handle the results list on callback
+     *
+     */
     public void getAllResults(Experiment exp,ResultsCallback myCallback){
         collectionReference.document(exp.getName()).collection("Trials")
                 .get()
@@ -494,6 +520,15 @@ public class Database {
 
     }
 
+    /**
+     * This methods gets all the answers of a question in a certain experiment from the database
+     * @param exp
+     * The experiment whose answers are being searched for
+     * @param question
+     * The question whose answers are being searched for
+     * @param myCallback
+     * This is the interface to handle the answer and question list on callback
+     */
     public void getAnswers(Experiment exp,QnA question, QuestionsCallback myCallback){
         DocumentReference docRef = collectionReference.document(exp.getName()).collection("Questions").document(question.question);
         ArrayList<QnA> questionsList = new ArrayList<QnA>();
@@ -523,7 +558,13 @@ public class Database {
     }
 
 
-
+    /**
+     * This methods gets all the questions in a certain experiment from the database
+     * @param exp
+     * The experiment whose questions are being searched for
+     * @param myCallback
+     * This is the interface to handle the question list on callback
+     */
     public void getQuestions(Experiment exp, QuestionsCallback myCallback){
 
         ArrayList<QnA> questionsList = new ArrayList<QnA>();
@@ -689,7 +730,12 @@ public class Database {
 
     }
 
-    public void  updateUser(User user){
+    /**
+     * This method updates the user object in the database
+     * @param user
+     * This is the the user object being updated in the database
+     */
+    public void updateUser(User user){
         Map<String, Object> data = new HashMap<>();
         //TODO: Check for when theres no contactinfo object
         data.put("Name",user.contactInfo.getName());

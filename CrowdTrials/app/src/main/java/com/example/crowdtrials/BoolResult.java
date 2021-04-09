@@ -10,6 +10,11 @@ import java.util.ArrayList;
 public class BoolResult extends ResultArr{
     public ArrayList<Boolean> outcomes = new ArrayList<>();
 
+    /**
+     * This class calculates the result of the experiment by total success / total outcomes.
+     * @return
+     * This is the success Rate of the Binomial Experiment
+     */
     @Override
     public double averageResult() {
         // calculate success rate for this sequence of results

@@ -19,6 +19,13 @@ import java.util.ArrayList;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
+/* REFERENCES
+ * AndroidMad / Mushtaq M A, 2016,  MIT License, https://github.com/androidmads/QRGenerator
+ */
+
+/**
+ * This class represents the activity to view a result for a certain experiment
+ */
 public class ResultDetailActivity extends AppCompatActivity {
     Button back;
     Experiment exp;
@@ -72,6 +79,11 @@ public class ResultDetailActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method is used to generate a qr code on clicking a certain trial
+     * @param position
+     * The position selected by the user
+     */
     private void generateQR(int position) {
         qr.setVisibility(View.VISIBLE);
         outcomesList.setVisibility(View.GONE);
