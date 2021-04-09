@@ -36,7 +36,7 @@ public class MeasurementActivity extends AppCompatActivity {
         pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_meas);
         viewDetails=findViewById(R.id.detail_meas_button);
-        //plaintextLastRes=findViewById(R.id.plaintext_lastres_meas);
+        plaintextLastRes=findViewById(R.id.displayLastRes_meas);
         title=findViewById(R.id.title_meas);
         lastRes=findViewById(R.id.lastresultmeas);
         meas_result=findViewById(R.id.editText_result);
