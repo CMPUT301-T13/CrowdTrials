@@ -90,6 +90,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
                 Intent intent = new Intent(NonNegativeCountActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","ncount");
+                intent.putExtra("user",user);
                 startActivity(intent);
 
 

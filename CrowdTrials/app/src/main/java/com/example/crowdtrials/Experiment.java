@@ -24,6 +24,7 @@ public abstract class Experiment implements Serializable {
     int minTrials;
     boolean published=false;
     boolean ended=false;
+    HashSet<String> ignoredUsers = new HashSet<>();
     HashSet<User> subscribers = new HashSet<>();
     //QnA questionsAnswers;
     ArrayList<QnA> qnalist = new ArrayList<>();
