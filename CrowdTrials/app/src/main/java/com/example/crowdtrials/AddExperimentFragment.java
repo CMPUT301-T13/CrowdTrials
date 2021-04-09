@@ -126,7 +126,7 @@ public class AddExperimentFragment extends DialogFragment {
                                 experiment.type = spinnerItem;
                                 listener.onAddExperimentOkPressed(experiment);
                                 break;
-                            case "Measurment Experiment":
+                            case "Measurement Experiment":
                                 experiment = new MeasurementExp();
                                 experiment.setName(name);
                                 experiment.setDescription(description);

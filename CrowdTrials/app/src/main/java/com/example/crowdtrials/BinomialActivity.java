@@ -1,5 +1,6 @@
 package com.example.crowdtrials;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -26,6 +27,7 @@ public class BinomialActivity extends AppCompatActivity {
     Button back;
     Button viewDetails;
     Button genResult;
+    Button qrScan;
     TextView plaintextLastRes;
     TextView lastRes;
     TextView plaintextProb;
@@ -33,8 +35,10 @@ public class BinomialActivity extends AppCompatActivity {
     TextView title;
     ProgressBar pb;
     BoolResult result;
+    String qrTrial = null;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
+    int qr = 0;
     boolean res;
 
     @Override
@@ -55,6 +59,7 @@ public class BinomialActivity extends AppCompatActivity {
         lastRes=findViewById(R.id.lastresultbin);
         pb=(ProgressBar)findViewById(R.id.progressBar1);
         pb.setVisibility(View.GONE);
+        qrScan = findViewById(R.id.bin_scan);
        // pb = new ProgressBar(this);
 
         //makeTheEditTextsUnEditable();
@@ -147,7 +152,44 @@ public class BinomialActivity extends AppCompatActivity {
 
             }
         });
-}
+
+        qrScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BinomialActivity.this,QRScannerActivity.class);
+                intent.putExtra("experiment",exp);
+                startActivityForResult(intent,1);
+            }
+        });
+    }
+
+    public void qrUpdate() {
+        if(qrTrial.equals("pass")) {
+            res = true;
+        }
+        else if(qrTrial.equals("fail")) {
+            res = false;
+        }
+        result.outcomes.add(res);
+        database.updateWithResults(result,exp.name);
+        lastRes.setText(Boolean.toString(res));
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            qr = 1;
+
+            exp = (BinomialExp) data.getSerializableExtra("exp");
+            qrTrial = (String) data.getSerializableExtra("trial");
+            qrUpdate();
+
+        }
+    }
+
+
 /*
  public void makeTheEditTextsUnEditable(){
      EditText experimentNameEditText = findViewById(R.id.name_editText);
