@@ -48,6 +48,9 @@
             android:name=".ViewAnswersActivity"
             android:label="@string/app_name" />
         <activity
+            android:name=".EditExperimentActivity"
+            android:label="@string/app_name" />
+        <activity
             android:name=".DetailActivity"
             android:label="CrowdTrials" />
         <activity

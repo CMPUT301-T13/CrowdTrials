@@ -695,4 +695,21 @@ public class Database {
         docRef.set(data);
 
     }
+    public void  updatePub(Experiment exp,boolean tf){
+        Map<String, Object> data = new HashMap<>();
+        //TODO: Check for when theres no contactinfo object
+        data.put("published",tf);
+        DocumentReference docRef = collectionReference.document(exp.name);
+        docRef.set(data);
+
+    }
+    public void  updateEnd(Experiment exp,boolean tf){
+        Map<String, Object> data = new HashMap<>();
+        //TODO: Check for when theres no contactinfo object
+        data.put("ended",tf);
+        DocumentReference docRef = collectionReference.document(exp.name);
+        docRef.set(data);
+
+    }
+
 }
