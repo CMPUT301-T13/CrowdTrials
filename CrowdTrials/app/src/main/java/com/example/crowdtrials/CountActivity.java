@@ -81,8 +81,11 @@ public class CountActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(CountActivity.this, MainActivity.class);
-                exp.addResult(result);
-                database.updateWithResults(result, exp.name);
+                if(result.values.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 intent.putExtra("exp", exp);
                 intent.putExtra("user", user);
                 intent.putExtra("pos", pos);
@@ -97,9 +100,11 @@ public class CountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                exp.results.add(result);
-                //exp.addResult(result);
-                database.updateWithResults(result, exp.name);
+                if(result.values.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 Intent intent = new Intent(CountActivity.this, DetailActivity.class);
 
 
