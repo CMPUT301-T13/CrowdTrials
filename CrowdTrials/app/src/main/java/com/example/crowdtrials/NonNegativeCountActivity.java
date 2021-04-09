@@ -23,6 +23,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
     TextView plaintextLastRes;
     TextView lastRes;
     TextView title;
+    TextView warning;
     EditText non_result;
     IntResult result;
     Button statsButton;
@@ -47,9 +48,11 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         lastRes = findViewById(R.id.lastresultnon);
         non_result = findViewById(R.id.editText_result_non);
         qRScan = findViewById(R.id.count_scan);
+        warning = findViewById(R.id.warningnon);
 
-
-
+        if(!exp.isGeoLocationEnabled){
+            warning.setVisibility(View.GONE);
+        }
 
         title.setText(exp.name);
         // plaintextLastRes.setText("Last result");
