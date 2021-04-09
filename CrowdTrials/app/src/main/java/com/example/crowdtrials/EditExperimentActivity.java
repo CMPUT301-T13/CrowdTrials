@@ -38,8 +38,8 @@ public class EditExperimentActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("user");
         exp = (Experiment) getIntent().getSerializableExtra("exp");
         if(exp.owner.username!=user.username){
-            //publish.setVisibility(View.GONE);
-            //ended.setVisibility(View.GONE);
+            publish.setVisibility(View.GONE);
+            ended.setVisibility(View.GONE);
         }
         tit.setText(exp.name);
         desc.setText(exp.description);
