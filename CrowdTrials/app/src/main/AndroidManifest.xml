@@ -46,6 +46,9 @@
         <activity
             android:name=".DetailActivity"
             android:label="CrowdTrials" />
+        <activity
+            android:name=".ResultDetailActivity"
+            android:label="CrowdTrials" />
         <activity android:name=".MainActivity">
             <meta-data
                 android:name="android.app.default_searchable"

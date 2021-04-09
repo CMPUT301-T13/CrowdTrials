@@ -6,7 +6,6 @@ import java.util.ArrayList;
  * This is class that holds the int results of an experiment
  */
 public class IntResult extends ResultArr {
-
     public ArrayList<Integer> values = new ArrayList<>();
 
     @Override
@@ -29,6 +28,7 @@ public class IntResult extends ResultArr {
      */
     public IntResult(User experimenter) {
         super(experimenter);
+        this.type="int";
     }
 
 
