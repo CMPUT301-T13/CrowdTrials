@@ -69,7 +69,7 @@ public class CountActivity extends AppCompatActivity {
         final Button confirmButton = findViewById(R.id.button_confirm_non);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Integer res = Integer.parseInt(count_result.getText().toString());
+                Integer res = Integer.parseInt(count_result.getText().toString().trim());
                 count_result.getText().clear();
                 lastRes.setText(res.toString());
                 result.values.add(res);

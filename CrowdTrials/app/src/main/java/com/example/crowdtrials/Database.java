@@ -157,6 +157,7 @@ public class Database {
      */
     public void readSubscribedExperiments(MyCallback myCallback,User user){
 
+
         userCollectionReference.document(user.username).collection("Subscriptions")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -171,13 +172,12 @@ public class Database {
                          experimentName = (String)document.get("name");
                          getSingleExperiment(myCallback,experimentName);
 
-                         Log.d("this was called", document.getId() + " => " + document.getData());
+                         Log.d("RETURNING", document.getId() + " => " + subscribedListFromDataBase);
 
-
-                        Log.d("My Activity", document.getId() + " => " + document.getData());
 
 
                     }
+
 
 
 
@@ -298,6 +298,8 @@ public class Database {
                     if (document.exists()) {
                         Log.d("Get single experiment", "DocumentSnapshot data ex: " + document.getData());
                         parseDocument(document,subscribedListFromDataBase);
+                        myCallback.onCallback(subscribedListFromDataBase,1);
+                        subscribedListFromDataBase.clear();
 
 
                     }else {
@@ -307,7 +309,8 @@ public class Database {
                 } else {
                     Log.d("My Activity", "No such document");
                 }
-                myCallback.onCallback(subscribedListFromDataBase,1);
+
+
             }
 
         });

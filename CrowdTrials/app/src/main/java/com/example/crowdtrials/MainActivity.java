@@ -1,6 +1,7 @@
 package com.example.crowdtrials;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -31,10 +32,15 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -60,14 +66,14 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
 
-
+        db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         database =  Database.getSingleDatabaseInstance();
         experimentDataList = new ArrayList<>();
 
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
         user = new User(username);
-
+        addDatabaseListeners();
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -124,8 +130,9 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
         */
 
-        database.readAllExperiments(this::onCallback);
-        database.readSubscribedExperiments(this::onCallback,user);
+        //database.readAllExperiments(this::onCallback);
+        //database.readSubscribedExperiments(this::onCallback,user);
+
 
         final FloatingActionButton addCityButton = findViewById(R.id.add_experiment_button);
         addCityButton.setOnClickListener(new View.OnClickListener() {
@@ -249,10 +256,12 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
             case 0:
                 Log.d("My Activity", "get failed with 0" + value);
                 pagerAdapter.homeFragment.getList(value);
+
                 break;
             case 1:
                 Log.d("My Activity", "get failed with 1" + value);
                 pagerAdapter.subscriptionsFragment.getList(value);
+
                 break;
             default:
 
@@ -262,6 +271,44 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
     }
 
+
+
+    public void addDatabaseListeners(){
+        db.collection("Users").document(user.username).collection("Subscriptions").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value,
+                                @Nullable FirebaseFirestoreException e) {
+                Log.e("Users changed", "In subscribed.", e);
+                if (e != null) {
+
+                    return;
+                }
+                getAllSubcribedExperiments();
+
+            }
+        });
+
+        db.collection("Experiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value,
+                                @Nullable FirebaseFirestoreException e) {
+                Log.e("Experiments changed", "In Experiments.", e);
+                if (e != null) {
+
+                    return;
+                }
+                getAllExperiments();
+
+            }
+        });
+    }
+    public void getAllExperiments(){
+        database.readAllExperiments(this::onCallback);
+    }
+    public void getAllSubcribedExperiments(){
+        pagerAdapter.homeFragment.experimentDataList.clear();
+        database.readSubscribedExperiments(this::onCallback,user);
+    }
     public void writeToDatabase(Experiment experiment){
         database.writeExperiments(experiment);
     }
