@@ -1,6 +1,7 @@
 package com.example.crowdtrials;
 
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -14,14 +15,7 @@ public class MeasurementExpTest {
     }
     private User mockUser = new User("James99", mockContact());
 
-    @Test
-    void testGenResult() {
-        if (Math.random() > (1 - mockMeasurementExp.probability)) {
-            Assert.assertEquals(true, mockMeasurementExp.genResult());
-        } else {
-            Assert.assertEquals(false, mockMeasurementExp.genResult());
-        }
-    }
+
 
     @Test
     void testGetRegion() {

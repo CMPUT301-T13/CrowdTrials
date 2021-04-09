@@ -1,6 +1,7 @@
 package com.example.crowdtrials;
 
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -15,14 +16,7 @@ public class NonNegativeCountExpTest {
     }
     private User mockUser = new User("James99", mockContact());
 
-    @Test
-    void testGenResult() {
-        if (Math.random() > (1 - mockNonNegativeCountExp.probability)) {
-            Assert.assertEquals(true, mockNonNegativeCountExp.genResult());
-        } else {
-            Assert.assertEquals(false, mockNonNegativeCountExp.genResult());
-        }
-    }
+
 
     @Test
     void testGetRegion() {
