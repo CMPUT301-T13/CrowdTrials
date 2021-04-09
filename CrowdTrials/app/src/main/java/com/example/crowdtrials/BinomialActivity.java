@@ -184,10 +184,10 @@ public class BinomialActivity extends AppCompatActivity {
     }
 
     public void qrUpdate() {
-        if(qrTrial.equals("pass")) {
+        if(qrTrial.equals("true")) {
             res = true;
         }
-        else if(qrTrial.equals("fail")) {
+        else if(qrTrial.equals("false")) {
             res = false;
         }
         result.outcomes.add(res);
