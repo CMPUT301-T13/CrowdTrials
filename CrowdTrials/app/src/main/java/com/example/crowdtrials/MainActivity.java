@@ -40,7 +40,7 @@ import java.util.Random;
 /**
  * This class represents the main activity of the application.
  */
-public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener, AddResult,SearchView.OnQueryTextListener {
 // add waiting signal
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
@@ -151,6 +151,21 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     }
 
     @Override
+    public boolean onSearchRequested() {
+        Bundle appData = new Bundle();
+
+
+        appData.putString("username", user.username);
+        if(user.contactInfo!= null){
+            appData.putString("name", user.contactInfo.getName());
+            appData.putString("phoneNum",user.contactInfo.getPhoneNumber());
+        }
+
+        startSearch(null, false, appData, false);
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
         MenuInflater inflater = getMenuInflater();
@@ -161,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(this);
 
         TextView textView = (TextView) menu.findItem(R.id.profileName).getActionView();
         textView.setText(user.username);
@@ -168,6 +184,31 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
         return true;
     }
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Intent searchIntent = new Intent(this, SearchableActivity.class);
+        searchIntent.putExtra(SearchManager.QUERY, query);
+
+        Bundle appData = new Bundle();
+        appData.putString("username", user.username);
+        if(user.contactInfo!= null){
+            appData.putString("name", user.contactInfo.getName());
+            appData.putString("phoneNum",user.contactInfo.getPhoneNumber());
+        }
+
+        searchIntent.putExtra(SearchManager.APP_DATA, appData); // pass the search context data
+        searchIntent.setAction(Intent.ACTION_SEARCH);
+
+        startActivity(searchIntent);
+
+        return true; // we start the search activity manually
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.profileName);

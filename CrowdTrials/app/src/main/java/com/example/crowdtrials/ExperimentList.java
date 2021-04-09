@@ -2,6 +2,7 @@ package com.example.crowdtrials;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
             public void onClick(View view) {
                 subscribedButton.setText("Subscribed");
                 subscribedButton.setTextColor(0xFF00BCD4);
+                addResult.setTextColor(Color.BLACK);
 
 
                 MainActivity mainActivity = (MainActivity) context;
@@ -70,8 +72,9 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
             public void onClick(View view) {
                 addResult.setText("Add Result");
                 addResult.setTextColor(0xFF00BCD4);
-                MainActivity mainActivity = (MainActivity) context;
-                mainActivity.addResultPressed(experiments.get(position),position);
+                addResult.setTextColor(Color.BLACK);
+                AddResult activity = (AddResult) context;
+                activity.addResultPressed(experiments.get(position),position);
 
             }
         });
