@@ -1,8 +1,13 @@
 package com.example.crowdtrials;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.SearchManager;
@@ -25,6 +30,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
@@ -40,8 +46,14 @@ import java.util.Random;
 /**
  * This class represents the main activity of the application.
  */
-public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener {
 // add waiting signal
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    Toolbar toolbar;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    NavigationView navigationView;
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
     ArrayList<Experiment> experimentDataList;
@@ -51,13 +63,27 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     User user;
     String username;
     PagerAdapter pagerAdapter;
-    Toolbar toolbar;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.main_toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        drawerLayout=findViewById(R.id.drawer);
+        navigationView=findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
+        actionBarDrawerToggle=new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
+
+        fragmentManager=getSupportFragmentManager();
+        fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.container_fragment, new HomeFragment());
+        fragmentTransaction.commit();
         FirebaseApp.initializeApp(this);
 
 
@@ -80,9 +106,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         }
         user = new User(username);
 
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
+
         // query database to see if username exists
         // query database with the passed in username
 
@@ -154,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.drawer_menu, menu);
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -339,5 +363,46 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
                 //experimentDataList.set(ind,e);
             }
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Log.i("MyApp", "onNavigationItemSelected: -----------------------------------------------------");
+        switch(item.getItemId())
+        {
+            case R.id.subscribe:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment,new subscriptions()).commit();
+                break;
+            case R.id.profileName:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment,new CreateUserFragment()).commit();
+                break;
+            case R.id.home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment,new HomeFragment()).commit();
+                break;
+
+        }
+        /*if(item.getItemId()==R.id.home)
+        {
+            fragmentManager=getSupportFragmentManager();
+            fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_fragment, new HomeFragment());
+            fragmentTransaction.commit();
+        }
+        if(item.getItemId()==R.id.subscribe)
+        {
+            fragmentManager=getSupportFragmentManager();
+            fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_fragment, new subscriptions());
+            fragmentTransaction.commit();
+                  }
+        if(item.getItemId()==R.id.profileName)
+        {
+            fragmentManager=getSupportFragmentManager();
+            fragmentTransaction=fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_fragment, new CreateUserFragment());
+            fragmentTransaction.commit();
+        }*/
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
