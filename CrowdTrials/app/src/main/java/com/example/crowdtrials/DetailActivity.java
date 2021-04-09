@@ -25,6 +25,7 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
     Experiment exp;
     User user;
     Button ignoreResultsFrom;
+    Button questionsbutton;
     String type;
     ArrayList<ResultArr> viewResultsFrom = new ArrayList<>();
     @Override
@@ -39,7 +40,7 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         type=(String) getIntent().getSerializableExtra("type");
         ignoreResultsFrom = findViewById(R.id.ignoreResultsFromButton);
         user=(User) getIntent().getSerializableExtra("user");
-
+        questionsbutton = findViewById(R.id.viewquestions);
         if(type.equals("meas")){
             exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
             Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
@@ -135,6 +136,17 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
             }
 
 
+        });
+
+
+        questionsbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DetailActivity.this, QuestionActivity.class);
+                intent.putExtra("user",user);
+                intent.putExtra("exp",exp);
+                startActivity(intent);
+            }
         });
 
     }
