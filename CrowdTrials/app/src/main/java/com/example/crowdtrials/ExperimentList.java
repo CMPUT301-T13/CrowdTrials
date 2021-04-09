@@ -37,7 +37,17 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
         this.context = context;
     }
 
-
+    /**
+     * This method returns the View of a certain experiment
+     * @param position
+     * The position of the selected experiment
+     * @param convertView
+     * The view to be converted
+     * @param parent
+     * The parent view
+     * @return
+     * The view of the selected experiment in list
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 

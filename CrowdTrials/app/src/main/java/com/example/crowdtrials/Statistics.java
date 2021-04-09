@@ -6,12 +6,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * This class models the statistics of an experiment
+ */
 public class Statistics {
 
     public void Statistics(){
 
     }
 
+    /**
+     * This method calculates the binomial mean of a binomial experiment
+     * @param outcomes
+     * The boolean outcomes of the experiment
+     * @return
+     * The binomial mean of the experiment
+     */
     public float getBinomialMean(ArrayList<Boolean> outcomes){
         int sum =0;
         for(Boolean outcome:outcomes){
@@ -22,6 +32,13 @@ public class Statistics {
         return (float)sum/outcomes.size();
     }
 
+    /**
+     * This method calculates the integer mean of an experiment
+     * @param values
+     * The numerical outcomes of the experiment
+     * @return
+     * The integer mean of the experiment
+     */
     public float  getIntegerMean(ArrayList<?> values){
         int sum =0;
         for(int i =0; i<values.size(); i++){
@@ -33,6 +50,13 @@ public class Statistics {
         return (float)sum/values.size();
 
     }
+    /**
+     * This method calculates the float mean of an experiment
+     * @param measurements
+     * The numerical outcomes of the experiment
+     * @return
+     * The float mean of the experiment
+     */
     public float  getfloatMean(ArrayList<Float> measurements){
         int sum =0;
         for(Float value:measurements){
@@ -42,6 +66,13 @@ public class Statistics {
 
     }
 
+    /**
+     * This method calculates the boolean median of an experiment
+     * @param values
+     * The boolean outcomes of the experiment
+     * @return
+     * The boolean median of the experiment
+     */
     public Boolean getMedian(ArrayList<Boolean> values){
 
         Collections.sort(values);
@@ -55,6 +86,13 @@ public class Statistics {
         }
     }
 
+    /**
+     * This method calculates the numerical median of an experiment
+     * @param values
+     * The numerical outcomes of the experiment
+     * @return
+     * The numerical median of the experiment
+     */
     public float getIntegerMedian(ArrayList<?> values){
         ArrayList<Integer> tempArray= new ArrayList<Integer>();
         for(int i =0; i<values.size(); i++){
@@ -72,6 +110,13 @@ public class Statistics {
 
         }
     }
+    /**
+     * This method calculates the numerical median of an experiment
+     * @param values
+     * The numerical outcomes of the experiment
+     * @return
+     * The numerical median of the experiment
+     */
     public float getfloatMedian(ArrayList<Float> values){
 
         Collections.sort(values);
@@ -85,6 +130,15 @@ public class Statistics {
         }
     }
 
+    /**
+     * This method calculates the std dev of a binomial experiment
+     * @param values
+     * The boolean outcomes of the experiment
+     * @param mean
+     * The mean value of the outcomes
+     * @return
+     * The std dev of a binomial experiment
+     */
     public float getbooleanStandardDeviation(ArrayList<Boolean> values,float mean){
         double sum =0;
         double sd = 0;
@@ -102,6 +156,16 @@ public class Statistics {
         return (float)Math.sqrt(sum);
 
     }
+
+    /**
+     * This method calculates the std dev of an experiment
+     * @param values
+     * The numerical outcomes of the experiment
+     * @param mean
+     * The mean value of the outcomes
+     * @return
+     * The std dev of an experiment
+     */
     public float getStandardDeviation(ArrayList<Float> values,float mean){
         double sum =0;
         double sd = 0;
@@ -114,6 +178,16 @@ public class Statistics {
         return (float)Math.sqrt(sum);
 
     }
+
+    /**
+     * This method calculates the std dev of an experiment
+     * @param values
+     * The numerical outcomes of the experiment
+     * @param mean
+     * The mean value of the outcomes
+     * @return
+     * The std dev of an experiment
+     */
     public float getIntegerStandardDeviation(ArrayList<?> values,float mean){
         double sum =0;
         double sd = 0;

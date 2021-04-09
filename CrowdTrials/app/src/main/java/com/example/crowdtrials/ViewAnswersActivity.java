@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the activity to view all answers of a question
+ */
 public class ViewAnswersActivity extends AppCompatActivity implements QuestionsCallback{
     Button back;
     ListView answersList;

@@ -15,6 +15,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+/**
+ * This activity represents the activity to view a question
+ */
 public class QuestionActivity extends AppCompatActivity implements AddQuestionFragment.OnFragmentInteractionListener,RespondQuestionFragment.OnFragmentInteractionListener ,QuestionsCallback{
     Database db;
     ArrayAdapter<QnA> ques;

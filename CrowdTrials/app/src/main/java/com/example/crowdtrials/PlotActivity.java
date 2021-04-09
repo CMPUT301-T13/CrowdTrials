@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class represents the plot activity for a experiment
+ */
 public class PlotActivity extends AppCompatActivity implements ResultsCallback{
     FirebaseFirestore db;
     CollectionReference collectionReference;

@@ -16,6 +16,9 @@ import java.util.ArrayList;
 
 import static android.view.View.GONE;
 
+/**
+ * This class represents the Detail Activity of a certain experiment that shows the result of the experiment and gives an option to look at all outcomes.
+ */
 public class DetailActivity extends AppCompatActivity implements ResultsCallback,IgnoreResultFragment.OnFragmentInteractionListener{
     Database db;
     ListView reslist;
