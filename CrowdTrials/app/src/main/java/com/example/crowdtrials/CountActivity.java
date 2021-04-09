@@ -1,5 +1,6 @@
 package com.example.crowdtrials;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +20,15 @@ public class CountActivity extends AppCompatActivity {
     User user;
     Button back;
     Button viewDetails;
+    Button qRScan;
     TextView plaintextLastRes;
     TextView lastRes;
     TextView title;
     EditText count_result;
     IntResult result;
     int pos;
+    int qr;
+    String qrTrial;
     Database database =  Database.getSingleDatabaseInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class CountActivity extends AppCompatActivity {
         title.setText(exp.name);
 //        plaintextLastRes.setText("Last result");
         lastRes.setText("");
+        qRScan = findViewById(R.id.count_scan);
         result=new IntResult(user);
         exp.experimenters.add(user);
         final Button confirmButton = findViewById(R.id.button_confirm_non);
@@ -83,9 +88,41 @@ public class CountActivity extends AppCompatActivity {
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","count");
                 startActivity(intent);
-                finish();
+
 
 
             }
         });
-    }}
+
+        qRScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CountActivity.this,QRScannerActivity.class);
+                intent.putExtra("experiment",exp);
+                startActivityForResult(intent,1);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            qr = 1;
+
+            exp = (CountExp) data.getSerializableExtra("exp");
+            qrTrial = (String) data.getSerializableExtra("trial");
+            qrUpdate();
+
+        }
+    }
+
+    public void qrUpdate() {
+        Integer res = Integer.parseInt(qrTrial);
+        lastRes.setText(res.toString());
+        result.values.add(res);
+
+    }
+
+
+}

@@ -1,4 +1,4 @@
-/*
+
 package com.example.crowdtrials;
 
 import androidx.annotation.NonNull;
@@ -39,7 +39,7 @@ public class QRScannerActivity extends AppCompatActivity {
     }
 
     private void scan() {
-        CodeScannerView scannerView = findViewById(R.id.);
+        CodeScannerView scannerView = findViewById(R.id.scan_view);
         codeScanner = new CodeScanner(QRScannerActivity.this, scannerView);
         codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -59,62 +59,87 @@ public class QRScannerActivity extends AppCompatActivity {
 
         switch(result) {
             case "pass":
-                if(selectedExperiment.getType() == "Binomial Exp") {
-                    intent = new Intent(QRScannerActivity.this, BinomialActivity.class);
-                    intent.putExtra("Pass", selectedExperiment);
-                    startActivityForResult(intent, 101);
+                if(selectedExperiment.getType().equals("Binomial Experiment") ) {
+                    intent = new Intent();
+                    intent.putExtra("exp", selectedExperiment);
+                    intent.putExtra("trial","pass");
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
                 }
                 else {
+                    intent = new Intent();
+                    intent.putExtra("exp", selectedExperiment);
+                    intent.putExtra("trial","null");
                     Toast.makeText(QRScannerActivity.this,"Invalid Entry!",Toast.LENGTH_LONG).show();
+                    setResult(Activity.RESULT_CANCELED,intent);
                     finish();
                 }
                 break;
 
             case "fail":
-                if(selectedExperiment.getType() == "Binomial Exp") {
-                    intent = new Intent(QRScannerActivity.this, BinomialActivity.class);
-                    intent.putExtra("Fail", selectedExperiment);
-                    startActivityForResult(intent, 101);
+                if(selectedExperiment.getType().equals("Binomial Experiment")) {
+                    intent = new Intent();
+                    intent.putExtra("exp", selectedExperiment);
+                    intent.putExtra("trial","fail");
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
                 }
                 else {
+                    intent = new Intent();
+                    intent.putExtra("exp", selectedExperiment);
+                    intent.putExtra("trial","null");
                     Toast.makeText(QRScannerActivity.this,"Invalid Entry!",Toast.LENGTH_LONG).show();
+                    setResult(Activity.RESULT_CANCELED,intent);
                     finish();
                 }
                 break;
             default:
-                if(selectedExperiment.getType() == "CountExp" || selectedExperiment.getType() == "NonNegativeCountExp") {
+                if(selectedExperiment.getType().equals("Count Experiment") || selectedExperiment.getType().equals("NonNegative Count Experiment")) {
                     try {
                         int count = Integer.parseInt(result);
-                        if (count < 0 && selectedExperiment.getType() == "CountExp" ) {
-                            intent = new Intent(QRScannerActivity.this,CountActivity.class);
-                            intent.putExtra("CountExp",selectedExperiment);
-                            intent.putExtra("Count",count);
-                            startActivityForResult(intent,101);
+                        if (count >= 0 && selectedExperiment.getType().equals("NonNegative Count Experiment") ) {
+                            intent = new Intent();
+                            intent.putExtra("exp", selectedExperiment);
+                            intent.putExtra("trial",Integer.toString(count));
+                            setResult(Activity.RESULT_OK,intent);
+                            finish();
                             break;
                         }
-                        else if (selectedExperiment.getType() == "CountExp") {
-                            intent = new Intent(QRScannerActivity.this,CountActivity.class);
-                            intent.putExtra("CountExp",selectedExperiment);
-                            intent.putExtra("Count",count);
-                            startActivityForResult(intent,101);
+                        else if (selectedExperiment.getType().equals("Count Experiment")) {
+                            intent = new Intent();
+                            intent.putExtra("exp", selectedExperiment);
+                            intent.putExtra("trial",Integer.toString(count));
+                            setResult(Activity.RESULT_OK,intent);
+                            finish();
                             break;
                         }
                         else {
-                            intent = new Intent(QRScannerActivity.this,NonNegativeCountActivity.class);
-                            intent.putExtra("NonNegativeCountExp",selectedExperiment);
-                            intent.putExtra("Count",count);
-                            startActivityForResult(intent,101);
+                            intent = new Intent();
+                            intent.putExtra("exp", selectedExperiment);
+                            intent.putExtra("trial","null");
+                            Toast.makeText(QRScannerActivity.this,"Invalid Entry!",Toast.LENGTH_LONG).show();
+                            setResult(Activity.RESULT_CANCELED,intent);
+                            finish();
                             break;
                         }
+
                     }
                     catch (Exception e) {
+                        intent = new Intent();
+                        intent.putExtra("exp", selectedExperiment);
+                        intent.putExtra("trial","null");
                         Toast.makeText(QRScannerActivity.this,"Invalid Entry!",Toast.LENGTH_LONG).show();
+                        setResult(Activity.RESULT_CANCELED,intent);
                         finish();
                         break;
                     }
                 }
                 else {
+                    intent = new Intent();
+                    intent.putExtra("exp", selectedExperiment);
+                    intent.putExtra("trial","null");
                     Toast.makeText(QRScannerActivity.this,"Invalid Entry!",Toast.LENGTH_LONG).show();
+                    setResult(Activity.RESULT_CANCELED,intent);
                     finish();
                     break;
                 }
@@ -152,19 +177,6 @@ public class QRScannerActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        if(resultCode == Activity.RESULT_OK) {
-            selectedExperiment = (Experiment) data.getSerializableExtra("Experiment");
-            Intent intent = new Intent();
-            intent.putExtra("Experiment",selectedExperiment);
-            setResult(Activity.RESULT_OK,intent);
-            finish();
-        }
-        if (resultCode == Activity.RESULT_CANCELED) {
-            System.out.println("No Data to be sent");
-        }
-    }
 
-}*/
+
+}
