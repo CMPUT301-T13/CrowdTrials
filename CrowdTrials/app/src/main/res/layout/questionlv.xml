@@ -30,20 +30,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_question_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AddQuestion"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/backbuttonquest"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <Button
         android:id="@+id/answerquestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
         android:text="Answer"
         app:layout_constraintStart_toEndOf="@+id/backbuttonquest"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,8 +58,10 @@
         android:id="@+id/viewanswers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="view"
         app:layout_constraintEnd_toStartOf="@+id/add_question_button"
+        app:layout_constraintHorizontal_bias="0.627"
         app:layout_constraintStart_toEndOf="@+id/answerquestion"
         app:layout_constraintTop_toTopOf="parent" />
 

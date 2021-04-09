@@ -18,6 +18,13 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
+/* REFERENCES
+ * Yuriy Budiyev, 06-12-18,  MIT License, https://github.com/yuriy-budiyev/code-scanner
+ */
+
+/**
+ * This class represents the activity used to scan a QR Code.
+ */
 public class QRScannerActivity extends AppCompatActivity {
 
     Experiment selectedExperiment;
@@ -58,11 +65,11 @@ public class QRScannerActivity extends AppCompatActivity {
         Intent intent;
 
         switch(result) {
-            case "pass":
+            case "true":
                 if(selectedExperiment.getType().equals("Binomial Experiment") ) {
                     intent = new Intent();
                     intent.putExtra("exp", selectedExperiment);
-                    intent.putExtra("trial","pass");
+                    intent.putExtra("trial","true");
                     setResult(Activity.RESULT_OK,intent);
                     finish();
                 }
@@ -76,11 +83,11 @@ public class QRScannerActivity extends AppCompatActivity {
                 }
                 break;
 
-            case "fail":
+            case "false":
                 if(selectedExperiment.getType().equals("Binomial Experiment")) {
                     intent = new Intent();
                     intent.putExtra("exp", selectedExperiment);
-                    intent.putExtra("trial","fail");
+                    intent.putExtra("trial","false");
                     setResult(Activity.RESULT_OK,intent);
                     finish();
                 }

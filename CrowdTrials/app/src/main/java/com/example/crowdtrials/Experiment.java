@@ -283,10 +283,20 @@ public abstract class Experiment implements Serializable {
         this.name = name;
     }
 
+    /**
+     * This method returns the type of the experiment
+     * @return
+     * The type of the experiment
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * This method sets the type of the experiment
+     * @param type
+     * The type being set to the current experiment
+     */
     public void setType(String type) {
         this.type = type;
     }
