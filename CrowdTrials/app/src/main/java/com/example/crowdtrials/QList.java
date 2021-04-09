@@ -30,7 +30,7 @@ public class QList extends ArrayAdapter<QnA> {
         }
         QnA qna = questions.get(position);
         TextView qtext = view.findViewById(R.id.question_text);
-        TextView numReplies = view.findViewById(R.id.numreplies_text);
+        TextView numReplies = view.findViewById(R.id.replies_text);
         qtext.setText(qna.question);
         numReplies.setText(Integer.toString(qna.answers.size()));
         return view;

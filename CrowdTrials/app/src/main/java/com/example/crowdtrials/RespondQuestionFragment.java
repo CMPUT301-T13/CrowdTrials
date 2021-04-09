@@ -22,6 +22,7 @@ public class RespondQuestionFragment extends DialogFragment {
     public interface OnFragmentInteractionListener {
         void onAddAnswerOkPressed(String username);
 
+
     }
 
     @Override
