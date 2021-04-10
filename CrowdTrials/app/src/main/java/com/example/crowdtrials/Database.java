@@ -12,6 +12,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,6 +31,7 @@ public class Database {
     final CollectionReference collectionReference;
     final CollectionReference userCollectionReference;
     ArrayList<Experiment> subscribedListFromDataBase = new ArrayList<Experiment>();
+
     ArrayList<Experiment> searchedExperiments ;
 
     private Database() {
@@ -72,6 +75,57 @@ public class Database {
                         Log.w("My Activity", "Error adding document", e);
                     }
                 });
+    }
+
+    /**
+     * This method adds a question of a certain experiment to the database
+     * @param question
+     * This is the question object to be added to the database
+     * @param experimentName
+     * This is the name of the experiment for which the question is asked
+     */
+    public void addQuestion(QnA question,String experimentName){
+        Map<String, Object> data = new HashMap<>();
+        data.put("Question",question);
+        collectionReference.document(experimentName).collection("Questions").document(question.question).set(data);
+
+    }
+
+    /**
+     * This method adds an answer to a question of a certain experiment to the database.
+     * @param question
+     * This is the question object for which the answer is entered.
+     * @param experimentName
+     * This is the name of the experiment for which the answer is entered
+     * @param answer
+     * This is the answer String to be entered.
+     */
+    public void addAnswer(QnA question,String experimentName,String answer){
+        Map<String, Object> data = new HashMap<>();
+
+
+        DocumentReference docRef = collectionReference.document(experimentName).collection("Questions").document(question.question);
+        FieldPath fieldPath = FieldPath.of("Question","answers");
+        docRef.update(fieldPath, FieldValue.arrayUnion(question.answers.toArray()));
+
+
+        /*
+        data.put("Question",question);
+        collectionReference.document(experimentName).collection("Questions").document(question.question).collection("Answers").add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("My Activity", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("My Activity", "Error adding document", e);
+                    }
+                });
+
+         */
     }
 
     /**
@@ -121,6 +175,7 @@ public class Database {
      */
     public void readSubscribedExperiments(MyCallback myCallback,User user){
 
+
         userCollectionReference.document(user.username).collection("Subscriptions")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -135,13 +190,12 @@ public class Database {
                          experimentName = (String)document.get("name");
                          getSingleExperiment(myCallback,experimentName);
 
-                         Log.d("this was called", document.getId() + " => " + document.getData());
+                         Log.d("RETURNING", document.getId() + " => " + subscribedListFromDataBase);
 
-
-                        Log.d("My Activity", document.getId() + " => " + document.getData());
 
 
                     }
+
 
 
 
@@ -180,6 +234,7 @@ public class Database {
                 experiment.published = document.getBoolean("published");
                 experiment.ended = document.getBoolean("ended");
                 experiment.setName((String) document.get("name"));
+                experiment.type = document.getString("Experiment Type");
                 ///experiment.isGeoLocationEnabled = (String document.get())
                 value.add(experiment);
 
@@ -198,6 +253,7 @@ public class Database {
                 experiment.published = document.getBoolean("published");
                 experiment.ended = document.getBoolean("ended");
                 experiment.setName((String) document.get("name"));
+                experiment.type = document.getString("Experiment Type");
                // Log.d("My exp", "get failed with " + experiment.type);
                 value.add(experiment);
                 //myCallback.onCallback(subscribedListFromDataBase,1);
@@ -214,6 +270,7 @@ public class Database {
                 experiment.published = document.getBoolean("published");
                 experiment.ended = document.getBoolean("ended");
                 experiment.setName((String) document.get("name"));
+                experiment.type = document.getString("Experiment Type");
                 value.add(experiment);
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 
@@ -229,6 +286,7 @@ public class Database {
                 experiment.published = document.getBoolean("published");
                 experiment.ended = document.getBoolean("ended");
                 experiment.setName((String) document.get("experimentName"));
+                experiment.type = document.getString("Experiment Type");
                 value.add(experiment);
                 //myCallback.onCallback(subscribedListFromDataBase,1);
 
@@ -258,6 +316,8 @@ public class Database {
                     if (document.exists()) {
                         Log.d("Get single experiment", "DocumentSnapshot data ex: " + document.getData());
                         parseDocument(document,subscribedListFromDataBase);
+                        myCallback.onCallback(subscribedListFromDataBase,1);
+                        subscribedListFromDataBase.clear();
 
 
                     }else {
@@ -267,7 +327,8 @@ public class Database {
                 } else {
                     Log.d("My Activity", "No such document");
                 }
-                myCallback.onCallback(subscribedListFromDataBase,1);
+
+
             }
 
         });
@@ -312,6 +373,229 @@ public class Database {
                 });
 
 
+    }
+
+    /**
+     * This method gets all the outcomes of an experiment from the database
+     * @param exp
+     * The experiment whose outcomes have to be found
+     * @param myCallback
+     * This is the interface to handle the results list on callback
+     *
+     */
+    public void getAllResults(Experiment exp,ResultsCallback myCallback){
+        collectionReference.document(exp.getName()).collection("Trials")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                       // Log.d("GET ALL RESULTS","before");
+                        if (task.isSuccessful()) {
+                            ArrayList<ResultArr> ListFromDataBase = new ArrayList<ResultArr>();
+                            //Log.d("GET ALL RESULTS","couldnt get documents");
+
+                            ContactInfo contactInfo;
+                            Location newRegion;
+                            User experimenter;
+                            ResultArr result;
+                            String username;
+                            FieldPath fieldPath;
+                            String name;
+                            String phoneNumber;
+                            FieldPath secondFieldPath;
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+
+                                switch (exp.type) {
+                                    case "Binomial Experiment":
+
+                                        fieldPath =  FieldPath.of("Result","outcomes");
+
+
+                                        ArrayList<Boolean> outcomes = (ArrayList<Boolean>) document.get(fieldPath);
+
+                                        fieldPath = FieldPath.of("Result","experimenter","username");
+
+                                        username = (String)document.get(fieldPath);
+                                        experimenter = new User(username);
+
+
+
+                                        fieldPath = FieldPath.of("Result","experimenter","name");
+                                        secondFieldPath =  FieldPath.of("Result","experimenter","phoneNumber");
+                                        if (document.get(fieldPath) != null && document.get(secondFieldPath) != null){
+                                            name = (String)document.get(fieldPath);
+                                            phoneNumber = (String)document.get(secondFieldPath);
+                                            contactInfo = new ContactInfo(name,phoneNumber);
+                                            experimenter.setContactInfo(contactInfo);
+                                        }
+
+                                        result = new BoolResult(experimenter);
+                                        ((BoolResult) result).outcomes = outcomes;
+
+
+
+
+
+
+
+
+                                        //Log.d("GET ALL RESULTS","" + outcomes);
+                                        ListFromDataBase.add(result);
+
+
+
+                                        break;
+
+                                    case "Measurement Experiment":
+
+
+                                         fieldPath =  FieldPath.of("Result","measurements");
+
+                                        ArrayList<Float> values = (ArrayList<Float>) document.get(fieldPath);
+
+                                        fieldPath = FieldPath.of("Result","experimenter","username");
+
+                                        username = (String)document.get(fieldPath);
+                                        experimenter = new User(username);
+
+                                        fieldPath = FieldPath.of("Result","experimenter","name");
+                                        secondFieldPath =  FieldPath.of("Result","experimenter","phoneNumber");
+                                        if (document.get(fieldPath) != null && document.get(secondFieldPath) != null){
+                                            name = (String)document.get(fieldPath);
+                                            phoneNumber = (String)document.get(secondFieldPath);
+                                            contactInfo = new ContactInfo(name,phoneNumber);
+                                            experimenter.setContactInfo(contactInfo);
+                                        }
+
+                                        result = new FloatResult(experimenter);
+                                        ((FloatResult) result).measurements = values;
+
+                                        ListFromDataBase.add(result);
+
+                                        break;
+                                    case "NonNegative Count Experiment":
+                                    case "Count Experiment":
+
+                                        fieldPath =  FieldPath.of("Result","values");
+
+                                        ArrayList<Integer> count = (ArrayList<Integer>) document.get(fieldPath);
+
+                                        fieldPath = FieldPath.of("Result","experimenter","username");
+
+                                        username = (String)document.get(fieldPath);
+                                        experimenter = new User(username);
+
+                                        fieldPath = FieldPath.of("Result","experimenter","name");
+                                        secondFieldPath =  FieldPath.of("Result","experimenter","phoneNumber");
+                                        if (document.get(fieldPath) != null && document.get(secondFieldPath) != null){
+                                            name = (String)document.get(fieldPath);
+                                            phoneNumber = (String)document.get(secondFieldPath);
+                                            contactInfo = new ContactInfo(name,phoneNumber);
+                                            experimenter.setContactInfo(contactInfo);
+                                        }
+
+                                        result = new IntResult(experimenter);
+                                        ((IntResult) result).values = count;
+
+                                        ListFromDataBase.add(result);
+
+                                        break;
+
+
+                                    default:
+                                        Log.d("GET ALL RESULTS",exp.type);
+                                }
+
+
+                            }
+                            myCallback.onCallback(ListFromDataBase,0);
+                        } else {
+                            Log.w("My Activity", "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+
+    }
+
+    /**
+     * This methods gets all the answers of a question in a certain experiment from the database
+     * @param exp
+     * The experiment whose answers are being searched for
+     * @param question
+     * The question whose answers are being searched for
+     * @param myCallback
+     * This is the interface to handle the answer and question list on callback
+     */
+    public void getAnswers(Experiment exp,QnA question, QuestionsCallback myCallback){
+        DocumentReference docRef = collectionReference.document(exp.getName()).collection("Questions").document(question.question);
+        ArrayList<QnA> questionsList = new ArrayList<QnA>();
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    FieldPath fieldPath = FieldPath.of("Question","question");
+                    FieldPath secondFieldPath= FieldPath.of("Question","answers");
+
+                    String questionString;
+                    QnA question;
+                    ArrayList<String> answers = new ArrayList<>();
+                    questionString = (String)document.get(fieldPath);
+                    if (document.get(secondFieldPath) != null) {
+                        answers = (ArrayList<String>) document.get(secondFieldPath);
+
+                    }
+                    question = new QnA(questionString);
+                    question.answers = answers;
+                    questionsList.add(question);
+                    myCallback.onCallback(questionsList, 0);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * This methods gets all the questions in a certain experiment from the database
+     * @param exp
+     * The experiment whose questions are being searched for
+     * @param myCallback
+     * This is the interface to handle the question list on callback
+     */
+    public void getQuestions(Experiment exp, QuestionsCallback myCallback){
+
+        ArrayList<QnA> questionsList = new ArrayList<QnA>();
+        collectionReference.document(exp.getName()).collection("Questions")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        // Log.d("GET ALL RESULTS","before");
+                        String questionString;
+                        QnA  question;
+                        ArrayList<String> answers=new ArrayList<>();
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                FieldPath fieldPath = FieldPath.of("Question","question");
+                                questionString = (String)document.get(fieldPath);
+                                if(document.get("answers")!=null){
+                                    answers = (ArrayList<String>)document.get("answers");
+
+                                }
+                                Log.d("My Activity", "get Questions " + questionString);
+                                question = new QnA(questionString);
+                                question.answers = answers;
+                                questionsList.add(question);
+                            }
+
+                        myCallback.onCallback(questionsList,0);
+
+                        }
+                    }
+                });
     }
 
     /**
@@ -446,7 +730,12 @@ public class Database {
 
     }
 
-    public void  updateUser(User user){
+    /**
+     * This method updates the user object in the database
+     * @param user
+     * This is the the user object being updated in the database
+     */
+    public void updateUser(User user){
         Map<String, Object> data = new HashMap<>();
         //TODO: Check for when theres no contactinfo object
         data.put("Name",user.contactInfo.getName());
@@ -455,4 +744,21 @@ public class Database {
         docRef.set(data);
 
     }
+    public void  updatePub(Experiment exp,boolean tf){
+        Map<String, Object> data = new HashMap<>();
+        //TODO: Check for when theres no contactinfo object
+        data.put("published",tf);
+        DocumentReference docRef = collectionReference.document(exp.name);
+        docRef.set(data);
+
+    }
+    public void  updateEnd(Experiment exp,boolean tf){
+        Map<String, Object> data = new HashMap<>();
+        //TODO: Check for when theres no contactinfo object
+        data.put("ended",tf);
+        DocumentReference docRef = collectionReference.document(exp.name);
+        docRef.set(data);
+
+    }
+
 }

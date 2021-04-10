@@ -1,5 +1,6 @@
 package com.example.crowdtrials;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -26,6 +27,7 @@ public class BinomialActivity extends AppCompatActivity {
     Button back;
     Button viewDetails;
     Button genResult;
+    Button qrScan;
     TextView plaintextLastRes;
     TextView lastRes;
     TextView plaintextProb;
@@ -33,39 +35,51 @@ public class BinomialActivity extends AppCompatActivity {
     TextView title;
     ProgressBar pb;
     BoolResult result;
+    Button statsButton;
+    String qrTrial = null;
     Database database =  Database.getSingleDatabaseInstance();
     int pos;
+    int qr = 0;
     boolean res;
+    TextView warning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.binactivity);
-        user=(User) getIntent().getSerializableExtra("user");
+        user = (User) getIntent().getSerializableExtra("user");
         exp = (BinomialExp) getIntent().getSerializableExtra("exp");
-        exp.probability=0.5;
-        pos=(Integer) getIntent().getSerializableExtra("pos");
-        back=findViewById(R.id.backbutton_bin);
-        viewDetails=findViewById(R.id.detail_bin_button);
-        genResult=findViewById(R.id.gen_button);
-        plaintextLastRes=findViewById(R.id.plaintext_lastres_bin);
-        plaintextProb= findViewById(R.id.plaintext_prob);
-        title=findViewById(R.id.title_bin);
-        prob=findViewById(R.id.probabilityViewer);
-        lastRes=findViewById(R.id.lastresultbin);
-        pb=(ProgressBar)findViewById(R.id.progressBar1);
+        exp.probability = 0.5;
+        pos = (Integer) getIntent().getSerializableExtra("pos");
+        back = findViewById(R.id.backbutton_bin);
+        viewDetails = findViewById(R.id.detail_bin_button);
+        genResult = findViewById(R.id.gen_button);
+        plaintextLastRes = findViewById(R.id.plaintext_lastres_bin);
+        plaintextProb = findViewById(R.id.plaintext_prob);
+        title = findViewById(R.id.title_bin);
+        prob = findViewById(R.id.probabilityViewer);
+        lastRes = findViewById(R.id.lastresultbin);
+        pb = (ProgressBar) findViewById(R.id.progressBar1);
+        warning = findViewById(R.id.warningbin);
+        statsButton = findViewById(R.id.statsbutton);
         pb.setVisibility(View.GONE);
-       // pb = new ProgressBar(this);
-        makeTheEditTextsUnEditable();
+        qrScan = findViewById(R.id.bin_scan);
+        // pb = new ProgressBar(this);
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
+        //makeTheEditTextsUnEditable();
+
+        if(!exp.isGeoLocationEnabled){
+            warning.setVisibility(View.GONE);
+        }
 
         title.setText(exp.name);
         prob.setText(Double.toString(exp.probability));
         plaintextProb.setText("Probability");
         plaintextLastRes.setText("Last result");
         lastRes.setText("");
-        result=new BoolResult(user);
+        result = new BoolResult(user);
         //exp.addResult(result);
-       // exp.probability=0.5;
+        // exp.probability=0.5;
 
         exp.experimenters.add(user);
         genResult.setOnClickListener(new View.OnClickListener() {
@@ -83,20 +97,18 @@ public class BinomialActivity extends AppCompatActivity {
                         // do your stuff
                         boolean res = exp.genResult();
                         long startTime = System.currentTimeMillis();
-                        while(System.currentTimeMillis()-startTime<2500){
+                        while (System.currentTimeMillis() - startTime < 2500) {
                         }
                         result.outcomes.add(res);
-                        Log.d("RESULT ACTIVITY", "run: " + result);
+                        //Log.d("RESULT ACTIVITY", "run: " + res);
 
 
-                        database.updateWithResults(result,exp.name);
+                        database.updateWithResults(result, exp.name);
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 // do onPostExecute stuff
                                 pb.setVisibility(View.INVISIBLE);
                                 lastRes.setText(Boolean.toString(res));
-
-
                             }
                         });
                     }
@@ -111,37 +123,102 @@ public class BinomialActivity extends AppCompatActivity {
                 Intent intent = new Intent(BinomialActivity.this, MainActivity.class);
                 //result.outcomes.get(0);
                 //String ok=exp.name;
-                exp.addResult(result);
-                Log.d("RESULT ACTIVITY back", "run: " + exp.results);
-                Log.d("RESULT ACTIVITY backu", "run: " + exp.experimenters.get(0).username);
-                database.updateWithResults(result,exp.name);
+                if(result.outcomes.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 //exp.addResult(result);
-                intent.putExtra("exp",exp);
-                intent.putExtra("user",user);
-                intent.putExtra("pos",pos);
-                setResult(RESULT_OK,intent);
+                intent.putExtra("exp", exp);
+                intent.putExtra("user", user);
+                intent.putExtra("pos", pos);
+                setResult(RESULT_OK, intent);
                 finish();
 
 
             }
         });
+        statsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
+                // do this so we can make changes permanent (during lifespan of app until closed)
+
+                Intent intent = new Intent(BinomialActivity.this, StatsActivity.class);
+                intent.putExtra("exp", exp);
+                intent.putExtra("type", "bin");
+                startActivity(intent);
+
+            }
+        });
+
+
         viewDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                result.outcomes.add(res);
-                exp.addResult(result);
-                database.updateWithResults(result,exp.name);
+                if(lastRes.getText().toString().length()!=0) {
+                    result.outcomes.add(res);
+                }
+                for (int i = 0; i < result.outcomes.size(); i++) {
+                    Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
+                }
+                //og.d("RESULT ACTIVITY", "run: " + res);
+                if(result.outcomes.size()!=0) {
+                    exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
                 Intent intent = new Intent(BinomialActivity.this, DetailActivity.class);
-                intent.putExtra("exp",exp);
-                intent.putExtra("type","bin");
+                intent.putExtra("exp", exp);
+                intent.putExtra("type", "bin");
+                intent.putExtra("user", user);
                 startActivity(intent);
 
             }
         });
-}
 
+
+        qrScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BinomialActivity.this, QRScannerActivity.class);
+                intent.putExtra("experiment", exp);
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    public void qrUpdate() {
+        if(qrTrial.equals("true")) {
+            res = true;
+        }
+        else if(qrTrial.equals("false")) {
+            res = false;
+        }
+        result.outcomes.add(res);
+        database.updateWithResults(result,exp.name);
+        lastRes.setText(Boolean.toString(res));
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            qr = 1;
+
+            exp = (BinomialExp) data.getSerializableExtra("exp");
+            qrTrial = (String) data.getSerializableExtra("trial");
+            qrUpdate();
+
+        }
+    }
+
+
+
+/*
  public void makeTheEditTextsUnEditable(){
      EditText experimentNameEditText = findViewById(R.id.name_editText);
      experimentNameEditText.setFocusable(false);
@@ -166,7 +243,7 @@ public class BinomialActivity extends AppCompatActivity {
 
 
 
- }
+ }*/
 
 
 }

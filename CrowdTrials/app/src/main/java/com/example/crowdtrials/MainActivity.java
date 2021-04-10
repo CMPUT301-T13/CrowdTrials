@@ -2,6 +2,7 @@ package com.example.crowdtrials;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -37,16 +38,23 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
  * This class represents the main activity of the application.
  */
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener {
+
 // add waiting signal
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -86,30 +94,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
         FirebaseApp.initializeApp(this);
 
-
+        db = FirebaseFirestore.getInstance();// Access a Cloud Firestore instance from your Activity
         database =  Database.getSingleDatabaseInstance();
         experimentDataList = new ArrayList<>();
 
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
-        if(username.equals("USER_DOES_NOT_HAVE_ACCOUNT")){
-            Random random = new Random();
-            int num = random.nextInt(4000000 - 1) + 1;
-            username="nameless"+Integer.toString(num);
-            sharedPreferences = this.getPreferences(MODE_PRIVATE);
-            editor = sharedPreferences.edit();
-            editor.putString("user",username);
-            editor.commit();
-
-
-
-        }
         user = new User(username);
 
-
+        addDatabaseListeners();
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
         // query database to see if username exists
         // query database with the passed in username
-
         database.readUser(username,this::userCallback);
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -161,8 +159,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         */
 
-        database.readAllExperiments(this::onCallback);
-        database.readSubscribedExperiments(this::onCallback,user);
+        //database.readAllExperiments(this::onCallback);
+        //database.readSubscribedExperiments(this::onCallback,user);
+
 
         final FloatingActionButton addCityButton = findViewById(R.id.add_experiment_button);
         addCityButton.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +171,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+    }
+
+    @Override
+    public boolean onSearchRequested() {
+        Bundle appData = new Bundle();
+
+
+        appData.putString("username", user.username);
+        if(user.contactInfo!= null){
+            appData.putString("name", user.contactInfo.getName());
+            appData.putString("phoneNum",user.contactInfo.getPhoneNumber());
+        }
+
+        startSearch(null, false, appData, false);
+        return true;
     }
 
     @Override
@@ -185,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(this);
 
         TextView textView = (TextView) menu.findItem(R.id.profileName).getActionView();
         textView.setText(user.username);
@@ -192,6 +207,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Intent searchIntent = new Intent(this, SearchableActivity.class);
+        searchIntent.putExtra(SearchManager.QUERY, query);
+
+        Bundle appData = new Bundle();
+        appData.putString("username", user.username);
+        if(user.contactInfo!= null){
+            appData.putString("name", user.contactInfo.getName());
+            appData.putString("phoneNum",user.contactInfo.getPhoneNumber());
+        }
+
+        searchIntent.putExtra(SearchManager.APP_DATA, appData); // pass the search context data
+        searchIntent.setAction(Intent.ACTION_SEARCH);
+
+        startActivity(searchIntent);
+
+        return true; // we start the search activity manually
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.profileName);
@@ -245,10 +285,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case 0:
                 Log.d("My Activity", "get failed with 0" + value);
                 pagerAdapter.homeFragment.getList(value);
+
                 break;
             case 1:
                 Log.d("My Activity", "get failed with 1" + value);
                 pagerAdapter.subscriptionsFragment.getList(value);
+
                 break;
             default:
 
@@ -258,6 +300,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
+
+    public void addDatabaseListeners(){
+        db.collection("Users").document(user.username).collection("Subscriptions").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value,
+                                @Nullable FirebaseFirestoreException e) {
+                Log.e("Users changed", "In subscribed.", e);
+                if (e != null) {
+
+                    return;
+                }
+                getAllSubcribedExperiments();
+
+            }
+        });
+
+        db.collection("Experiments").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value,
+                                @Nullable FirebaseFirestoreException e) {
+                Log.e("Experiments changed", "In Experiments.", e);
+                if (e != null) {
+
+                    return;
+                }
+                getAllExperiments();
+
+            }
+        });
+    }
+    public void getAllExperiments(){
+        database.readAllExperiments(this::onCallback);
+    }
+    public void getAllSubcribedExperiments(){
+        pagerAdapter.homeFragment.experimentDataList.clear();
+        database.readSubscribedExperiments(this::onCallback,user);
+    }
     public void writeToDatabase(Experiment experiment){
         database.writeExperiments(experiment);
     }

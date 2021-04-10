@@ -9,13 +9,14 @@ import java.util.Date;
  * This class represents a Counts Experiment that keeps track of how many times a trial occurs.
  */
 public class CountExp extends Experiment implements Serializable {
-    //String type = "CountExp";
+    //String type = "Count Exp";
 
     /**
      * This is a default constructor for a Counts Experiment
      */
     public CountExp(){
-        this.type = "CountExp";
+        this.setType("Count Experiment");
+
     }
 
     /**
@@ -36,7 +37,7 @@ public class CountExp extends Experiment implements Serializable {
     public CountExp(User owner, Location region, String description, Date date, int minTrials,String experimentName) {
         super(owner, region, description, date, minTrials,experimentName);
 
+        this.setType("Count Experiment");
 
-        this.type = "CountExp";
     }
 }

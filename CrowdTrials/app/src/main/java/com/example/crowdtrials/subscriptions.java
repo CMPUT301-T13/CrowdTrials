@@ -13,9 +13,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link subscriptions#newInstance} factory method to
- * create an instance of this fragment.
+ * This class represents the fragment used to subscribe to an experiment
  */
 public class subscriptions extends Fragment {
 
@@ -35,14 +33,7 @@ public class subscriptions extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment subscriptions.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static subscriptions newInstance(String param1, String param2) {
         subscriptions fragment = new subscriptions();
@@ -82,8 +73,10 @@ public class subscriptions extends Fragment {
 
     }
 
+
+
     public void getList(ArrayList<Experiment> value){
-        subsribedDataList.clear();
+
         for (Experiment experiment:value){
 
             subsribedDataList.add(experiment);

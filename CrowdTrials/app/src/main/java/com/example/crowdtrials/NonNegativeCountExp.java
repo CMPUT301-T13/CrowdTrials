@@ -28,14 +28,14 @@ public class NonNegativeCountExp extends Experiment implements Serializable {
      */
     public NonNegativeCountExp(User owner, Location region, String description, Date date, int minTrials,String experimentName) {
         super(owner, region, description, date, minTrials,experimentName);
-
-        this.type = "NonNegativeCountExp";
+        this.setType("NonNegative Count Experiment");
     }
 
     /**
      * This is a default constructor for a Non Negative Experiment
      */
     public NonNegativeCountExp() {
-        this.type = "NonNegativeCountExp";
+        this.setType("NonNegative Count Experiment");
+
     }
 }

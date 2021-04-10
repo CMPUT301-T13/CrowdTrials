@@ -8,6 +8,8 @@ import java.util.ArrayList;
  */
 public abstract class ResultArr implements Serializable {
     public User experimenter;
+    public abstract double averageResult();
+    String type;
     //ArrayList<Double> values = new ArrayList<>();
 
     /**

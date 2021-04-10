@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * This class is used to create a Dialog fragment to add a question to an experiment
+ */
 public class AddQuestionFragment extends DialogFragment {
     // Based on AddCityFragment made by CMPUT 301 TAs in lab 3
     // this is to get the username from the user
@@ -48,7 +51,7 @@ public class AddQuestionFragment extends DialogFragment {
         question = view.findViewById(R.id.newquestion_editText);
 
         // tell user what happens if username does not exist
-        question.setError("Please be appropriate and constructive in your questions.");
+        question.setError("Please be appropriate and constructive in your answer.");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder

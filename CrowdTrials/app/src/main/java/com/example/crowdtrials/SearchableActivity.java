@@ -20,11 +20,14 @@ import java.util.ArrayList;
 /**
  * This class represents the activity for the functionality of searching for an experiment
  */
-public class SearchableActivity extends AppCompatActivity implements MyCallback{
+public class SearchableActivity extends AppCompatActivity implements MyCallback,AddResult {
     Database database;
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
     ArrayList<Experiment> experimentDataList;
+    User user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,58 @@ public class SearchableActivity extends AppCompatActivity implements MyCallback{
         //handleIntent(getIntent());
         Log.e("SEARCH","This was searched" + "Called in Oncreate");
 
+        Bundle appData = getIntent().getBundleExtra(SearchManager.APP_DATA);
+        if (appData != null) {
+            String name;
+            String phoneNum;
+            String username = appData.getString("username");
+            user = new User(username);
+            if(appData.getString("name") != null && appData.getString("phoneNum") != null){
+                name = appData.getString("name");
+                phoneNum = appData.getString("phoneNum");
+                ContactInfo contactInfo = new ContactInfo( name,phoneNum);
+                user.contactInfo = contactInfo;
+
+            }
+
+           Log.e("Searchable Activity",  "" + user.username);
+        }
+
+
+
+
+    }
+
+    public void addResultPressed(Experiment exp,int pos){
+        Log.d("My Activity", "get failed with " + exp.getDescription());
+        if(exp instanceof BinomialExp) {
+            Intent intent = new Intent(this, BinomialActivity.class);
+            intent.putExtra("exp", exp);
+            intent.putExtra("user", user);
+            intent.putExtra("pos", pos);
+            startActivityForResult(intent,2);
+        }
+        else if(exp instanceof MeasurementExp){
+            Intent intent = new Intent(this, MeasurementActivity.class);
+            intent.putExtra("exp", exp);
+            intent.putExtra("user", user);
+            intent.putExtra("pos", pos);
+            startActivityForResult(intent,3);
+        }
+        else if(exp instanceof CountExp){
+            Intent intent = new Intent(this, CountActivity.class);
+            intent.putExtra("exp", exp);
+            intent.putExtra("user", user);
+            intent.putExtra("pos", pos);
+            startActivityForResult(intent,4);
+        }
+        else if(exp instanceof NonNegativeCountExp){
+            Intent intent = new Intent(this, CountActivity.class);
+            intent.putExtra("exp", exp);
+            intent.putExtra("user", user);
+            intent.putExtra("pos", pos);
+            startActivityForResult(intent,5);
+        }
 
     }
     private void handleIntent(Intent intent) {
