@@ -1,24 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
 
-    <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/ic_search"
-        android:title="@string/search_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView"/>
-    <item
-        android:id="@+id/profileName"
-        android:icon="@drawable/ic_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:title="User profile"
-        app:actionViewClass="android.widget.TextView"
-        app:showAsAction="ifRoom|collapseActionView"
-        />
+        <item
+            android:id="@+id/profileName"
+            android:icon="@drawable/ic_profile"
+            android:title="User profile"
 
+            />
+        <item
+            android:id="@+id/how_to_use"
+            android:icon="@drawable/ic_info"
+            android:title="How To Use CrowdTrials"
+
+            />
+    </group>
 </menu>
