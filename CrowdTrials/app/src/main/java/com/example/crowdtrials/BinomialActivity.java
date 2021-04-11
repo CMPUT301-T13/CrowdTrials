@@ -7,9 +7,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +40,7 @@ public class BinomialActivity extends AppCompatActivity {
     BoolResult result;
     Button statsButton;
     String qrTrial = null;
-    Database database =  Database.getSingleDatabaseInstance();
+    Database database = Database.getSingleDatabaseInstance();
     int pos;
     int qr = 0;
     boolean res;
@@ -66,10 +68,10 @@ public class BinomialActivity extends AppCompatActivity {
         pb.setVisibility(View.GONE);
         qrScan = findViewById(R.id.bin_scan);
         // pb = new ProgressBar(this);
-        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
-        //makeTheEditTextsUnEditable();
+        Log.e("geo", Boolean.toString(exp.isGeoLocationEnabled));
+        makeTheEditTextsUnEditable();
 
-        if(!exp.isGeoLocationEnabled){
+        if (!exp.isGeoLocationEnabled) {
             warning.setVisibility(View.GONE);
         }
 
@@ -81,6 +83,7 @@ public class BinomialActivity extends AppCompatActivity {
         result = new BoolResult(user);
         //exp.addResult(result);
         // exp.probability=0.5;
+        Log.e("In binomial Activity","" + exp.owner.username);
 
         exp.experimenters.add(user);
         genResult.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +129,9 @@ public class BinomialActivity extends AppCompatActivity {
                 Intent intent = new Intent(BinomialActivity.this, MainActivity.class);
                 //result.outcomes.get(0);
                 //String ok=exp.name;
+
                 if(result.outcomes.size()!=0 && pressed_gen!=0) {
+
                     exp.addResult(result);
                     database.updateWithResults(result, exp.name);
 
@@ -161,14 +166,18 @@ public class BinomialActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
+
                 if(lastRes.getText().toString().length()!=0 && pressed_gen!=0) {
+
                     result.outcomes.add(res);
                 }
                 for (int i = 0; i < result.outcomes.size(); i++) {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
                 }
                 //og.d("RESULT ACTIVITY", "run: " + res);
+
                 if(result.outcomes.size()!=0 && pressed_gen!=0) {
+
                     exp.addResult(result);
                     database.updateWithResults(result, exp.name);
 
@@ -195,14 +204,13 @@ public class BinomialActivity extends AppCompatActivity {
     }
 
     public void qrUpdate() {
-        if(qrTrial.equals("true")) {
+        if (qrTrial.equals("true")) {
             res = true;
-        }
-        else if(qrTrial.equals("false")) {
+        } else if (qrTrial.equals("false")) {
             res = false;
         }
         result.outcomes.add(res);
-        database.updateWithResults(result,exp.name);
+        database.updateWithResults(result, exp.name);
         lastRes.setText(Boolean.toString(res));
 
     }
@@ -210,7 +218,7 @@ public class BinomialActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             qr = 1;
 
             exp = (BinomialExp) data.getSerializableExtra("exp");
@@ -221,33 +229,38 @@ public class BinomialActivity extends AppCompatActivity {
     }
 
 
+    public void makeTheEditTextsUnEditable() {
+        EditText experimentNameEditText = findViewById(R.id.name_editText);
+        experimentNameEditText.setFocusable(false);
+        experimentNameEditText.setEnabled(false);
+        experimentNameEditText.setCursorVisible(false);
+        experimentNameEditText.setBackgroundColor(Color.TRANSPARENT);
+        experimentNameEditText.setText(exp.name);
+        EditText experimentDescriptionEditText = findViewById(R.id.description_editText);
+        experimentDescriptionEditText.setText(exp.description);
+        experimentDescriptionEditText.setFocusable(false);
+        experimentDescriptionEditText.setEnabled(false);
+        experimentDescriptionEditText.setCursorVisible(false);
+        experimentDescriptionEditText.setBackgroundColor(Color.TRANSPARENT);
+        EditText minTrialsEditText = findViewById(R.id.minTrialsEditText);
+        minTrialsEditText.setText(" " +exp.minTrials);
+        minTrialsEditText.setFocusable(false);
+        minTrialsEditText.setEnabled(false);
+        minTrialsEditText.setCursorVisible(false);
+        minTrialsEditText.setBackgroundColor(Color.TRANSPARENT);
+        EditText region_editText = findViewById(R.id.region_editText);
+        region_editText.setText(exp.region.name);
+        region_editText.setFocusable(false);
+        region_editText.setEnabled(false);
+        region_editText.setCursorVisible(false);
+        region_editText.setBackgroundColor(Color.TRANSPARENT);
+        Spinner optionsSpinner =findViewById(R.id.experiment_type_Spinner);
+        String[] options = {exp.type};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        optionsSpinner.setAdapter(adapter);
 
-/*
- public void makeTheEditTextsUnEditable(){
-     EditText experimentNameEditText = findViewById(R.id.name_editText);
-     experimentNameEditText.setFocusable(false);
-     experimentNameEditText.setEnabled(false);
-     experimentNameEditText.setCursorVisible(false);
-     experimentNameEditText.setBackgroundColor(Color.TRANSPARENT);
-     EditText experimentDescriptionEditText = findViewById(R.id.description_editText);
-     experimentDescriptionEditText.setFocusable(false);
-     experimentDescriptionEditText.setEnabled(false);
-     experimentDescriptionEditText.setCursorVisible(false);
-     experimentDescriptionEditText.setBackgroundColor(Color.TRANSPARENT);
-     EditText minTrialsEditText = findViewById(R.id.minTrialsEditText);
-     minTrialsEditText.setFocusable(false);
-     minTrialsEditText.setEnabled(false);
-     minTrialsEditText.setCursorVisible(false);
-     minTrialsEditText.setBackgroundColor(Color.TRANSPARENT);
-     EditText region_editText = findViewById(R.id.region_editText);
-     region_editText.setFocusable(false);
-     region_editText.setEnabled(false);
-     region_editText.setCursorVisible(false);
-     region_editText.setBackgroundColor(Color.TRANSPARENT);
 
-
-
- }*/
-
+    }
 
 }
+
