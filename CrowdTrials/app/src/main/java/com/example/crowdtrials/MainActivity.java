@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
             }
         });
+
         /*
 
         Task<DocumentSnapshot> usersRef = database.userCollectionReference.document(username).get();

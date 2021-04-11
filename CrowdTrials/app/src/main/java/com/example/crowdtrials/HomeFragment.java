@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
     public void getList(ArrayList<Experiment> value){
         for (Experiment experiment:value){
-
+            experimentDataList.add(experiment);
         }
         experimentAdapter.notifyDataSetChanged();
     }
