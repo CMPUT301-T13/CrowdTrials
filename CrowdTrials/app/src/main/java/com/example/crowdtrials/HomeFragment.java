@@ -44,7 +44,9 @@ public class HomeFragment extends Fragment {
 
     public void getList(ArrayList<Experiment> value){
         for (Experiment experiment:value){
-            experimentDataList.add(experiment);
+            if(experiment.published || experiment.experimenters.contains(User.staticInstanceOfUser) || experiment.owner.username.equals(User.staticInstanceOfUser.username)) {
+                experimentDataList.add(experiment);
+            }
         }
         experimentAdapter.notifyDataSetChanged();
     }

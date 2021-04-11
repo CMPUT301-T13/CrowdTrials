@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
         user = new User(username);
+        User.staticInstanceOfUser=user;
+        Log.e("usernae",User.staticInstanceOfUser.username);
         addDatabaseListeners();
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
