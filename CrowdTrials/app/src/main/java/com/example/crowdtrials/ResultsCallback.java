@@ -16,5 +16,5 @@ public interface ResultsCallback {
      * @param whichCase
      * The integer associated to the use case
      */
-    void onCallback(ArrayList<ResultArr> value, int whichCase);
+    void onCallback(ArrayList<ResultArr> value,Experiment exp, int whichCase);
 }

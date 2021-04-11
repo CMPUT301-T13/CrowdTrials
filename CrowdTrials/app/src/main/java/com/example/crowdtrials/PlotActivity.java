@@ -78,7 +78,7 @@ public class PlotActivity extends AppCompatActivity implements ResultsCallback{
 
 
     }
-    public void onCallback(ArrayList<ResultArr> value, int whichCase){
+    public void onCallback(ArrayList<ResultArr> value,Experiment exp, int whichCase){
         if(type.equals("Measurement Experiment")){
 
             ArrayList<Float> tempArray = new ArrayList<Float>();

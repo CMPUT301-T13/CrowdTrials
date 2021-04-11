@@ -167,11 +167,14 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         });
 
     }
-    public void onCallback(ArrayList<ResultArr> value, int whichCase){
+    public void onCallback(ArrayList<ResultArr> value,Experiment exp, int whichCase){
         resultArrArrayList = value;
         for (ResultArr result :value){
-            //Log.e("IN DETAIL ACTIVITY","" + result.experimenter.username );
+            viewResultsFrom.add(result);
+
+
         }
+        resAdapter.notifyDataSetChanged();
     }
 
     @Override

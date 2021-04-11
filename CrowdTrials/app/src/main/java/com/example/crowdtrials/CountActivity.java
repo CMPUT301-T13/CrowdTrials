@@ -2,11 +2,14 @@ package com.example.crowdtrials;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +55,7 @@ public class CountActivity extends AppCompatActivity {
         count_result = findViewById(R.id.editText_result_non);
         warning = findViewById(R.id.warningnon);
         Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
+        makeTheEditTextsUnEditable();
         if(!exp.isGeoLocationEnabled){
             warning.setVisibility(View.GONE);
         }
@@ -160,6 +164,39 @@ public class CountActivity extends AppCompatActivity {
         Integer res = Integer.parseInt(qrTrial);
         lastRes.setText(res.toString());
         result.values.add(res);
+
+    }
+
+    public void makeTheEditTextsUnEditable() {
+        EditText experimentNameEditText = findViewById(R.id.name_editText);
+        experimentNameEditText.setFocusable(false);
+        experimentNameEditText.setEnabled(false);
+        experimentNameEditText.setCursorVisible(false);
+        experimentNameEditText.setBackgroundColor(Color.TRANSPARENT);
+        experimentNameEditText.setText(exp.name);
+        EditText experimentDescriptionEditText = findViewById(R.id.description_editText);
+        experimentDescriptionEditText.setText(exp.description);
+        experimentDescriptionEditText.setFocusable(false);
+        experimentDescriptionEditText.setEnabled(false);
+        experimentDescriptionEditText.setCursorVisible(false);
+        experimentDescriptionEditText.setBackgroundColor(Color.TRANSPARENT);
+        EditText minTrialsEditText = findViewById(R.id.minTrialsEditText);
+        minTrialsEditText.setText(" " +exp.minTrials);
+        minTrialsEditText.setFocusable(false);
+        minTrialsEditText.setEnabled(false);
+        minTrialsEditText.setCursorVisible(false);
+        minTrialsEditText.setBackgroundColor(Color.TRANSPARENT);
+        EditText region_editText = findViewById(R.id.region_editText);
+        region_editText.setText(exp.region.name);
+        region_editText.setFocusable(false);
+        region_editText.setEnabled(false);
+        region_editText.setCursorVisible(false);
+        region_editText.setBackgroundColor(Color.TRANSPARENT);
+        Spinner optionsSpinner =findViewById(R.id.experiment_type_Spinner);
+        String[] options = {exp.type};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, options);
+        optionsSpinner.setAdapter(adapter);
+
 
     }
 
