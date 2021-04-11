@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -44,7 +45,7 @@ public class BinomialActivity extends AppCompatActivity {
     int qr = 0;
     boolean res;
     TextView warning;
-
+    int pressed_gen=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +89,7 @@ public class BinomialActivity extends AppCompatActivity {
         genResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pressed_gen++;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -103,6 +105,7 @@ public class BinomialActivity extends AppCompatActivity {
                         while (System.currentTimeMillis() - startTime < 2500) {
                         }
                         result.outcomes.add(res);
+
                         //Log.d("RESULT ACTIVITY", "run: " + res);
 
 
@@ -126,7 +129,9 @@ public class BinomialActivity extends AppCompatActivity {
                 Intent intent = new Intent(BinomialActivity.this, MainActivity.class);
                 //result.outcomes.get(0);
                 //String ok=exp.name;
-                if (result.outcomes.size() != 0) {
+
+                if(result.outcomes.size()!=0 && pressed_gen!=0) {
+
                     exp.addResult(result);
                     database.updateWithResults(result, exp.name);
 
@@ -161,14 +166,18 @@ public class BinomialActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                if (lastRes.getText().toString().length() != 0) {
+
+                if(lastRes.getText().toString().length()!=0 && pressed_gen!=0) {
+
                     result.outcomes.add(res);
                 }
                 for (int i = 0; i < result.outcomes.size(); i++) {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
                 }
                 //og.d("RESULT ACTIVITY", "run: " + res);
-                if (result.outcomes.size() != 0) {
+
+                if(result.outcomes.size()!=0 && pressed_gen!=0) {
+
                     exp.addResult(result);
                     database.updateWithResults(result, exp.name);
 
@@ -178,7 +187,8 @@ public class BinomialActivity extends AppCompatActivity {
                 intent.putExtra("type", "bin");
                 intent.putExtra("user", user);
                 startActivity(intent);
-
+                result=new BoolResult(user);
+                pressed_gen=0;
             }
         });
 

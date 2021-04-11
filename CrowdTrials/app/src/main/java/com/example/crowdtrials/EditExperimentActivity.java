@@ -2,6 +2,7 @@ package com.example.crowdtrials;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,9 +38,10 @@ public class EditExperimentActivity extends AppCompatActivity {
         back=findViewById(R.id.back_exp);
         user = (User) getIntent().getSerializableExtra("user");
         exp = (Experiment) getIntent().getSerializableExtra("exp");
-        if(exp.owner.username!=user.username){
+        Log.e("expowneruser",exp.owner.username);
+        if(!exp.owner.username.equals(User.staticInstanceOfUser.username)){
             publish.setVisibility(View.GONE);
-            ended.setVisibility(View.GONE);
+            end.setVisibility(View.GONE);
         }
         tit.setText(exp.name);
         desc.setText(exp.description);
@@ -69,10 +71,14 @@ public class EditExperimentActivity extends AppCompatActivity {
 
                 }
                 else{
-                    exp.published=true;
-                    publish.setText("Depublish");
-                    published.setText("Published status: "+exp.published);
-
+                    if(exp.minTrials<=exp.results.size()) {
+                        exp.published = true;
+                        publish.setText("Depublish");
+                        published.setText("Published status: " + exp.published);
+                    }
+                    else{
+                        published.setText("Did not meet minimum number of trials, still unpublished");
+                    }
                 }
 
 
