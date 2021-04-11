@@ -88,7 +88,7 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
         });
     }
 
-    public void onCallback(ArrayList<ResultArr> value, int whichCase){
+    public void onCallback(ArrayList<ResultArr> value,Experiment exp, int whichCase){
         resultArrArrayList = value;
         float tempMean;
         float tempMedian;

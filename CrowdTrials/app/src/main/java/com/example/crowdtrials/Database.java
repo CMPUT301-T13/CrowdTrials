@@ -510,7 +510,7 @@ public class Database {
 
 
                             }
-                            myCallback.onCallback(ListFromDataBase,0);
+                            myCallback.onCallback(ListFromDataBase,exp,0);
                         } else {
                             Log.w("My Activity", "Error getting documents.", task.getException());
                         }

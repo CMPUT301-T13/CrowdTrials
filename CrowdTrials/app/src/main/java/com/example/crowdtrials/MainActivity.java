@@ -447,6 +447,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.how_to_use:
                 goToHowToUseActivity();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment, new HowToUse()).commit();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

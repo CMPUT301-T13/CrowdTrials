@@ -16,6 +16,12 @@ public class IntResult extends ResultArr {
      */
     @Override
     public double averageResult() {
+
+        // There is a weird bug where it can't cast to from Long to integer when the method is called
+        // so I used the one I made in statistics
+        Statistics stats = new Statistics();
+        return stats.getIntegerMean(values);
+        /*
         double summ=0;
         for(int i=0;i<values.size();i++){
             summ+=values.get(i);
@@ -25,6 +31,9 @@ public class IntResult extends ResultArr {
         }
         double correctAnswer= (double) summ/values.size();
         return correctAnswer;
+
+
+         */
     }
 
     /**
