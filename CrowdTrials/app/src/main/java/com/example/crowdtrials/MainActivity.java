@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -24,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -53,7 +53,7 @@ import java.util.Random;
  * This class represents the main activity of the application.
  */
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener,CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener {
 
 // add waiting signal
     DrawerLayout drawerLayout;
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
-        toolbar.setTitle("");
+        //toolbar.setTitle("");
         setSupportActionBar(toolbar);
         drawerLayout=findViewById(R.id.drawer);
         navigationView=findViewById(R.id.navigationView);
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         addDatabaseListeners();
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
+        //toolbar.setTitle("");
         setSupportActionBar(toolbar);
         // query database to see if username exists
         // query database with the passed in username
