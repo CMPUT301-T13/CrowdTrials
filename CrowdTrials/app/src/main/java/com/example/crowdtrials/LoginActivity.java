@@ -44,7 +44,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             Intent intent = new Intent(this,MainActivity.class);
             intent.putExtra("user",attemptToFindUser);
             startActivityForResult(intent,1);
+
             Log.e("user",attemptToFindUser);
+            finish();
         }
         else{
             Random random = new Random();
@@ -55,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             Intent intent = new Intent(this,MainActivity.class);
             intent.putExtra("user",username);
             startActivityForResult(intent,1);
+            finish();
         }
         //Log.d("Found User",attemptToFindUser);
         login.setOnClickListener(new View.OnClickListener() {
