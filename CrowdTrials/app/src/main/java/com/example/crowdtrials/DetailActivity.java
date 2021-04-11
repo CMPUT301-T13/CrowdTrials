@@ -46,13 +46,10 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         ignoreResultsFrom = findViewById(R.id.ignoreResultsFromButton);
         user=(User) getIntent().getSerializableExtra("user");
         questionsbutton = findViewById(R.id.viewquestions);
-        //db=Database.getSingleDatabaseInstance();
-        resultArrArrayList=new ArrayList<>();
 
         if(type.equals("meas")){
             exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
             Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
-            exp.results= (ArrayList<ResultArr>) resultArrArrayList.clone();
             for(int i=0;i<exp.results.size();i++){
                 if(!exp.ignoredUsers.contains(exp.results.get(i).experimenter.username)){
                     viewResultsFrom.add(exp.results.get(i));
@@ -65,8 +62,6 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         else if(type.equals("bin")){
             exp = (BinomialExp) getIntent().getSerializableExtra("exp");
             Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
-            //exp.results= (ArrayList<ResultArr>) resultArrArrayList.clone();
-            //Log.e("numres",Integer.toString(exp.results.size()));
             for(int i=0;i<exp.results.size();i++){
                 if(!exp.ignoredUsers.contains(exp.results.get(i).experimenter.username)){
                     viewResultsFrom.add(exp.results.get(i));
@@ -78,7 +73,6 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         else if(type.equals("ncount")){
             exp = (NonNegativeCountExp) getIntent().getSerializableExtra("exp");
             Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
-            //exp.results= (ArrayList<ResultArr>) resultArrArrayList.clone();
             for(int i=0;i<exp.results.size();i++){
                 if(!exp.ignoredUsers.contains(exp.results.get(i).experimenter.username)){
                     viewResultsFrom.add(exp.results.get(i));
@@ -90,7 +84,6 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         else{
             exp = (CountExp) getIntent().getSerializableExtra("exp");
             Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
-            //exp.results= (ArrayList<ResultArr>) resultArrArrayList.clone();
             for(int i=0;i<exp.results.size();i++){
                 if(!exp.ignoredUsers.contains(exp.results.get(i).experimenter.username)){
                     viewResultsFrom.add(exp.results.get(i));
@@ -174,11 +167,14 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         });
 
     }
-    public void onCallback(ArrayList<ResultArr> value, int whichCase){
-        //resultArrArrayList = (ArrayList<ResultArr>) value.clone();
+    public void onCallback(ArrayList<ResultArr> value,Experiment exp, int whichCase){
+        resultArrArrayList = value;
         for (ResultArr result :value){
-            exp.results.add(result);
+            viewResultsFrom.add(result);
+
+
         }
+        resAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -193,4 +189,6 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         resAdapter.notifyDataSetChanged();
 
     }
+
+    
 }
