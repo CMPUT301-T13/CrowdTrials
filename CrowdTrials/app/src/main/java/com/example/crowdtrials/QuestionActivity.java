@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,8 +24,9 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     ArrayAdapter<QnA> ques;
     ListView queslist;
     FloatingActionButton addQ;
-    Button viewAnswer;
-    Button respondToQuestion;
+    //Button viewAnswer;
+    //Button respondToQuestion;
+    TextView numreplies;
     Button back;
     Experiment exp;
     User user;
@@ -34,6 +36,7 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questionlv);
+        numreplies=findViewById(R.id.replies_text);
         queslist=(ListView)findViewById(R.id.question_list);
         exp = (Experiment) getIntent().getSerializableExtra("exp");
         user = (User) getIntent().getSerializableExtra("user");
@@ -41,9 +44,9 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
         ques=new QuestionsList(this,questions);
         queslist.setAdapter(ques);
         addQ=findViewById(R.id.add_question_button);
-        viewAnswer=findViewById(R.id.viewanswers);
+        //viewAnswer=findViewById(R.id.viewanswers);
         back= findViewById(R.id.backbuttonquest);
-        respondToQuestion=findViewById(R.id.answerquestion);
+        //respondToQuestion=findViewById(R.id.answerquestion);
         db = Database.getSingleDatabaseInstance();
         db.getQuestions(exp,this::onCallback);
         // YOU MUST CLICK ON A QUESTION THEN CLICK THE ANSWER OR VIEW IN ORDER TO INTERACT WITH THAT PARTICULAR QUESTION.
@@ -58,9 +61,13 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
 
         // IMPLEMENT BACK BUTTON
 
-        viewAnswer.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                Intent intent = new Intent(QuestionActivity.this, DetailActivity.class);
+                intent.putExtra("user",user);
+                intent.putExtra("exp",exp);
+                setResult(RESULT_OK,intent);
+                finish();
 
 
             }
@@ -104,6 +111,7 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     @Override
     public void onAddAnswerOkPressed(String newanswer) {
         lastclicked.answers.add(newanswer);
+        numreplies.setText(lastclicked.answers.size() + " replies");
         db.addAnswer(lastclicked,exp.getName(),newanswer);
     }
 

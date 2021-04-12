@@ -50,7 +50,7 @@ public class ViewAnswersActivity extends AppCompatActivity implements QuestionsC
     }
 
     public void onCallback(ArrayList<QnA> value, int whichCase){
-        Log.e("In Callback","FOR view answers" + value.get(0).question);
+        //Log.e("In Callback","FOR view answers" + value.get(0).question);
         for(QnA question: value){
             this.answers.addAll(question.answers);
 
