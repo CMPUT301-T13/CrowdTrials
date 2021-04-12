@@ -1,5 +1,7 @@
 package com.example.crowdtrials;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -18,7 +20,10 @@ public class FloatResult extends ResultArr{
     public double averageResult() {
         double summ=0;
         for(int i=0;i<measurements.size();i++){
-            summ+=measurements.get(i);
+            Log.e("always working"," "+ String.valueOf(measurements.get(i)));
+            String summer =  String.valueOf( measurements.get(i));
+            summ += Double.parseDouble(summer);
+            //summ+=measurements.get(i);
         }
         if(measurements.size()==0){
             return 0;

@@ -25,6 +25,7 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     FloatingActionButton addQ;
     Button viewAnswer;
     Button respondToQuestion;
+    Button back;
     Experiment exp;
     User user;
     ArrayList<QnA> questions;
@@ -41,6 +42,7 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
         queslist.setAdapter(ques);
         addQ=findViewById(R.id.add_question_button);
         viewAnswer=findViewById(R.id.viewanswers);
+        back= findViewById(R.id.backbuttonquest);
         respondToQuestion=findViewById(R.id.answerquestion);
         db = Database.getSingleDatabaseInstance();
         db.getQuestions(exp,this::onCallback);
@@ -50,6 +52,12 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
                 new AddQuestionFragment().show(getSupportFragmentManager(), "ADD_QUESTION");
             }
         });
+
+
+
+
+        // IMPLEMENT BACK BUTTON
+
         viewAnswer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -80,7 +88,7 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     }
 
     public void onCallback(ArrayList<QnA> value, int whichCase){
-        Log.e("Called in questions", " " + value.get(0).question);
+        //Log.e("Called in questions", " " + value.get(0).question);
         questions.clear();
         questions.addAll(value);
         ques.notifyDataSetChanged();
