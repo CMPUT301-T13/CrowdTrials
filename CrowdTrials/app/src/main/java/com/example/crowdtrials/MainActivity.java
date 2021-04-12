@@ -50,7 +50,7 @@ import java.util.Random;
 /**
  * This class represents the main activity of the application.
  */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener, AddResult,SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener, AddResult,SearchView.OnQueryTextListener ,SubscribeButtonImplementer{
 // add waiting signal
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
@@ -106,6 +106,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TabItem tabSubsriptions = findViewById(R.id.tab2);
 
         ViewPager viewPager = findViewById(R.id.ViewPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
@@ -162,6 +178,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
+
     }
 
     @Override
@@ -210,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Bundle appData = new Bundle();
         appData.putString("username", user.username);
+
         if(user.contactInfo!= null){
             appData.putString("name", user.contactInfo.getName());
             appData.putString("phoneNum",user.contactInfo.getPhoneNumber());
@@ -330,7 +349,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         database.readAllExperiments(this::onCallback);
     }
     public void getAllSubcribedExperiments(){
-        pagerAdapter.homeFragment.experimentDataList.clear();
+        pagerAdapter.subscriptionsFragment.subsribedDataList.clear();
+        pagerAdapter.subscriptionsFragment.subscribedAdapter.notifyDataSetChanged();
         database.readSubscribedExperiments(this::onCallback,user);
     }
     public void writeToDatabase(Experiment experiment){
