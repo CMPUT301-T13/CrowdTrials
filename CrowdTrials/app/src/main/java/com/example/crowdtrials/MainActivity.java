@@ -2,8 +2,11 @@ package com.example.crowdtrials;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.SearchManager;
@@ -26,6 +29,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
@@ -46,13 +50,16 @@ import java.util.Random;
 /**
  * This class represents the main activity of the application.
  */
-public class MainActivity extends AppCompatActivity implements CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener, AddResult,SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,CreateUserFragment.OnFragmentInteractionListener, MyCallback,UserCallback, AddExperimentFragment.OnFragmentInteractionListener, AddResult,SearchView.OnQueryTextListener {
 // add waiting signal
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
     ArrayList<Experiment> experimentDataList;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
     Database database;
     FirebaseFirestore db;
+    NavigationView navigationView;
     CollectionReference collectionReference;
     User user;
     String username;
@@ -73,12 +80,22 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
         user = new User(username);
-        User.staticInstanceOfUser=user;
-        Log.e("usernae",User.staticInstanceOfUser.username);
         addDatabaseListeners();
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        drawerLayout=findViewById(R.id.drawer);
+        navigationView=findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
+        actionBarDrawerToggle=new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
+        if (savedInstanceState==null)
+        {
+            getSupportFragmentManager().beginTransaction().add(R.id.container_fragment, new HomeFragment()).commit();
+            navigationView.setCheckedItem(R.id.home);
+        }
         // query database to see if username exists
         // query database with the passed in username
         database.readUser(username,this::userCallback);
@@ -91,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
-
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -109,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
             }
         });
-
         /*
 
         Task<DocumentSnapshot> usersRef = database.userCollectionReference.document(username).get();
@@ -231,6 +246,10 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         Intent intent = new Intent(this,DisplayProfileActivity.class);
         intent.putExtra("user",user);
         intent.putExtra("isMyUsername",isMyUsername);
+        startActivityForResult(intent,1);
+    }
+    public void goToHowToUseActivity() {
+        Intent intent = new Intent(this,HowToUse.class);
         startActivityForResult(intent,1);
     }
 
@@ -418,5 +437,20 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
                 //experimentDataList.set(ind,e);
             }
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.profileName:
+                goToProfileActivity(true,this.user);
+                break;
+            case R.id.how_to_use:
+                goToHowToUseActivity();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment, new HowToUse()).commit();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
     }
 }
