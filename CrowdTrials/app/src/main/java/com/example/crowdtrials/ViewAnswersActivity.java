@@ -22,6 +22,7 @@ public class ViewAnswersActivity extends AppCompatActivity implements QuestionsC
     Database db;
     Experiment exp;
     ArrayAdapter<String> answersAdapter;
+    public static int size;
     public ArrayList<String> answers=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class ViewAnswersActivity extends AppCompatActivity implements QuestionsC
             this.answers.addAll(question.answers);
 
         }
+        size=answers.size();
         answersAdapter.notifyDataSetChanged();
 
     }

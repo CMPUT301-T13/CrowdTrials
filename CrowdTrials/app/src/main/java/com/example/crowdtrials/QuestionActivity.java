@@ -36,7 +36,6 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questionlv);
-        numreplies=findViewById(R.id.replies_text);
         queslist=(ListView)findViewById(R.id.question_list);
         exp = (Experiment) getIntent().getSerializableExtra("exp");
         user = (User) getIntent().getSerializableExtra("user");
@@ -111,7 +110,6 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     @Override
     public void onAddAnswerOkPressed(String newanswer) {
         lastclicked.answers.add(newanswer);
-        numreplies.setText(lastclicked.answers.size() + " replies");
         db.addAnswer(lastclicked,exp.getName(),newanswer);
     }
 
