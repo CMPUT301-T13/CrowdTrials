@@ -103,6 +103,19 @@ public class MeasurementActivity extends AppCompatActivity {
 
             }
         });
+        statsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
+                // do this so we can make changes permanent (during lifespan of app until closed)
+
+                Intent intent = new Intent(MeasurementActivity.this, StatsActivity.class);
+                intent.putExtra("exp", exp);
+                intent.putExtra("type", "meas");
+                startActivity(intent);
+
+            }
+        });
 
         final Button barcode_scan = findViewById(R.id.barcode_scan);
         barcode_scan.setOnClickListener(new View.OnClickListener() {
