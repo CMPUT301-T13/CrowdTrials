@@ -78,8 +78,16 @@ public class subscriptions extends Fragment {
     public void getList(ArrayList<Experiment> value){
 
         for (Experiment experiment:value){
-
-            subsribedDataList.add(experiment);
+            boolean inExp=false;
+            for(int i=0;i<experiment.experimenters.size();i++){
+                if(experiment.experimenters.get(i).username.equals(User.staticInstanceOfUser.username)){
+                    inExp=true;
+                    break;
+                }
+            }
+            if(experiment.subscribers.contains(User.staticInstanceOfUser) || experiment.owner.username.equals(User.staticInstanceOfUser.username) || inExp) {
+                subsribedDataList.add(experiment);
+            }
         }
         subscribedAdapter.notifyDataSetChanged();
     }

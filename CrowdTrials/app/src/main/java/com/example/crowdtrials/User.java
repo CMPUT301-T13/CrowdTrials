@@ -13,6 +13,7 @@ import java.util.Date;
  */
 
 public  class User implements Serializable {
+    public static User staticInstanceOfUser;
     public String username;
     public ContactInfo contactInfo;
     ArrayList<Experiment> owned = new ArrayList<>();
@@ -27,6 +28,7 @@ public  class User implements Serializable {
         e.subscribers.add(this);
         this.subscribedTo.add(e);
     }
+
 
     /**
      * The constructor for a user object

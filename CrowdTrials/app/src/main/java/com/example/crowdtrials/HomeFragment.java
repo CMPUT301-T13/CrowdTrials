@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
         experimentList = (ListView)view.findViewById(R.id.experiment_list);
         experimentDataList = new ArrayList<>();
         experimentAdapter = new ExperimentList(getActivity(), experimentDataList);
-
         experimentList.setAdapter(experimentAdapter);
 
         return view;
@@ -45,7 +44,9 @@ public class HomeFragment extends Fragment {
 
     public void getList(ArrayList<Experiment> value){
         for (Experiment experiment:value){
-            experimentDataList.add(experiment);
+            if(experiment.published || experiment.experimenters.contains(User.staticInstanceOfUser) || experiment.owner.username.equals(User.staticInstanceOfUser.username)) {
+                experimentDataList.add(experiment);
+            }
         }
         experimentAdapter.notifyDataSetChanged();
     }
@@ -72,3 +73,4 @@ public class HomeFragment extends Fragment {
     }
 
 }
+
