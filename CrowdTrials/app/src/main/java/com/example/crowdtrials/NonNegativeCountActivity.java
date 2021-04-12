@@ -40,7 +40,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.nonnegativeactivity);
         user = (User) getIntent().getSerializableExtra("user");
         exp = (NonNegativeCountExp) getIntent().getSerializableExtra("exp");
         pos = (Integer) getIntent().getSerializableExtra("pos");
@@ -65,9 +65,10 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         lastRes.setText("");
         result = new IntResult(user);
         exp.experimenters.add(user);
-        final Button confirmButton = findViewById(R.id.button_confirm);
+        final Button confirmButton = findViewById(R.id.button_confirm_non);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
                 Integer res = Integer.parseInt(non_result.getText().toString());
 
                 if (res <= 0) {

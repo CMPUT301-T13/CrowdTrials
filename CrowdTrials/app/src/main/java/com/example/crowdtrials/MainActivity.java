@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
         user = new User(username);
+        User.staticInstanceOfUser=user;
+        Log.e("usernae",User.staticInstanceOfUser.username);
         addDatabaseListeners();
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -90,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -106,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
 
             }
         });
+
         /*
 
         Task<DocumentSnapshot> usersRef = database.userCollectionReference.document(username).get();
@@ -366,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements CreateUserFragmen
             startActivityForResult(intent,4);
         }
         else if(experiment instanceof NonNegativeCountExp){
-            Intent intent = new Intent(this, CountActivity.class);
+            Intent intent = new Intent(this, NonNegativeCountActivity.class);
             intent.putExtra("exp", experiment);
             intent.putExtra("user", user);
             intent.putExtra("pos", pos);

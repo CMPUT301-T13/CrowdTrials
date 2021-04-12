@@ -43,9 +43,11 @@ public class Statistics {
         int sum =0;
         for(int i =0; i<values.size(); i++){
 
-            //Log.e("GET INTEGER MEAN " , " " + values.get(i));
-                Long temp = (Long)values.get(i);
-                sum += temp.intValue();
+            String summer =  Long.toString((Long) values.get(i));
+            sum += Integer.parseInt(summer);
+            //Log.e("GET INTEGER MEAN " , " " + summer);
+                //sum += Integer.parseInt(values.get(i).toString());
+
             }
         return (float)sum/values.size();
 

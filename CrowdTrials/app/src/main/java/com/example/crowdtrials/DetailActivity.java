@@ -189,4 +189,6 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         resAdapter.notifyDataSetChanged();
 
     }
+
+
 }
