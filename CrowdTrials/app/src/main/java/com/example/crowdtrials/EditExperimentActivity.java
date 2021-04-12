@@ -86,18 +86,18 @@ public class EditExperimentActivity extends AppCompatActivity {
 
             }
         });
-        ended.setOnClickListener(new View.OnClickListener() {
+        end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(exp.ended){
                     exp.ended=false;
-                    publish.setText("End");
+                    // publish.setText("End");
                     ended.setText("Ended status: "+exp.ended);
                     //database.updateEnd(exp,exp.ended);
                 }
                 else{
                     exp.ended=true;
-                    publish.setText("Restart");
+                    //publish.setText("Restart");
                     ended.setText("Ended status: "+exp.ended);
                     //database.updateEnd(exp,exp.ended);
                 }

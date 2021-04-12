@@ -80,7 +80,7 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     }
 
     public void onCallback(ArrayList<QnA> value, int whichCase){
-        Log.e("Called in questions", " " + value.get(0).question);
+        //Log.e("Called in questions", " " + value.get(0).question);
         questions.clear();
         questions.addAll(value);
         ques.notifyDataSetChanged();
