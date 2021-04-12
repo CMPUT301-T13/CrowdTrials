@@ -26,7 +26,8 @@ public class FloatResult extends ResultArr{
             return 0;
         }
         double correctAnswer= (double) summ/measurements.size();
-        return correctAnswer;
+        double roundOff = Math.round(correctAnswer * 100.0) / 100.0;
+        return roundOff;
     }
 
     /**

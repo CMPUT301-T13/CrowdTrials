@@ -71,19 +71,16 @@ public class NonNegativeCountActivity extends AppCompatActivity {
 
                 Integer res = Integer.parseInt(non_result.getText().toString());
 
-                if (res <= 0) {
-
-                    if (res < 0) {
-
-                        lastRes.setText("LAST RESULT WAS NEGATIVE, INVALID!");
-                    } else {
-                        non_result.getText().clear();
-                        lastRes.setText(res.toString());
-                        result.values.add(res);
+                if (res < 0) {
+                    lastRes.setText("LAST RESULT WAS NEGATIVE, INVALID!");
+                }
+                else{
+                    non_result.getText().clear();
+                    lastRes.setText(res.toString());
+                    result.values.add(res);
                     }
                 }
-            }
-        });
+            });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,16 +106,18 @@ public class NonNegativeCountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                exp.addResult(result);
-                //exp.results.add(result);
-                database.updateWithResults(result, exp.name);
+                if(result.values.size()!=0) {
+                    exp.addResult(result);
+                    //exp.results.add(result);
+                    database.updateWithResults(result, exp.name);
+                }
                 Intent intent = new Intent(NonNegativeCountActivity.this, DetailActivity.class);
 
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","ncount");
                 intent.putExtra("user",user);
-
                 startActivity(intent);
+                result=new IntResult(user);
 
 
             }

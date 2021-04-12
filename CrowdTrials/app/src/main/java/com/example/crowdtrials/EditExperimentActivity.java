@@ -91,7 +91,6 @@ public class EditExperimentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(exp.ended){
                     exp.ended=false;
-                    // publish.setText("End");
                     ended.setText("Ended status: "+exp.ended);
                     //database.updateEnd(exp,exp.ended);
                 }

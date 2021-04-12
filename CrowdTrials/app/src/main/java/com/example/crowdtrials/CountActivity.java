@@ -87,7 +87,7 @@ public class CountActivity extends AppCompatActivity {
                 Intent intent = new Intent(CountActivity.this, MainActivity.class);
                 if(result.values.size()!=0) {
                     exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
+                    //database.updateWithResults(result, exp.name);
 
                 }
                 intent.putExtra("exp", exp);
@@ -115,8 +115,8 @@ public class CountActivity extends AppCompatActivity {
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "count");
                 intent.putExtra("user", user);
-
                 startActivity(intent);
+                result=new IntResult(user);
             }
         });
 

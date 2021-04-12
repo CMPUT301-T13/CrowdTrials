@@ -32,7 +32,8 @@ public class BoolResult extends ResultArr{
         Log.d("How many successes",Integer.toString(totalsuccesses));
         Log.d("returnvalue",Float.toString(totalsuccesses/outcomes.size()));
         double correctAnswer= (double) totalsuccesses/outcomes.size();
-        return correctAnswer;
+        double roundOff = Math.round(correctAnswer * 100.0) / 100.0;
+        return roundOff;
     }
 
     /**

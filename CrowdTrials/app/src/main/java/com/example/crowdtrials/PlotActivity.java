@@ -2,6 +2,8 @@ package com.example.crowdtrials;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,12 +33,14 @@ public class PlotActivity extends AppCompatActivity implements ResultsCallback{
     String type;
     Experiment exp;
     BarChart chart;
+    Button back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.plot_activity);
         //collectionReference = db.collection("Experiments");
         chart = (BarChart) findViewById(R.id.chart);
+        back=findViewById(R.id.backButtonForPlot);
         type=(String) getIntent().getSerializableExtra("type");
         if(type.equals("Measurement Experiment")){
             exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
@@ -57,6 +61,13 @@ public class PlotActivity extends AppCompatActivity implements ResultsCallback{
         }
         //attachListener(this::onCallback);
         Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
+        back.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 

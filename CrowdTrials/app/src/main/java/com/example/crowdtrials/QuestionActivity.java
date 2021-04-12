@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,8 +24,10 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
     ArrayAdapter<QnA> ques;
     ListView queslist;
     FloatingActionButton addQ;
-    Button viewAnswer;
-    Button respondToQuestion;
+    //Button viewAnswer;
+    //Button respondToQuestion;
+    TextView numreplies;
+    Button back;
     Experiment exp;
     User user;
     ArrayList<QnA> questions;
@@ -40,8 +43,9 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
         ques=new QuestionsList(this,questions);
         queslist.setAdapter(ques);
         addQ=findViewById(R.id.add_question_button);
-        viewAnswer=findViewById(R.id.viewanswers);
-        respondToQuestion=findViewById(R.id.answerquestion);
+        //viewAnswer=findViewById(R.id.viewanswers);
+        back= findViewById(R.id.backbuttonquest);
+        //respondToQuestion=findViewById(R.id.answerquestion);
         db = Database.getSingleDatabaseInstance();
         db.getQuestions(exp,this::onCallback);
         // YOU MUST CLICK ON A QUESTION THEN CLICK THE ANSWER OR VIEW IN ORDER TO INTERACT WITH THAT PARTICULAR QUESTION.
@@ -50,9 +54,19 @@ public class QuestionActivity extends AppCompatActivity implements AddQuestionFr
                 new AddQuestionFragment().show(getSupportFragmentManager(), "ADD_QUESTION");
             }
         });
-        viewAnswer.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
+
+
+
+        // IMPLEMENT BACK BUTTON
+
+        back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(QuestionActivity.this, DetailActivity.class);
+                intent.putExtra("user",user);
+                intent.putExtra("exp",exp);
+                setResult(RESULT_OK,intent);
+                finish();
 
 
             }

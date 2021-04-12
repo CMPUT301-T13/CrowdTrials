@@ -2,6 +2,8 @@ package com.example.crowdtrials;
 
 import android.util.Log;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,13 +45,32 @@ public class Statistics {
         int sum =0;
         for(int i =0; i<values.size(); i++){
 
-            String summer =  Long.toString((Long) values.get(i));
+            String summer =  String.valueOf(values.get(i));
+
             sum += Integer.parseInt(summer);
             //Log.e("GET INTEGER MEAN " , " " + summer);
                 //sum += Integer.parseInt(values.get(i).toString());
 
             }
-        return (float)sum/values.size();
+        String roundOff = String.valueOf(Math.round(((float)sum/values.size()) * 100.0) / 100.0);
+        int i=0;
+        while(i<roundOff.length()){
+            if(roundOff.charAt(i)=='.'){
+                if(i+2<roundOff.length()){
+                    roundOff=roundOff.substring(0,i+3);
+                    break;
+                }
+                else if(i+1<roundOff.length()){
+                    roundOff=roundOff.substring(0,i+2);
+                    break;
+                }
+
+            }
+            i++;
+        }
+        Log.e("ROUNDOFF",roundOff);
+        Log.e("FLOATROUND", Float.toString(Float.parseFloat(roundOff)));
+        return Float.parseFloat(roundOff);
 
     }
     /**
