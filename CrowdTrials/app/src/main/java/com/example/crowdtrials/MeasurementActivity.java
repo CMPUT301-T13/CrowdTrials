@@ -72,7 +72,7 @@ public class MeasurementActivity extends AppCompatActivity {
                 Intent intent = new Intent(MeasurementActivity.this, MainActivity.class);
                 if(result.measurements.size()!=0) {
                     exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
+                    //database.updateWithResults(result, exp.name);
 
                 }
                 intent.putExtra("exp",exp);
@@ -99,7 +99,7 @@ public class MeasurementActivity extends AppCompatActivity {
                 intent.putExtra("type","meas");
                 intent.putExtra("user",user);
                 startActivity(intent);
-
+                result=new FloatResult(user);
 
             }
         });
