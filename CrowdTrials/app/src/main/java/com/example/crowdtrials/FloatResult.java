@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 package com.example.crowdtrials;
 
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class FloatResult extends ResultArr{
     }
 }
 =======
+=======
+>>>>>>> 63be61301c7eb79c006052222d83879b9ff5ea74
 package com.example.crowdtrials;
 
 import android.util.Log;
@@ -68,7 +71,8 @@ public class FloatResult extends ResultArr{
             return 0;
         }
         double correctAnswer= (double) summ/measurements.size();
-        return correctAnswer;
+        double roundOff = Math.round(correctAnswer * 100.0) / 100.0;
+        return roundOff;
     }
 
     /**
@@ -81,5 +85,9 @@ public class FloatResult extends ResultArr{
         this.type="float";
 
     }
+<<<<<<< HEAD
 }
 >>>>>>> c7a51f4da8a2f123a9a1ac8dc9797b824ae82beb
+=======
+}
+>>>>>>> 63be61301c7eb79c006052222d83879b9ff5ea74

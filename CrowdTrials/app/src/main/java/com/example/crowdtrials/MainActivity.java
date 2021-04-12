@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // get user from intent
         username = (String) getIntent().getSerializableExtra("user");
         user = new User(username);
+        User.staticInstanceOfUser=user;
         addDatabaseListeners();
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");

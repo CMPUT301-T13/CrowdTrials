@@ -109,7 +109,7 @@ public class BinomialActivity extends AppCompatActivity {
                         //Log.d("RESULT ACTIVITY", "run: " + res);
 
 
-                        database.updateWithResults(result, exp.name);
+                        //database.updateWithResults(result, exp.name);
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 // do onPostExecute stuff
