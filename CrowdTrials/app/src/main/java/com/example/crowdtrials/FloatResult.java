@@ -4,15 +4,12 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-/**
- * This is class that holds the float measurements of an experiment
- */
+/** This is class that holds the float measurements of an experiment*/
 public class FloatResult extends ResultArr{
     public ArrayList<Float> measurements = new ArrayList<>();
 
 
-    /**
-     * This methods returns the average float result for a measurement experiment
+    /** This methods returns the average float result for a measurement experiment
      * @return
      * The average float result of a measurement experiment
      */
