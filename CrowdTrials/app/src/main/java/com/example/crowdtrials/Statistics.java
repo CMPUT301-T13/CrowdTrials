@@ -43,7 +43,7 @@ public class Statistics {
         int sum =0;
         for(int i =0; i<values.size(); i++){
 
-            Log.e("GET INTEGER MEAN " , " " + values.get(i));
+            //Log.e("GET INTEGER MEAN " , " " + values.get(i));
                 Long temp = (Long)values.get(i);
                 sum += temp.intValue();
             }

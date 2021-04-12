@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 //import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -120,6 +121,7 @@ public class AddExperimentFragment extends DialogFragment {
                                 experiment.setOwner(user);
                                 experiment.setDate(new Date());
                                 experiment.minTrials = minTrials;
+                                Log.e("IN ADD EXPERIMENT", "" +geolocationCheckBox.isEnabled());
                                 experiment.isGeoLocationEnabled = geolocationCheckBox.isEnabled();
                                 newRegion = new Location("");
                                 experiment.setRegion(newRegion);

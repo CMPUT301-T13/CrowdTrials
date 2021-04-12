@@ -44,8 +44,13 @@ public class HomeFragment extends Fragment {
     }
 
     public void getList(ArrayList<Experiment> value){
+        experimentDataList.clear();
         for (Experiment experiment:value){
-            experimentDataList.add(experiment);
+            //if (experiment.isPublished()){
+                experimentDataList.add(experiment);
+
+           // }
+
         }
         experimentAdapter.notifyDataSetChanged();
     }

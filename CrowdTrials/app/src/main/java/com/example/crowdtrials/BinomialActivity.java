@@ -69,7 +69,7 @@ public class BinomialActivity extends AppCompatActivity {
         // pb = new ProgressBar(this);
         Log.e("geo", Boolean.toString(exp.isGeoLocationEnabled));
         makeTheEditTextsUnEditable();
-
+        Log.e("In Detail Activity", "" + exp.isGeoLocationEnabled);
         if (!exp.isGeoLocationEnabled) {
             warning.setVisibility(View.GONE);
         }
