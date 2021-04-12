@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -19,10 +21,13 @@ import java.util.ArrayList;
 public class ResultList extends ArrayAdapter<ResultArr> {
     private ArrayList<ResultArr> results;
     private Context context;
-    public ResultList(Context context, ArrayList<ResultArr> results){
+    public Location addRegion;
+
+    public ResultList(Context context, ArrayList<ResultArr> results, Location addRegion){
         super(context,0,results);
         this.results=results;
         this.context=context;
+        this.addRegion=addRegion;
     }
     @NonNull
     @Override
@@ -35,7 +40,9 @@ public class ResultList extends ArrayAdapter<ResultArr> {
         ResultArr res = results.get(position);
         TextView rtext = view.findViewById(R.id.result_text);
         TextView author = view.findViewById(R.id.author_text);
+        TextView trialRegion = (TextView) view.findViewById(R.id.trial_reg);
         rtext.setText(Double.toString(res.averageResult()));
+        trialRegion.setText(addRegion.name);
 
         //Log.d("AVGRESULT",Double.toString(res.averageResult()));
 

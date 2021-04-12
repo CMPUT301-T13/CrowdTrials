@@ -115,7 +115,8 @@
         android:id="@+id/probabilityViewer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="59dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="152dp"
         android:text="Probability"
         app:layout_constraintStart_toStartOf="@+id/plaintext_prob"
         app:layout_constraintTop_toBottomOf="@+id/include" />
@@ -135,10 +136,22 @@
         android:id="@+id/warningbin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="548dp"
-        android:text="Warning Geolocation enabled"
+        android:layout_marginTop="356dp"
+        android:text="Warning: Geolocation enabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/binexp_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/gen_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/warningbin"
+        app:layout_constraintVertical_bias="0.05"
+        android:hint="Enter Region"
+        android:inputType="textPersonName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

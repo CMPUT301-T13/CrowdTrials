@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,6 +33,8 @@ public class NonNegativeCountActivity extends AppCompatActivity {
     EditText non_result;
     IntResult result;
     Button statsButton;
+    TextView newRegion;
+    Location addRegion;
     int qr;
     String qrTrial;
     int pos;
@@ -53,12 +57,8 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         non_result = findViewById(R.id.editText_result_non);
         qRScan = findViewById(R.id.count_scan);
         warning = findViewById(R.id.warningnon);
+        newRegion = (EditText) findViewById(R.id.nonnegexp_region);
         makeTheEditTextsUnEditable();
-
-        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
-        if(!exp.isGeoLocationEnabled){
-            warning.setVisibility(View.GONE);
-        }
 
         title.setText(exp.name);
         // plaintextLastRes.setText("Last result");
@@ -66,10 +66,40 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         result = new IntResult(user);
         exp.experimenters.add(user);
         final Button confirmButton = findViewById(R.id.button_confirm);
+        confirmButton.setEnabled(false);
+        Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
+        if (!exp.isGeoLocationEnabled) {
+            warning.setVisibility(View.GONE);
+            newRegion.setVisibility(View.INVISIBLE);
+            confirmButton.setEnabled(true);
+        }
+
+        //If geolocation is required, do not let user generate result until geolocation is entered
+        newRegion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0) {
+                    confirmButton.setEnabled(false);
+                } else {
+                    confirmButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Integer res = Integer.parseInt(non_result.getText().toString());
-
+                addRegion = new Location(newRegion.getText().toString());
                 if (res <= 0) {
 
                     if (res < 0) {
@@ -116,6 +146,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","ncount");
                 intent.putExtra("user",user);
+                intent.putExtra("region", addRegion);
 
                 startActivity(intent);
 

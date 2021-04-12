@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 //import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -112,6 +113,7 @@ public class AddExperimentFragment extends DialogFragment {
                         String spinnerItem = (String)optionsSpinner.getSelectedItem();
                         Experiment experiment;
                         Location newRegion;
+                        //Log.e("TEST", "check");
                         switch (spinnerItem){
                             case "Binomial Experiment":
                                 experiment = new BinomialExp();
@@ -120,7 +122,8 @@ public class AddExperimentFragment extends DialogFragment {
                                 experiment.setOwner(user);
                                 experiment.setDate(new Date());
                                 experiment.minTrials = minTrials;
-                                experiment.isGeoLocationEnabled = geolocationCheckBox.isEnabled();
+                                Log.d("Creating exp", ""+geolocationCheckBox.isChecked());
+                                experiment.isGeoLocationEnabled = geolocationCheckBox.isChecked();
                                 newRegion = new Location("");
                                 experiment.setRegion(newRegion);
                                 experiment.type = spinnerItem;
@@ -133,7 +136,7 @@ public class AddExperimentFragment extends DialogFragment {
                                 experiment.setOwner(user);
                                 experiment.setDate(new Date());
                                 experiment.minTrials = minTrials;
-                                experiment.isGeoLocationEnabled = geolocationCheckBox.isEnabled();
+                                experiment.isGeoLocationEnabled = geolocationCheckBox.isChecked();
                                 newRegion = new Location("");
                                 experiment.setRegion(newRegion);
                                 experiment.type = spinnerItem;
@@ -146,7 +149,7 @@ public class AddExperimentFragment extends DialogFragment {
                                 experiment.setOwner(user);
                                 experiment.setDate(new Date());
                                 experiment.minTrials = minTrials;
-                                experiment.isGeoLocationEnabled = geolocationCheckBox.isEnabled();
+                                experiment.isGeoLocationEnabled = geolocationCheckBox.isChecked();
                                 newRegion = new Location("");
                                 experiment.setRegion(newRegion);
                                 experiment.type = spinnerItem;
@@ -159,7 +162,7 @@ public class AddExperimentFragment extends DialogFragment {
                                 experiment.setOwner(user);
                                 experiment.setDate(new Date());
                                 experiment.minTrials = minTrials;
-                                experiment.isGeoLocationEnabled = geolocationCheckBox.isEnabled();
+                                experiment.isGeoLocationEnabled = geolocationCheckBox.isChecked();
                                 newRegion = new Location("");
                                 experiment.setRegion(newRegion);
                                 experiment.type = spinnerItem;

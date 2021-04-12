@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -41,6 +43,8 @@ public class BinomialActivity extends AppCompatActivity {
     Button statsButton;
     String qrTrial = null;
     Database database = Database.getSingleDatabaseInstance();
+    TextView newRegion;
+    Location addRegion;
     int pos;
     int qr = 0;
     boolean res;
@@ -67,12 +71,17 @@ public class BinomialActivity extends AppCompatActivity {
         statsButton = findViewById(R.id.statsbutton);
         pb.setVisibility(View.GONE);
         qrScan = findViewById(R.id.bin_scan);
+        newRegion = (EditText) findViewById(R.id.binexp_region);
+        boolean blankRegion = true;
         // pb = new ProgressBar(this);
         Log.e("geo", Boolean.toString(exp.isGeoLocationEnabled));
         makeTheEditTextsUnEditable();
 
+        genResult.setEnabled(false);
         if (!exp.isGeoLocationEnabled) {
             warning.setVisibility(View.GONE);
+            newRegion.setVisibility(View.INVISIBLE);
+            genResult.setEnabled(true);
         }
 
         title.setText(exp.name);
@@ -86,6 +95,29 @@ public class BinomialActivity extends AppCompatActivity {
         Log.e("In binomial Activity","" + exp.owner.username);
 
         exp.experimenters.add(user);
+
+        //If geolocation is required, do not let user generate result until geolocation is entered
+        newRegion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0) {
+                    genResult.setEnabled(false);
+                } else {
+                    genResult.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         genResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +137,7 @@ public class BinomialActivity extends AppCompatActivity {
                         while (System.currentTimeMillis() - startTime < 2500) {
                         }
                         result.outcomes.add(res);
-
+                        addRegion = new Location(newRegion.getText().toString());
                         //Log.d("RESULT ACTIVITY", "run: " + res);
 
 
@@ -186,6 +218,7 @@ public class BinomialActivity extends AppCompatActivity {
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "bin");
                 intent.putExtra("user", user);
+                intent.putExtra("region", addRegion);
                 startActivity(intent);
                 result=new BoolResult(user);
                 pressed_gen=0;

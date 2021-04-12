@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -33,6 +35,8 @@ public class CountActivity extends AppCompatActivity {
     EditText count_result;
     IntResult result;
     Button statsButton;
+    TextView newRegion;
+    Location addRegion;
     int pos;
 
     int qr;
@@ -54,11 +58,9 @@ public class CountActivity extends AppCompatActivity {
         lastRes = findViewById(R.id.lastresultnon);
         count_result = findViewById(R.id.editText_result_non);
         warning = findViewById(R.id.warningnon);
+        newRegion = (EditText) findViewById(R.id.nonnegexp_region);
         Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
         makeTheEditTextsUnEditable();
-        if(!exp.isGeoLocationEnabled){
-            warning.setVisibility(View.GONE);
-        }
 
         Log.e("Count Activity", "Experiment: " + exp.name);
         title.setText(exp.name);
@@ -71,12 +73,42 @@ public class CountActivity extends AppCompatActivity {
 
         exp.experimenters.add(user);
         final Button confirmButton = findViewById(R.id.button_confirm_non);
+        confirmButton.setEnabled(false);
+        if (!exp.isGeoLocationEnabled) {
+            warning.setVisibility(View.GONE);
+            newRegion.setVisibility(View.INVISIBLE);
+            confirmButton.setEnabled(true);
+        }
+
+        //If geolocation is required, do not let user generate result until geolocation is entered
+        newRegion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0) {
+                    confirmButton.setEnabled(false);
+                } else {
+                    confirmButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Integer res = Integer.parseInt(count_result.getText().toString().trim());
                 count_result.getText().clear();
                 lastRes.setText(res.toString());
                 result.values.add(res);
+                addRegion = new Location(newRegion.getText().toString());
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +147,7 @@ public class CountActivity extends AppCompatActivity {
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "count");
                 intent.putExtra("user", user);
+                intent.putExtra("region", addRegion);
 
                 startActivity(intent);
             }

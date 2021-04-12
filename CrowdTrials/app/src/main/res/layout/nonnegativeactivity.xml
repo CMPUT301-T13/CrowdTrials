@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Warning Geolocation enabled"
+        android:text="Warning: Geolocation enabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
@@ -94,8 +94,8 @@
         android:id="@+id/lastresultnon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="144dp"
         android:text="lastresult"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/warningnon" />
@@ -126,6 +126,18 @@
         android:text="SCAN QR"
         app:layout_constraintStart_toStartOf="@+id/lastresultnon"
         app:layout_constraintTop_toBottomOf="@+id/lastresultnon" />
+
+    <EditText
+        android:id="@+id/nonnegexp_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter Region"
+        android:inputType="textPersonName"
+        app:layout_constraintVertical_bias="0.04"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/warningnon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

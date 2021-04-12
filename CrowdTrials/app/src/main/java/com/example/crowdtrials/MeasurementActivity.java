@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +32,8 @@ public class MeasurementActivity extends AppCompatActivity {
     Button statsButton;
     TextView warning;
     Database database =  Database.getSingleDatabaseInstance();
+    TextView newRegion;
+    Location addRegion;
     int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,23 +49,52 @@ public class MeasurementActivity extends AppCompatActivity {
         lastRes=findViewById(R.id.lastresultmeas);
         meas_result=findViewById(R.id.editText_result);
         statsButton = findViewById(R.id.statsbutton3);
+        newRegion = (EditText) findViewById(R.id.measexp_region);
         makeTheEditTextsUnEditable();
         warning=findViewById(R.id.warningmeas);
-        if(!exp.isGeoLocationEnabled){
-            warning.setVisibility(View.GONE);
-        }
+
         title.setText(exp.name);
         plaintextLastRes.setText("Last result");
         lastRes.setText("NaN");
         result=new FloatResult(user);
         exp.experimenters.add(user);
         final Button confirmButton = findViewById(R.id.button_confirm);
+        confirmButton.setEnabled(false);
+        if (!exp.isGeoLocationEnabled) {
+            warning.setVisibility(View.GONE);
+            newRegion.setVisibility(View.INVISIBLE);
+            confirmButton.setEnabled(true);
+        }
+
+        //If geolocation is required, do not let user generate result until geolocation is entered
+        newRegion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().trim().length() == 0) {
+                    confirmButton.setEnabled(false);
+                } else {
+                    confirmButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Float res = Float.parseFloat(meas_result.getText().toString());
                 meas_result.getText().clear();
                 lastRes.setText(res.toString());
                 result.measurements.add(res);
+                addRegion = new Location(newRegion.getText().toString());
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +129,7 @@ public class MeasurementActivity extends AppCompatActivity {
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","meas");
                 intent.putExtra("user",user);
+                intent.putExtra("region", addRegion);
                 startActivity(intent);
 
 

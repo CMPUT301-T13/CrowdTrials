@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
-        android:text="Warning Geolocation enabled"
+        android:text="Warning: Geolocation enabled"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
@@ -102,8 +102,8 @@
         android:id="@+id/displayLastRes_meas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="200dp"
         android:text="lastresult"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
@@ -124,5 +124,17 @@
         android:text="scan barcode"
         app:layout_constraintStart_toStartOf="@+id/lastresultmeas"
         app:layout_constraintTop_toTopOf="@+id/statsbutton3" />
+
+    <EditText
+        android:id="@+id/measexp_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter Region"
+        android:inputType="textPersonName"
+        app:layout_constraintVertical_bias="0.03"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/warningmeas" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

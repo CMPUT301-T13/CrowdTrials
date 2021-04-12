@@ -31,6 +31,7 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
     Button questionsbutton;
     Button editExperiment;
     String type;
+    Location addRegion;
     ArrayList<ResultArr> viewResultsFrom = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +56,20 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
                     viewResultsFrom.add(exp.results.get(i));
                 }
             }
-            resAdapter = new ResultList(this,viewResultsFrom);
+            resAdapter = new ResultList(this,viewResultsFrom, addRegion);
             reslist.setAdapter(resAdapter);
 
         }
         else if(type.equals("bin")){
             exp = (BinomialExp) getIntent().getSerializableExtra("exp");
+            addRegion = (Location) getIntent().getSerializableExtra("addRegion");
             Database.getSingleDatabaseInstance().getAllResults(exp,this::onCallback);
             for(int i=0;i<exp.results.size();i++){
                 if(!exp.ignoredUsers.contains(exp.results.get(i).experimenter.username)){
                     viewResultsFrom.add(exp.results.get(i));
                 }
             }
-            resAdapter = new ResultList(this,viewResultsFrom);
+            resAdapter = new ResultList(this,viewResultsFrom, addRegion);
             reslist.setAdapter(resAdapter);
         }
         else if(type.equals("ncount")){
@@ -78,7 +80,7 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
                     viewResultsFrom.add(exp.results.get(i));
                 }
             }
-            resAdapter = new ResultList(this,viewResultsFrom);
+            resAdapter = new ResultList(this,viewResultsFrom, addRegion);
             reslist.setAdapter(resAdapter);
         }
         else{
@@ -89,7 +91,7 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
                     viewResultsFrom.add(exp.results.get(i));
                 }
             }
-            resAdapter = new ResultList(this,viewResultsFrom);
+            resAdapter = new ResultList(this,viewResultsFrom, addRegion);
             reslist.setAdapter(resAdapter);
         }
 
