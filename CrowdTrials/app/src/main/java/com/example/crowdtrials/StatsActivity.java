@@ -26,6 +26,7 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
     TextView Q3;
 
     ArrayList<ResultArr> resultArrArrayList;
+    Button histButton;
     Button plotButton;
     Statistics statistics;
     @Override
@@ -38,7 +39,9 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
         mean=findViewById(R.id.meantextView);
         Q1=findViewById(R.id.textView4);
         Q3= findViewById(R.id.textView5);
+        histButton=findViewById(R.id.button3);
         plotButton=findViewById(R.id.plotButton);
+        plotButton.setVisibility(View.GONE);
         type=(String) getIntent().getSerializableExtra("type");
         standardDeviation= findViewById(R.id.sdTextView);
 
@@ -74,7 +77,7 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
             }
         });
 
-        plotButton.setOnClickListener(new View.OnClickListener() {
+        histButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -106,7 +109,9 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
             }
             tempMean = statistics.getfloatMean(tempArray);
 
-
+            Float[] quartiles = statistics.getFloatQuartiles(tempArray);
+            Q1.setText("first quartile is: "+quartiles[0]);
+            Q3.setText("third quartile is: "+quartiles[1]);
             tempMedian = statistics.getfloatMedian(tempArray);
             sd = statistics.getStandardDeviation(tempArray,tempMean);
 
@@ -126,8 +131,9 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
             tempMean = statistics.getBinomialMean(tempArray);
             tempBool = statistics.getMedian(tempArray);
             sd = statistics.getbooleanStandardDeviation(tempArray,tempMean);
-
-            mean.setText("The mean is: " + tempMean);
+            //
+            mean.setText("The mean averaged observed success probability: " + tempMean);
+            median.setVisibility(View.GONE);
             median.setText("The median is: "+ tempBool);
             standardDeviation.setText("The standard Deviation is: " + sd);
 
@@ -147,7 +153,9 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
             tempMean = statistics.getIntegerMean(tempArray);
             tempMedian = statistics.getIntegerMedian(tempArray);
             sd = statistics.getIntegerStandardDeviation(tempArray,tempMean);
-
+            Integer[] quartiles = statistics.getIntegerQuartiles(tempArray);
+            Q1.setText("first quartile is: "+quartiles[0]);
+            Q3.setText("third quartile is: "+quartiles[1]);
             mean.setText("The mean is: " + tempMean);
             median.setText("The median is: "+ tempMedian);
             standardDeviation.setText("The standard Deviation is: " + sd);

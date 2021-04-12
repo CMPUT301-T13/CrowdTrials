@@ -95,8 +95,11 @@ public class PlotActivity extends AppCompatActivity implements ResultsCallback{
             ArrayList<Float> tempArray = new ArrayList<Float>();
             for (ResultArr result:value){
                 FloatResult floatResult = (FloatResult)result;
-
-                tempArray.addAll((floatResult).measurements);
+                for(int i=0;i<floatResult.measurements.size();i++){
+                    String s = String.valueOf(floatResult.measurements.get(i));
+                    tempArray.add(Float.parseFloat(s));
+                }
+                //tempArray.addAll((floatResult).measurements);
 
             }
 

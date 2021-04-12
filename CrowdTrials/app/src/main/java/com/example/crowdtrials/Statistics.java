@@ -81,10 +81,14 @@ public class Statistics {
      * The float mean of the experiment
      */
     public float  getfloatMean(ArrayList<Float> measurements){
-        int sum =0;
-        for(Float value:measurements){
-            sum+=value;
+        Float sum =0f;
+        Log.e("okdajdskal", String.valueOf(measurements.get(0)));
+        String temp;
+        for(int i=0;i<measurements.size();i++){
+            temp=String.valueOf(measurements.get(i));
+            sum+=Float.parseFloat(temp);
         }
+
         return (float)sum/measurements.size();
 
     }
@@ -116,7 +120,7 @@ public class Statistics {
      * @return
      * The numerical median of the experiment
      */
-    public float getIntegerMedian(ArrayList<?> values){
+    public Integer getIntegerMedian(ArrayList<?> values){
         ArrayList<Integer> tempArray= new ArrayList<Integer>();
         for(int i =0; i<values.size(); i++){
             Long temp = (Long)values.get(i);
@@ -141,16 +145,42 @@ public class Statistics {
      * The numerical median of the experiment
      */
     public float getfloatMedian(ArrayList<Float> values){
-
-        Collections.sort(values);
-        if(values.size() % 2 == 0){
-            return values.get(values.size()/2);
-        }else{
-            int size = values.size();
-            int p = (int)(size/2);
-            return (values.get(p) + values.get(p+1)) /2;
+        String temp;
+        ArrayList<Float> newvalues= new ArrayList<>();
+        for(int i=0;i<values.size();i++){
+            temp=String.valueOf(values.get(i));
+            newvalues.add(Float.parseFloat(temp));
 
         }
+        Collections.sort(newvalues);
+        if(newvalues.size() % 2 == 0){
+            return newvalues.get(newvalues.size()/2);
+        }else{
+            int size = newvalues.size();
+            int p = (int)(size/2);
+            return (newvalues.get(p) + newvalues.get(p+1)) /2;
+
+        }
+    }
+
+    public Float[] getFloatQuartiles(ArrayList<Float> values){
+        Collections.sort(values);
+        Float[] ans = new Float[2];
+        ArrayList<Float> q1 = new ArrayList<>(values.subList(0,(int) (values.size()/2)+1));
+        ans[0]=getfloatMedian(q1);
+        ArrayList<Float> q3 = new ArrayList<>(values.subList( (int) ((values.size()/2)+1),values.size()));
+        ans[1]=getfloatMedian(q3);
+        return ans;
+    }
+
+    public Integer[] getIntegerQuartiles(ArrayList<Integer> values){
+        Collections.sort(values);
+        Integer[] ans = new Integer[2];
+        ArrayList<Integer> q1 = new ArrayList<>(values.subList(0,(int) (values.size()/2)+1));
+        ans[0]=getIntegerMedian(q1);
+        ArrayList<Integer> q3 = new ArrayList<>(values.subList( (int) ((values.size()/2)+1),values.size()));
+        ans[1]=getIntegerMedian(q3);
+        return ans;
     }
 
     /**
@@ -192,9 +222,16 @@ public class Statistics {
     public float getStandardDeviation(ArrayList<Float> values,float mean){
         double sum =0;
         double sd = 0;
-        for(float value:values){
+        String temp;
+        ArrayList<Float> newvalues= new ArrayList<>();
+        for(int i=0;i<values.size();i++){
+            temp=String.valueOf(values.get(i));
+            newvalues.add(Float.parseFloat(temp));
+
+        }
+        for(float value:newvalues){
                 sd = value - mean;
-                sum = sum + (sd*sd)/values.size();
+                sum = sum + (sd*sd)/newvalues.size();
         }
 
 
