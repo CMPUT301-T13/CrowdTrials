@@ -127,5 +127,4 @@
         app:layout_constraintStart_toStartOf="@+id/lastresultnon"
         app:layout_constraintTop_toBottomOf="@+id/lastresultnon" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

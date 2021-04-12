@@ -72,7 +72,6 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
             public void onClick(View v) {
                 finish();
             }
-
         });
 
         plotButton.setOnClickListener(new View.OnClickListener() {
