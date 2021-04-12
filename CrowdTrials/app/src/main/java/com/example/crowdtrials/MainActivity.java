@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivityForResult(intent,4);
         }
         else if(experiment instanceof NonNegativeCountExp){
-            Intent intent = new Intent(this, CountActivity.class);
+            Intent intent = new Intent(this, NonNegativeCountActivity.class);
             intent.putExtra("exp", experiment);
             intent.putExtra("user", user);
             intent.putExtra("pos", pos);
