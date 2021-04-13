@@ -166,7 +166,9 @@ public abstract class Experiment implements Serializable {
      * The results being entered for the experiment
      */
     public void addResult(ResultArr results) {
-
+        if(this.ended){
+            return;
+        }
         if(owner.username.equals(results.experimenter.username) || this.experimenters.contains(results.experimenter)){
             Log.d("ADD RESULT","IVE BEEN RUN ");
             this.results.add(results);
