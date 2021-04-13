@@ -82,6 +82,7 @@ public class Statistics {
      */
     public float  getfloatMean(ArrayList<Float> measurements){
         Float sum =0f;
+
         String temp;
         for(int i=0;i<measurements.size();i++){
             temp=String.valueOf(measurements.get(i));
@@ -127,6 +128,12 @@ public class Statistics {
         }
 
         Collections.sort(tempArray);
+        if(tempArray.size()==1){
+            return tempArray.get(0);
+        }
+        if(tempArray.size()==0){
+            return 0;
+        }
         if(tempArray.size() % 2 == 0){
             return tempArray.get(tempArray.size()/2);
         }else{
@@ -152,6 +159,12 @@ public class Statistics {
 
         }
         Collections.sort(newvalues);
+        if(newvalues.size()==1){
+            return newvalues.get(0);
+        }
+        if(newvalues.size()==0){
+            return 0;
+        }
         if(newvalues.size() % 2 == 0){
             return newvalues.get(newvalues.size()/2);
         }else{

@@ -34,7 +34,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
     int qr;
     String qrTrial;
     int pos;
-
+    int i=0;
     Database database = Database.getSingleDatabaseInstance();
 
     @Override
@@ -66,6 +66,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         result = new IntResult(user);
         exp.experimenters.add(user);
         final Button confirmButton = findViewById(R.id.button_confirm_non);
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -77,7 +78,9 @@ public class NonNegativeCountActivity extends AppCompatActivity {
                 else{
                     non_result.getText().clear();
                     lastRes.setText(res.toString());
+                    Log.e("did we press this twice","yes" + Integer.toString(i));
                     result.values.add(res);
+                    i++;
                     }
                 }
             });
@@ -97,7 +100,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
                 intent.putExtra("pos", pos);
                 setResult(RESULT_OK, intent);
                 finish();
-
+                result=new IntResult(user);
 
             }
         });
@@ -107,7 +110,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 if(result.values.size()!=0) {
-                    exp.addResult(result);
+                    //exp.addResult(result);
                     //exp.results.add(result);
                     database.updateWithResults(result, exp.name);
                 }
@@ -129,7 +132,9 @@ public class NonNegativeCountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-
+                exp.addResult(result);
+                //exp.results.add(result);
+                database.updateWithResults(result, exp.name);
                 Intent intent = new Intent(NonNegativeCountActivity.this, StatsActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "ncount");
