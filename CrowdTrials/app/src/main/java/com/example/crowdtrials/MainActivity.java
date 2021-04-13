@@ -106,30 +106,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TabItem tabSubsriptions = findViewById(R.id.tab2);
 
         ViewPager viewPager = findViewById(R.id.ViewPager);
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
 
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
 
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                Log.e("Tab switched","Tab:" +tab.getPosition());
+
+
+                if(tab.getPosition() == 0){
+                    getAllExperiments();
+
+                }else{
+                    getAllSubcribedExperiments();
+                }
                 viewPager.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
