@@ -56,7 +56,7 @@ public class BinomialActivity extends AppCompatActivity {
         exp.probability = 0.5;
         pos = (Integer) getIntent().getSerializableExtra("pos");
         back = findViewById(R.id.backbutton_bin);
-        store=findViewById(R.id.count_storebutton);
+        store=findViewById(R.id.bin_storebutton);
         viewDetails = findViewById(R.id.detail_bin_button);
         genResult = findViewById(R.id.gen_button);
         plaintextLastRes = findViewById(R.id.plaintext_lastres_bin);
@@ -184,13 +184,6 @@ public class BinomialActivity extends AppCompatActivity {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
                 }
                 //og.d("RESULT ACTIVITY", "run: " + res);
-
-                if(result.outcomes.size()!=0 && pressed_gen!=0) {
-
-                    //exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
-
-                }
                 Intent intent = new Intent(BinomialActivity.this, DetailActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "bin");

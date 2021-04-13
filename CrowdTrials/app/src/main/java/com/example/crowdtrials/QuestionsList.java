@@ -63,7 +63,7 @@ public class QuestionsList  extends  ArrayAdapter<QnA>{
                 numberOfReplies=view.findViewById(R.id.replies_text);
                 questionText.setText("Question: " + questions.get(position).question);
                 numberOfQuestionText.setText(questions.get(position).answers.size() + " replies");
-
+                numberOfQuestionText.setVisibility(View.GONE);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
