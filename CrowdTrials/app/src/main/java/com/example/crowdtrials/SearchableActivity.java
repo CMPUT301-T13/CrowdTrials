@@ -111,11 +111,23 @@ public class SearchableActivity extends AppCompatActivity implements MyCallback,
 
     public void  searchByName(String query) {
         database = Database.getSingleDatabaseInstance();
-        database.searchExperiments(this::onCallback, query);
-        Log.e("SEARCH","This was searched" + query);
+        query.trim();
+
+        if(query.equals("*")){
+            Log.e("This was searched" , query);
+
+
+            database.readAllExperiments(this::onCallback);
+        }else{
+
+            database.searchExperiments(this::onCallback, query);
+        }
+
+
     }
 
     public void onCallback(ArrayList<Experiment> value, int whichCase) {
+        Log.e("SEARCH","This was searched" + value);
         experimentDataList.clear();
         for (Experiment experiment:value){
             experimentDataList.add(experiment);
