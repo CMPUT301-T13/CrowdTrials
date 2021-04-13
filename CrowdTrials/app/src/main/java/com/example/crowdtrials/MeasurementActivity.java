@@ -71,8 +71,8 @@ public class MeasurementActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(MeasurementActivity.this, MainActivity.class);
                 if(result.measurements.size()!=0) {
-                    exp.addResult(result);
-                    //database.updateWithResults(result, exp.name);
+                    //exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
 
                 }
                 intent.putExtra("exp",exp);
@@ -80,6 +80,7 @@ public class MeasurementActivity extends AppCompatActivity {
                 intent.putExtra("pos",pos);
                 setResult(RESULT_OK,intent);
                 finish();
+                result=new FloatResult(user);
 
 
             }
@@ -90,7 +91,7 @@ public class MeasurementActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 if(result.measurements.size()!=0) {
-                    exp.addResult(result);
+                    //exp.addResult(result);
                     //exp.results.add(result);
                     database.updateWithResults(result, exp.name);
                 }
@@ -108,7 +109,7 @@ public class MeasurementActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-
+                result = new FloatResult(user);
                 Intent intent = new Intent(MeasurementActivity.this, StatsActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "meas");

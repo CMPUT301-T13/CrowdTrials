@@ -129,12 +129,12 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
             }
             Log.e("Results callback", "onCallback: " + tempArray);
             tempMean = statistics.getBinomialMean(tempArray);
-            tempBool = statistics.getMedian(tempArray);
+            //tempBool = statistics.getMedian(tempArray);
             sd = statistics.getbooleanStandardDeviation(tempArray,tempMean);
             //
             mean.setText("The mean averaged observed success probability: " + tempMean);
             median.setVisibility(View.GONE);
-            median.setText("The median is: "+ tempBool);
+            //median.setText("The median is: "+ tempBool);
             standardDeviation.setText("The standard Deviation is: " + sd);
 
 

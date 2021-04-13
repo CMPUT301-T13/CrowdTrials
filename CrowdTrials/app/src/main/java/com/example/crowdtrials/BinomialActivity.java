@@ -142,6 +142,8 @@ public class BinomialActivity extends AppCompatActivity {
                 intent.putExtra("pos", pos);
                 setResult(RESULT_OK, intent);
                 finish();
+                result=new BoolResult(user);
+                pressed_gen=0;
 
 
             }
@@ -151,22 +153,6 @@ public class BinomialActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-
-                Intent intent = new Intent(BinomialActivity.this, StatsActivity.class);
-                intent.putExtra("exp", exp);
-                intent.putExtra("type", "bin");
-                startActivity(intent);
-
-            }
-        });
-
-
-        viewDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
-                // do this so we can make changes permanent (during lifespan of app until closed)
-
                 if(lastRes.getText().toString().length()!=0 && pressed_gen!=0) {
 
                     result.outcomes.add(res);
@@ -178,7 +164,35 @@ public class BinomialActivity extends AppCompatActivity {
 
                 if(result.outcomes.size()!=0 && pressed_gen!=0) {
 
-                    exp.addResult(result);
+                    //exp.addResult(result);
+                    database.updateWithResults(result, exp.name);
+
+                }
+                result=new BoolResult(user);
+                pressed_gen=0;
+                Intent intent = new Intent(BinomialActivity.this, StatsActivity.class);
+                intent.putExtra("exp", exp);
+                intent.putExtra("type", "bin");
+                startActivity(intent);
+
+            }
+        });
+
+
+
+        viewDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
+                // do this so we can make changes permanent (during lifespan of app until closed)
+                for (int i = 0; i < result.outcomes.size(); i++) {
+                    Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
+                }
+                //og.d("RESULT ACTIVITY", "run: " + res);
+
+                if(result.outcomes.size()!=0 && pressed_gen!=0) {
+
+                    //exp.addResult(result);
                     database.updateWithResults(result, exp.name);
 
                 }
@@ -188,6 +202,7 @@ public class BinomialActivity extends AppCompatActivity {
                 intent.putExtra("user", user);
                 startActivity(intent);
                 result=new BoolResult(user);
+                lastRes.setText("");
                 pressed_gen=0;
             }
         });
@@ -263,4 +278,3 @@ public class BinomialActivity extends AppCompatActivity {
     }
 
 }
-
