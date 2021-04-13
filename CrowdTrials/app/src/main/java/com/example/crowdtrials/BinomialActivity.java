@@ -155,7 +155,7 @@ public class BinomialActivity extends AppCompatActivity {
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 if(lastRes.getText().toString().length()!=0 && pressed_gen!=0) {
 
-                    result.outcomes.add(res);
+                    //result.outcomes.add(res);
                 }
                 for (int i = 0; i < result.outcomes.size(); i++) {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
@@ -164,7 +164,7 @@ public class BinomialActivity extends AppCompatActivity {
 
                 if(result.outcomes.size()!=0 && pressed_gen!=0) {
 
-                    //exp.addResult(result);
+                    exp.addResult(result);
                     database.updateWithResults(result, exp.name);
 
                 }
@@ -192,7 +192,7 @@ public class BinomialActivity extends AppCompatActivity {
 
                 if(result.outcomes.size()!=0 && pressed_gen!=0) {
 
-                    //exp.addResult(result);
+                    exp.addResult(result);
                     database.updateWithResults(result, exp.name);
 
                 }

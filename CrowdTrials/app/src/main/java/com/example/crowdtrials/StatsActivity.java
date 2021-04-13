@@ -108,15 +108,20 @@ public class StatsActivity extends AppCompatActivity implements ResultsCallback{
 
             }
             tempMean = statistics.getfloatMean(tempArray);
-
-            Float[] quartiles = statistics.getFloatQuartiles(tempArray);
-            Q1.setText("first quartile is: "+quartiles[0]);
-            Q3.setText("third quartile is: "+quartiles[1]);
-            tempMedian = statistics.getfloatMedian(tempArray);
+            if(tempArray.size()!=0 && tempArray.size()!=1) {
+                Float[] quartiles = statistics.getFloatQuartiles(tempArray);
+                Q1.setText("first quartile is: " + quartiles[0]);
+                Q3.setText("third quartile is: " + quartiles[1]);
+                tempMedian = statistics.getfloatMedian(tempArray);
+                median.setText("The median is: "+ tempMedian);
+            }
+            if(tempArray.size()==1){
+                median.setText(Float.toString(tempArray.get(0)));
+            }
             sd = statistics.getStandardDeviation(tempArray,tempMean);
 
             mean.setText("The mean is: " + tempMean);
-            median.setText("The median is: "+ tempMedian);
+            //median.setText("The median is: "+ tempMedian);
             standardDeviation.setText("The standard Deviation is: " + sd);
 
         }else if (type.equals("bin")){
