@@ -82,7 +82,6 @@ public class Statistics {
      */
     public float  getfloatMean(ArrayList<Float> measurements){
         Float sum =0f;
-        Log.e("okdajdskal", String.valueOf(measurements.get(0)));
         String temp;
         for(int i=0;i<measurements.size();i++){
             temp=String.valueOf(measurements.get(i));
