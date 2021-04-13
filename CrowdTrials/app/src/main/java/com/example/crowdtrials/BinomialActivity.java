@@ -39,6 +39,7 @@ public class BinomialActivity extends AppCompatActivity {
     ProgressBar pb;
     BoolResult result;
     Button statsButton;
+    Button store;
     String qrTrial = null;
     Database database = Database.getSingleDatabaseInstance();
     int pos;
@@ -55,6 +56,7 @@ public class BinomialActivity extends AppCompatActivity {
         exp.probability = 0.5;
         pos = (Integer) getIntent().getSerializableExtra("pos");
         back = findViewById(R.id.backbutton_bin);
+        store=findViewById(R.id.count_storebutton);
         viewDetails = findViewById(R.id.detail_bin_button);
         genResult = findViewById(R.id.gen_button);
         plaintextLastRes = findViewById(R.id.plaintext_lastres_bin);
@@ -121,6 +123,16 @@ public class BinomialActivity extends AppCompatActivity {
                 }).start();
             }
         });
+        store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(result.outcomes.size()!=0) {
+                    database.updateWithResults(result, exp.name);
+                    result = new BoolResult(user);
+                }
+
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,13 +141,6 @@ public class BinomialActivity extends AppCompatActivity {
                 Intent intent = new Intent(BinomialActivity.this, MainActivity.class);
                 //result.outcomes.get(0);
                 //String ok=exp.name;
-
-                if(result.outcomes.size()!=0 && pressed_gen!=0) {
-
-                    exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
-
-                }
                 //exp.addResult(result);
                 intent.putExtra("exp", exp);
                 intent.putExtra("user", user);
@@ -153,27 +158,17 @@ public class BinomialActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                if(lastRes.getText().toString().length()!=0 && pressed_gen!=0) {
 
-                    //result.outcomes.add(res);
-                }
                 for (int i = 0; i < result.outcomes.size(); i++) {
                     Log.d("RESULT ACTIVITY", "run: " + result.outcomes.get(i));
                 }
                 //og.d("RESULT ACTIVITY", "run: " + res);
-
-                if(result.outcomes.size()!=0 && pressed_gen!=0) {
-
-                    exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
-
-                }
-                result=new BoolResult(user);
-                pressed_gen=0;
                 Intent intent = new Intent(BinomialActivity.this, StatsActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "bin");
                 startActivity(intent);
+                result=new BoolResult(user);
+                pressed_gen=0;
 
             }
         });
@@ -192,7 +187,7 @@ public class BinomialActivity extends AppCompatActivity {
 
                 if(result.outcomes.size()!=0 && pressed_gen!=0) {
 
-                    exp.addResult(result);
+                    //exp.addResult(result);
                     database.updateWithResults(result, exp.name);
 
                 }

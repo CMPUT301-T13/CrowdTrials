@@ -26,6 +26,7 @@ public class CountActivity extends AppCompatActivity {
     Button back;
     Button viewDetails;
     Button qRScan;
+    Button store;
     TextView plaintextLastRes;
     TextView warning;
     TextView lastRes;
@@ -47,6 +48,7 @@ public class CountActivity extends AppCompatActivity {
         exp = (CountExp) getIntent().getSerializableExtra("exp");
         pos = (Integer) getIntent().getSerializableExtra("pos");
         back = findViewById(R.id.backbutton_non);
+        store=findViewById(R.id.count_storebutton);
         viewDetails = findViewById(R.id.detail_non_button);
         statsButton = findViewById(R.id.statsButton2);
         //plaintextLastRes=findViewById(R.id.plaintext_lastres_non);
@@ -79,23 +81,29 @@ public class CountActivity extends AppCompatActivity {
                 result.values.add(res);
             }
         });
+        store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(result.values.size()!=0) {
+                    database.updateWithResults(result, exp.name);
+                    result = new IntResult(user);
+                }
+
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(CountActivity.this, MainActivity.class);
-                if(result.values.size()!=0) {
-                    exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
 
-                }
                 intent.putExtra("exp", exp);
                 intent.putExtra("user", user);
                 intent.putExtra("pos", pos);
                 setResult(RESULT_OK, intent);
                 finish();
-
+                result=new IntResult(user);
 
             }
         });
@@ -104,11 +112,7 @@ public class CountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                if(result.values.size()!=0) {
-                    //exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
 
-                }
                 Intent intent = new Intent(CountActivity.this, DetailActivity.class);
 
 
@@ -135,9 +139,6 @@ public class CountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                exp.addResult(result);
-                //exp.results.add(result);
-                database.updateWithResults(result, exp.name);
                 Intent intent = new Intent(CountActivity.this, StatsActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "count");

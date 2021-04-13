@@ -24,6 +24,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
     Button back;
     Button viewDetails;
     Button qRScan;
+    Button store;
     TextView plaintextLastRes;
     TextView lastRes;
     TextView title;
@@ -46,6 +47,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         pos = (Integer) getIntent().getSerializableExtra("pos");
         back = findViewById(R.id.backbutton_non);
         viewDetails = findViewById(R.id.detail_non_button);
+        store=findViewById(R.id.count_storebutton);
         statsButton = findViewById(R.id.statsButton2);
         //plaintextLastRes=findViewById(R.id.plaintext_lastres_non);
         title = findViewById(R.id.title_non);
@@ -90,11 +92,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(NonNegativeCountActivity.this, MainActivity.class);
-                if(result.values.size()!=0) {
-                    exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
 
-                }
                 intent.putExtra("exp", exp);
                 intent.putExtra("user", user);
                 intent.putExtra("pos", pos);
@@ -109,11 +107,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                if(result.values.size()!=0) {
-                    //exp.addResult(result);
-                    //exp.results.add(result);
-                    database.updateWithResults(result, exp.name);
-                }
+
                 Intent intent = new Intent(NonNegativeCountActivity.this, DetailActivity.class);
 
                 intent.putExtra("exp",exp);
@@ -126,15 +120,22 @@ public class NonNegativeCountActivity extends AppCompatActivity {
             }
         });
 
+        store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(result.values.size()!=0) {
+                    database.updateWithResults(result, exp.name);
+                    result = new IntResult(user);
+                }
 
+            }
+        });
         statsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                exp.addResult(result);
-                //exp.results.add(result);
-                database.updateWithResults(result, exp.name);
+
                 Intent intent = new Intent(NonNegativeCountActivity.this, StatsActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "ncount");

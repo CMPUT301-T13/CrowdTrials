@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * This class represents the activity for a Measurement Experiment.
+ * INSTRUCTION: PRESS CONFIRM TO ADD OUTCOME TO RESULT
+ * PRESS STORE RESULT TO CREATE A NEW RESULT AND STORE THE OLD ONE (ONLY WORKS IF NON ZERO)
  */
 public class MeasurementActivity extends AppCompatActivity {
     // this will be the page that displays when adding results to an experiment/creating results
@@ -22,6 +24,7 @@ public class MeasurementActivity extends AppCompatActivity {
     User user;
     Button back;
     Button viewDetails;
+    Button store;
     TextView plaintextLastRes;
     TextView lastRes;
     TextView title;
@@ -39,6 +42,7 @@ public class MeasurementActivity extends AppCompatActivity {
         exp = (MeasurementExp) getIntent().getSerializableExtra("exp");
         pos=(Integer) getIntent().getSerializableExtra("pos");
         back=findViewById(R.id.backbutton_meas);
+        store=findViewById(R.id.meas_storebutton);
         viewDetails=findViewById(R.id.detail_meas_button);
         plaintextLastRes=findViewById(R.id.displayLastRes_meas);
         title=findViewById(R.id.title_meas);
@@ -70,11 +74,6 @@ public class MeasurementActivity extends AppCompatActivity {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 Intent intent = new Intent(MeasurementActivity.this, MainActivity.class);
-                if(result.measurements.size()!=0) {
-                    exp.addResult(result);
-                    database.updateWithResults(result, exp.name);
-
-                }
                 intent.putExtra("exp",exp);
                 intent.putExtra("user",user);
                 intent.putExtra("pos",pos);
@@ -90,11 +89,6 @@ public class MeasurementActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                if(result.measurements.size()!=0) {
-                    //exp.addResult(result);
-                    //exp.results.add(result);
-                    database.updateWithResults(result, exp.name);
-                }
                 Intent intent = new Intent(MeasurementActivity.this, DetailActivity.class);
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","meas");
@@ -104,19 +98,27 @@ public class MeasurementActivity extends AppCompatActivity {
 
             }
         });
+        store.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(result.measurements.size()!=0) {
+                    database.updateWithResults(result, exp.name);
+                    result = new FloatResult(user);
+                }
+
+            }
+        });
         statsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
                 //result = new FloatResult(user);
-                exp.addResult(result);
-                //exp.results.add(result);
-                database.updateWithResults(result, exp.name);
                 Intent intent = new Intent(MeasurementActivity.this, StatsActivity.class);
                 intent.putExtra("exp", exp);
                 intent.putExtra("type", "meas");
                 startActivity(intent);
+                result=new FloatResult(user);
 
             }
         });
