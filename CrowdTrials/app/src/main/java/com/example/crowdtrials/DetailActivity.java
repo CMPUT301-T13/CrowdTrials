@@ -171,8 +171,6 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
         resultArrArrayList = value;
         for (ResultArr result :value){
             viewResultsFrom.add(result);
-
-
         }
         resAdapter.notifyDataSetChanged();
     }
@@ -180,12 +178,37 @@ public class DetailActivity extends AppCompatActivity implements ResultsCallback
     @Override
     public void onOkPressed(String username) {
         exp.ignoredUsers.add(username);
-
+        //Log.e("VIEWRESSIZE",Integer.toString(viewResultsFrom.size()));
+        //for(int i=0;i<viewResultsFrom.size();i++){
+           // Log.e("PRETRAV",viewResultsFrom.get(i).experimenter.username+ "          "+ i);
+        //}
+        ArrayList<ResultArr> temp = new ArrayList<>();
         for(int i=0;i<viewResultsFrom.size();i++){
-            if (viewResultsFrom.get(i).experimenter.username.equals(username)){
+            Log.e("EXPERNAME",viewResultsFrom.get(i).experimenter.username);
+            if (viewResultsFrom.get(i).experimenter.username.trim().equals(username.trim())){
+                //Log.e("WHENDOWEENTER2",viewResultsFrom.get(i).experimenter.username);
+                //Log.e("WHENDOWEENTER",username.trim());
+                //Log.e("HKHKASJHKA",viewResultsFrom.get(i).type);
                 viewResultsFrom.remove(i);
+                //resAdapter.notifyDataSetChanged();
             }
+            else{
+                Log.e("DIFFERENCE WHERE PART 1", viewResultsFrom.get(i).experimenter.username.trim() + "       "+ i);
+                Log.e("DIFFERENCE WHERE PART 2", username.trim() + "       "+ i);
+                temp.add(viewResultsFrom.get(i));
+
+            }
+
         }
+        //Log.e("VIEWRESULTSPRECLEAR",Integer.toString(viewResultsFrom.size()));
+        //for(int i=0;i<viewResultsFrom.size();i++){
+            //Log.e("POST",viewResultsFrom.get(i).experimenter.username+ "          "+ i);
+        //}
+
+        resAdapter.clear();
+        resAdapter.addAll(temp);
+        //temp.clear();
+        //Log.e("VIEWRESULTSAFTER",Integer.toString(viewResultsFrom.size()));
         resAdapter.notifyDataSetChanged();
 
     }
