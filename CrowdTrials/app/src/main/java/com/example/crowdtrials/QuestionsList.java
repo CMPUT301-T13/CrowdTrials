@@ -18,12 +18,15 @@ import java.util.ArrayList;
  */
 public class QuestionsList  extends  ArrayAdapter<QnA>{
 
-
+        int res;
         private ArrayList<QnA> questions;
         private Context context;
         TextView questionText;
         TextView numberOfQuestionText;
         Button respondToQuestion;
+        static TextView numberOfReplies;
+
+
 
     /**
      * This method is a constructor for the adapter for list of questions
@@ -57,6 +60,7 @@ public class QuestionsList  extends  ArrayAdapter<QnA>{
                 questionText = view.findViewById(R.id.question_text);
                 numberOfQuestionText = view.findViewById(R.id.replies_text);
                 respondToQuestion = view.findViewById(R.id.replyToQuestion);
+                numberOfReplies=view.findViewById(R.id.replies_text);
                 questionText.setText("Question: " + questions.get(position).question);
                 numberOfQuestionText.setText(questions.get(position).answers.size() + " replies");
 

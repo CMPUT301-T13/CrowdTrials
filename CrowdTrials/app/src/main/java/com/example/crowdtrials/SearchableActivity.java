@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * This class represents the activity for the functionality of searching for an experiment
  */
-public class SearchableActivity extends AppCompatActivity implements MyCallback,AddResult {
+public class SearchableActivity extends AppCompatActivity implements MyCallback,AddResult,SubscribeButtonImplementer {
     Database database;
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
@@ -111,11 +111,23 @@ public class SearchableActivity extends AppCompatActivity implements MyCallback,
 
     public void  searchByName(String query) {
         database = Database.getSingleDatabaseInstance();
-        database.searchExperiments(this::onCallback, query);
-        Log.e("SEARCH","This was searched" + query);
+        query.trim();
+
+        if(query.equals("*")){
+            Log.e("This was searched" , query);
+
+
+            database.readAllExperiments(this::onCallback);
+        }else{
+
+            database.searchExperiments(this::onCallback, query);
+        }
+
+
     }
 
     public void onCallback(ArrayList<Experiment> value, int whichCase) {
+        Log.e("SEARCH","This was searched" + value);
         experimentDataList.clear();
         for (Experiment experiment:value){
             experimentDataList.add(experiment);
@@ -123,5 +135,12 @@ public class SearchableActivity extends AppCompatActivity implements MyCallback,
         }
         experimentAdapter.notifyDataSetChanged();
 
+    }
+
+    public void subscribedButtonPressed(Experiment exp) {
+
+
+
+        database.subscribeTo(exp,user);
     }
 }

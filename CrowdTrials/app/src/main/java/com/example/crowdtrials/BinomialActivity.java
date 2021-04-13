@@ -77,7 +77,11 @@ public class BinomialActivity extends AppCompatActivity {
         Log.e("geo", Boolean.toString(exp.isGeoLocationEnabled));
         makeTheEditTextsUnEditable();
 
+
         genResult.setEnabled(false);
+
+        
+
         if (!exp.isGeoLocationEnabled) {
             warning.setVisibility(View.GONE);
             newRegion.setVisibility(View.INVISIBLE);
@@ -141,7 +145,7 @@ public class BinomialActivity extends AppCompatActivity {
                         //Log.d("RESULT ACTIVITY", "run: " + res);
 
 
-                        database.updateWithResults(result, exp.name);
+                        //database.updateWithResults(result, exp.name);
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 // do onPostExecute stuff

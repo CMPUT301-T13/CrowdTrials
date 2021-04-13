@@ -77,6 +77,13 @@ public class subscriptions extends Fragment {
 
     public void getList(ArrayList<Experiment> value){
 
+
+        for (Experiment experiment:value){
+            subsribedDataList.add(experiment);
+        }
+        subscribedAdapter.notifyDataSetChanged();
+
+        /*
         for (Experiment experiment:value){
             boolean inExp=false;
             for(int i=0;i<experiment.experimenters.size();i++){
@@ -90,5 +97,10 @@ public class subscriptions extends Fragment {
             }
         }
         subscribedAdapter.notifyDataSetChanged();
+
+         */
     }
+
+
+
 }

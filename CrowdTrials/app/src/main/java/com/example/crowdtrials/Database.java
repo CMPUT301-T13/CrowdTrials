@@ -254,6 +254,7 @@ public class Database {
                 experiment.ended = document.getBoolean("ended");
                 experiment.setName((String) document.get("name"));
                 experiment.type = document.getString("Experiment Type");
+                experiment.isGeoLocationEnabled = document.getBoolean("isGeoLocationEnabled");
                // Log.d("My exp", "get failed with " + experiment.type);
                 experiment.isGeoLocationEnabled = document.getBoolean("isGeoLocationEnabled");
                 value.add(experiment);

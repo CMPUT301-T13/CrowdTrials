@@ -44,7 +44,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.nonnegativeactivity);
         user = (User) getIntent().getSerializableExtra("user");
         exp = (NonNegativeCountExp) getIntent().getSerializableExtra("exp");
         pos = (Integer) getIntent().getSerializableExtra("pos");
@@ -65,6 +65,7 @@ public class NonNegativeCountActivity extends AppCompatActivity {
         lastRes.setText("");
         result = new IntResult(user);
         exp.experimenters.add(user);
+
         final Button confirmButton = findViewById(R.id.button_confirm);
         confirmButton.setEnabled(false);
         Log.e("geo",Boolean.toString(exp.isGeoLocationEnabled));
@@ -96,23 +97,26 @@ public class NonNegativeCountActivity extends AppCompatActivity {
             }
         });
 
+       
+
+        
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+
                 Integer res = Integer.parseInt(non_result.getText().toString());
                 addRegion = new Location(newRegion.getText().toString());
-                if (res <= 0) {
-
-                    if (res < 0) {
-
-                        lastRes.setText("LAST RESULT WAS NEGATIVE, INVALID!");
-                    } else {
-                        non_result.getText().clear();
-                        lastRes.setText(res.toString());
-                        result.values.add(res);
+                if (res < 0) {
+                    lastRes.setText("LAST RESULT WAS NEGATIVE, INVALID!");
+                }
+                else{
+                   
+                    non_result.getText().clear();
+                    lastRes.setText(res.toString());
+                    result.values.add(res);
                     }
                 }
-            }
-        });
+            });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,17 +142,22 @@ public class NonNegativeCountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // go back to main activity put experiment and its index as extras into the intent set as result and finish activity
                 // do this so we can make changes permanent (during lifespan of app until closed)
-                exp.addResult(result);
-                //exp.results.add(result);
-                database.updateWithResults(result, exp.name);
+                if(result.values.size()!=0) {
+                    exp.addResult(result);
+                    //exp.results.add(result);
+                    database.updateWithResults(result, exp.name);
+                }
                 Intent intent = new Intent(NonNegativeCountActivity.this, DetailActivity.class);
 
                 intent.putExtra("exp",exp);
                 intent.putExtra("type","ncount");
                 intent.putExtra("user",user);
+
                 intent.putExtra("region", addRegion);
 
+
                 startActivity(intent);
+                result=new IntResult(user);
 
 
             }

@@ -69,11 +69,11 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
             public void onClick(View view) {
                 subscribedButton.setText("Subscribed");
                 subscribedButton.setTextColor(0xFF00BCD4);
-                addResult.setTextColor(Color.BLACK);
 
 
-                MainActivity mainActivity = (MainActivity) context;
-                mainActivity.subscribedButtonPressed(experiments.get(position));
+
+                SubscribeButtonImplementer activity = (SubscribeButtonImplementer) context;
+                activity.subscribedButtonPressed(experiments.get(position));
             }
         });
 
@@ -82,7 +82,7 @@ public class ExperimentList extends ArrayAdapter<Experiment> {
             public void onClick(View view) {
                 addResult.setText("Add Result");
                 addResult.setTextColor(0xFF00BCD4);
-                addResult.setTextColor(Color.BLACK);
+
                 AddResult activity = (AddResult) context;
                 activity.addResultPressed(experiments.get(position),position);
 

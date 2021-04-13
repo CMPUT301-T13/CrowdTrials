@@ -1,5 +1,7 @@
 package com.example.crowdtrials;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -20,7 +22,9 @@ public class IntResult extends ResultArr {
         // There is a weird bug where it can't cast to from Long to integer when the method is called
         // so I used the one I made in statistics
         Statistics stats = new Statistics();
-        return stats.getIntegerMean(values);
+        Log.e("result???",Float.toString(stats.getIntegerMean(values)));
+        double roundOff = Math.round(stats.getIntegerMean(values) * 100.0) / 100.0;
+        return roundOff;
         /*
         double summ=0;
         for(int i=0;i<values.size();i++){
@@ -48,3 +52,4 @@ public class IntResult extends ResultArr {
 
 
 }
+

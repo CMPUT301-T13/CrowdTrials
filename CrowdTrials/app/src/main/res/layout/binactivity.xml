@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Last Result"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/lastresultbin"
         app:layout_constraintTop_toTopOf="@+id/probabilityViewer" />
 
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Probability of Success"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/statsbutton"
         app:layout_constraintTop_toBottomOf="@+id/probabilityViewer" />
 
@@ -72,6 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/gen_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -108,6 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="lastresult"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/bin_scan"
         app:layout_constraintTop_toBottomOf="@+id/plaintext_lastres_bin" />
 
@@ -118,6 +122,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="152dp"
         android:text="Probability"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/plaintext_prob"
         app:layout_constraintTop_toBottomOf="@+id/include" />
 

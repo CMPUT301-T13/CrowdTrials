@@ -1,3 +1,4 @@
+
 package com.example.crowdtrials;
 
 import android.content.Context;
@@ -53,3 +54,4 @@ public class ResultList extends ArrayAdapter<ResultArr> {
 
 
 }
+
